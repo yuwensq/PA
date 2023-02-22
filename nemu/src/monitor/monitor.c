@@ -63,6 +63,7 @@ static inline long load_img() {
 }
 
 static inline void parse_args(int argc, char *argv[]) {
+	//https://www.cnblogs.com/qingergege/p/5914218.html
   int o;
   while ( (o = getopt(argc, argv, "-bl:d:a:")) != -1) {
     switch (o) {
