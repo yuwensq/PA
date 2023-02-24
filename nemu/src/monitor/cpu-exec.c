@@ -31,6 +31,7 @@ void monitor_statistic(void) {
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
+	// 这里n是unsigned，如果n=-1，n=2^64-1.
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
