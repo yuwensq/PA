@@ -49,7 +49,7 @@ static bool is_digital(char *str, int base)
 {
     if (base == 16)
     {
-        return strlen(str) > 2 && strspn(str, "0123456789") != strlen(str);
+        return strlen(str) > 2 && strspn(str + 2, "0123456789") != strlen(str + 2) && str[0] == '0' && (str[1] == 'x' || str[1] == 'X');
     }
     else
     {
