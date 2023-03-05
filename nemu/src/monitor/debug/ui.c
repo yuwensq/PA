@@ -45,31 +45,36 @@ static int cmd_help(char *args);
 
 // 在这里加几个调试函数
 
+// len是期望最大参数个数，返回实际参数个数，会更改arg数组
+static int get_args(char *args, char *arg[], int len)
+{
+    int cnt = 0;
+    char *single_arg = strtok(args, " ");
+    arg[cnt] = single_arg;
+    while (single_arg)
+    {
+        cnt++;
+        single_arg = strtok(NULL, " ");
+        if (cnt < len)
+            arg[cnt] = single_arg;
+    }
+    return cnt;
+}
+
 static int cmd_si(char *args)
 {
-    bool parser_success = true; // 是否解析成功
-    uint64_t n = 1;             // 单步执行的条数
-    char *single_arg = strtok(args, " ");
-    if (single_arg)
-    {
-        // 判断是否为纯数字
-        if (strspn(single_arg, "0123456789") == strlen(single_arg))
-            n = atoll(single_arg);
-        else
-        {
-            parser_success = false;
-            Log("%s\n", "请输入正整数");
-        }
-    }
-    // 如果参数多于1个，就噶了
-    if (strtok(NULL, " "))
-    {
-        parser_success = false;
-        Log("%s\n", "si指令至多有一个参数");
-    }
+    // 解析参数
+    char *arg[1];
+    int nr_arg = get_args(args, arg, 1);
 
-    if (parser_success)
-        cpu_exec(n);
+    if (nr_arg > 1 || (nr_arg == 1 && strspn(arg[0], "0123456789") != strlen(arg[0])))
+    {
+        Log("%s\n", "参数不合法, 指令格式为 si [N], N为正整数");
+    }
+    else
+    {
+        cpu_exec(nr_arg == 0 ? 1 : atoll(arg[0]));
+    }
 
     return 0;
 }
