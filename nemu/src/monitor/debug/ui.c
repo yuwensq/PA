@@ -47,6 +47,8 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
+//    int n = 1;
+
     return 0;
 }
 
