@@ -59,7 +59,7 @@ static int cmd_si(char *args)
         else
         {
             Log("%s\n", "please input a positive number");
-            return -1;
+            return 0;
         }
         printf("%s\n", single_arg);
         single_arg = strtok(NULL, " ");
