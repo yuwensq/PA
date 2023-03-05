@@ -62,8 +62,7 @@ static int cmd_si(char *args)
         }
     }
     // 如果参数多于1个，就噶了
-    single_arg = strtok(NULL, " ");
-    if (single_arg)
+    if (strtok(NULL, " "))
     {
         parser_success = false;
         Log("%s\n", "si指令至多有一个参数");
@@ -77,10 +76,25 @@ static int cmd_si(char *args)
 
 static int cmd_info(char *args)
 {
+    void isa_reg_display(void); 
     char *single_arg = strtok(args, " ");
-    while (single_arg)
+    if (single_arg)
     {
+        if (!strcmp(single_arg, "r"))
+            isa_reg_display();
+        else if (!strcmp(single_arg, "w"))
+        {
+            // TODO::打印断点信息
+        }
+        else
+            Log("%s\n", "info指令参数应为r或w");
     }
+
+    if (strtok(NULL, " "))
+    {
+        Log("%s\n", "info指令至多有一个参数");
+    }
+
     return 0;
 }
 

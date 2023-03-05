@@ -45,7 +45,15 @@ void reg_test()
 // 打印寄存器信息的函数
 void isa_reg_display()
 {
-
+    printf("eax\t\t0x%x\t%d\n", cpu.eax, cpu.eax);
+    printf("ecx\t\t0x%x\t%d\n", cpu.ecx, cpu.ecx);
+    printf("edx\t\t0x%x\t%d\n", cpu.edx, cpu.edx);
+    printf("ebx\t\t0x%x\t%d\n", cpu.ebx, cpu.ebx);
+    printf("esp\t\t0x%x\t%x\n", cpu.esp, cpu.esp);
+    printf("ebp\t\t0x%x\t%x\n", cpu.ebp, cpu.ebp);
+    printf("esi\t\t0x%x\t%d\n", cpu.esi, cpu.esi);
+    printf("edi\t\t0x%x\t%d\n", cpu.edi, cpu.edi);
+    printf("pc\t\t0x%x\t%x\n", cpu.pc, cpu.pc);
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success)
