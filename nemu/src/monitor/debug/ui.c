@@ -135,7 +135,7 @@ static int cmd_x(char *args)
             {
                 if (i != 0)
                     printf("\n");
-                printf("0x%x:", addr);
+                printf("0x%x: ", addr);
             }
             uint32_t data = paddr_read(addr, 4);
             printf("0x");
