@@ -121,12 +121,34 @@ static int cmd_p(char *args)
 
 static int cmd_x(char *args)
 {
-
     char *arg[2];
     int nr_arg = get_args(args, arg, 2);
 
     if (nr_arg == 2 && is_digital(arg[0], 10) && is_digital(arg[1], 16))
     {
+        int words = atoi(arg[0]); // 打印words个四字节
+        uint32_t addr = strtoll(arg[1], NULL, 16);
+        int i = 0;
+        for (; i < words; i++)
+        {
+            if (i % 4 == 0)
+            {
+                if (i != 0)
+                    printf("\n");
+                printf("0x%x:", addr);
+            }
+            uint32_t data = paddr_read(addr, 4);
+            printf("0x");
+            int j = 0;
+            for (; j < 4; j++)
+            {
+                printf("%02x", (data & 0xFF));
+                data >>= 8;
+            }
+            printf(" ");
+            addr += 4;
+        }
+        printf("\n");
     }
     else
     {
