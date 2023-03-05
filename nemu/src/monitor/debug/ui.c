@@ -49,7 +49,11 @@ static int cmd_si(char *args)
 {
     // uint64_t n = 1;
     char *single_arg = strtok(args, " ");
+    while (single_arg) {
+
     printf("%s\n", single_arg);
+    single_arg = strtok(NULL, " ");
+    }
 
     return 0;
 }
