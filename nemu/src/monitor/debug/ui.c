@@ -45,6 +45,18 @@ static int cmd_help(char *args);
 
 // 在这里加几个调试函数
 
+static bool is_digital(char *str, int base)
+{
+    if (base == 16)
+    {
+        return strspn(str, "0123456789") != strlen(str);
+    }
+    else
+    {
+        return strspn(str, "0123456789") != strlen(str);
+    }
+}
+
 // len是期望最大参数个数，返回实际参数个数，会更改arg数组
 static int get_args(char *args, char *arg[], int len)
 {
@@ -109,6 +121,18 @@ static int cmd_p(char *args)
 
 static int cmd_x(char *args)
 {
+
+    char *arg[2];
+    int nr_arg = get_args(args, arg, 2);
+
+    if (nr_arg == 2 && is_digital(arg[0], 10) && is_digital(arg[1], 16))
+    {
+    }
+    else
+    {
+        Log("%s\n", "参数不合法, 指令格式为 x N addr, N 为正整数, addr为16进制地址");
+    }
+
     return 0;
 }
 
