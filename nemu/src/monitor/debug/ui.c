@@ -135,17 +135,17 @@ static int cmd_x(char *args)
             {
                 if (i != 0)
                     printf("\n");
-                printf("0x%x: ", addr);
+                printf("0x%x:\t", addr);
             }
             uint32_t data = paddr_read(addr, 4);
             printf("0x");
             int j = 0;
             for (; j < 4; j++)
             {
-                printf("%02x", (data & 0xFF));
+                printf("%02x ", (data & 0xFF));
                 data >>= 8;
             }
-            printf(" ");
+            printf("\t");
             addr += 4;
         }
         printf("\n");
