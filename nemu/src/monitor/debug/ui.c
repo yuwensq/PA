@@ -58,11 +58,15 @@ static int cmd_si(char *args)
         }
         else
         {
-            Log("%s\n", "please input a positive number");
+            Log("%s\n", "请输入正整数");
             return 0;
         }
-        printf("%s\n", single_arg);
         single_arg = strtok(NULL, " ");
+        if (single_arg)
+        {
+            Log("%s\n", "si指令至多有一个参数");
+            return 0;
+        }
     }
 
     cpu_exec(n);
