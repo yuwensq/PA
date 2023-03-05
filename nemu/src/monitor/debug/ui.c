@@ -47,7 +47,9 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
-//    int n = 1;
+    // uint64_t n = 1;
+    char *single_arg = strtok(args, " ");
+    printf("%s\n", single_arg);
 
     return 0;
 }
@@ -141,9 +143,7 @@ void ui_mainloop(int is_batch_mode)
         char *str_end = str + strlen(str);
 
         /* extract the first token as the command */
-        printf("%s\n", str);
         char *cmd = strtok(str, " ");
-        printf("%s\n", cmd);
         if (cmd == NULL)
         {
             continue;
