@@ -47,35 +47,40 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
-    uint64_t n = 1;
+    bool parser_success = true; // 是否解析成功
+    uint64_t n = 1;             // 单步执行的条数
     char *single_arg = strtok(args, " ");
-    while (single_arg)
+    if (single_arg)
     {
         // 判断是否为纯数字
         if (strspn(single_arg, "0123456789") == strlen(single_arg))
-        {
             n = atoll(single_arg);
-        }
         else
         {
+            parser_success = false;
             Log("%s\n", "请输入正整数");
-            return 0;
-        }
-        single_arg = strtok(NULL, " ");
-        if (single_arg)
-        {
-            Log("%s\n", "si指令至多有一个参数");
-            return 0;
         }
     }
+    // 如果参数多于1个，就噶了
+    single_arg = strtok(NULL, " ");
+    if (single_arg)
+    {
+        parser_success = false;
+        Log("%s\n", "si指令至多有一个参数");
+    }
 
-    cpu_exec(n);
+    if (parser_success)
+        cpu_exec(n);
 
     return 0;
 }
 
 static int cmd_info(char *args)
 {
+    char *single_arg = strtok(args, " ");
+    while (single_arg)
+    {
+    }
     return 0;
 }
 
