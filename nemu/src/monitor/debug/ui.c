@@ -47,13 +47,24 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
-    // uint64_t n = 1;
+    uint64_t n = 1;
     char *single_arg = strtok(args, " ");
-    while (single_arg) {
-
-    printf("%s\n", single_arg);
-    single_arg = strtok(NULL, " ");
+    while (single_arg)
+    {
+        // 判断是否为纯数字
+        if (strspn(single_arg, "0123456789") == strlen(single_arg))
+        {
+            n = atoll(single_arg);
+        }
+        else
+        {
+            Log("%s\n", "please input a positive number");
+        }
+        printf("%s\n", single_arg);
+        single_arg = strtok(NULL, " ");
     }
+
+    cpu_exec(n);
 
     return 0;
 }
