@@ -82,26 +82,21 @@ static int cmd_si(char *args)
 static int cmd_info(char *args)
 {
     void isa_reg_display(void);
-    char *single_arg = strtok(args, " ");
-    if (single_arg)
+
+    char *arg[1];
+    int nr_arg = get_args(args, arg, 1);
+
+    if (nr_arg == 1 && !strcmp(arg[0], "r"))
     {
-        if (!strcmp(single_arg, "r"))
-            isa_reg_display();
-        else if (!strcmp(single_arg, "w"))
-        {
-            // TODO::打印断点信息
-        }
-        else
-            Log("%s\n", "info指令参数应为r或w");
+        isa_reg_display();
+    }
+    else if (nr_arg == 1 && !strcmp(arg[0], "w"))
+    {
+        // 打印断点
     }
     else
     {
-        Log("%s\n", "info指令参数应为r或w");
-    }
-
-    if (strtok(NULL, " "))
-    {
-        Log("%s\n", "info指令至多有一个参数");
+        Log("%s\n", "参数不合法, 指令格式为 info r/w");
     }
 
     return 0;
