@@ -49,11 +49,11 @@ static bool is_digital(char *str, int base)
 {
     if (base == 16)
     {
-        return strlen(str) > 2 && strspn(str + 2, "0123456789") != strlen(str + 2) && str[0] == '0' && (str[1] == 'x' || str[1] == 'X');
+        return strlen(str) > 2 && strspn(str + 2, "0123456789") == strlen(str + 2) && str[0] == '0' && (str[1] == 'x' || str[1] == 'X');
     }
     else
     {
-        return strspn(str, "0123456789") != strlen(str);
+        return strspn(str, "0123456789") == strlen(str);
     }
 }
 
@@ -79,7 +79,7 @@ static int cmd_si(char *args)
     char *arg[1];
     int nr_arg = get_args(args, arg, 1);
 
-    if (nr_arg > 1 || (nr_arg == 1 && is_digital(arg[0], 10)))
+    if (nr_arg > 1 || (nr_arg == 1 && !is_digital(arg[0], 10)))
     {
         Log("%s\n", "参数不合法, 指令格式为 si [N], N为正整数");
     }
