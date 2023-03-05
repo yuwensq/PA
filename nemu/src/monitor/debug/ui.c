@@ -76,7 +76,7 @@ static int cmd_si(char *args)
 
 static int cmd_info(char *args)
 {
-    void isa_reg_display(void); 
+    void isa_reg_display(void);
     char *single_arg = strtok(args, " ");
     if (single_arg)
     {
@@ -88,6 +88,10 @@ static int cmd_info(char *args)
         }
         else
             Log("%s\n", "info指令参数应为r或w");
+    }
+    else
+    {
+        Log("%s\n", "info指令参数应为r或w");
     }
 
     if (strtok(NULL, " "))
