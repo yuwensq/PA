@@ -130,7 +130,7 @@ static int cmd_p(char *args)
     }
     else
     {
-        printf("%d\n", result);
+        printf("%d\n", *(int *)(&result));
     }
 
     return 0;
@@ -274,7 +274,7 @@ void ui_mainloop(int is_batch_mode)
         {
             if (strcmp(cmd, cmd_table[i].name) == 0)
             {
-                printf("outer:%s\n", args);
+                // printf("outer:%s\n", args);
                 if (cmd_table[i].handler(args) < 0)
                 {
                     return;
