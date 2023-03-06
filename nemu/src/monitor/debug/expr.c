@@ -152,7 +152,7 @@ static bool make_token(char *e)
   return true;
 }
 
-static int eval(int l, int r, bool *success)
+static uint32_t eval(int l, int r, bool *success)
 {
   if (*success == false)
     return 0;
@@ -199,8 +199,8 @@ static int eval(int l, int r, bool *success)
           }
       }
     }
-    int sub_res1 = eval(l, min_op_pos - 1, success);
-    int sub_res2 = eval(min_op_pos + 1, r, success);
+    uint32_t sub_res1 = eval(l, min_op_pos - 1, success);
+    uint32_t sub_res2 = eval(min_op_pos + 1, r, success);
     // printf("%d\t%d\n", sub_res1, sub_res2);
     switch (min_op_type)
     {
@@ -239,8 +239,7 @@ static uint32_t evalute(int nm_token, bool *success)
     *success = false;
     return 0;
   }
-  int value = eval(0, nm_token - 1, success);
-  return *(uint32_t*)(&value);
+  return eval(0, nm_token - 1, success);
 }
 
 uint32_t expr(char *e, bool *success)
