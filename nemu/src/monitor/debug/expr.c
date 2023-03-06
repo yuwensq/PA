@@ -201,6 +201,7 @@ static int eval(int l, int r, bool *success)
     }
     int sub_res1 = eval(l, min_op_pos - 1, success);
     int sub_res2 = eval(min_op_pos + 1, r, success);
+    printf("%d\t%d\n", sub_res1, sub_res2);
     switch (min_op_type)
     {
     case TK_ADD: return sub_res1 + sub_res2;
