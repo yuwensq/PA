@@ -76,6 +76,7 @@ static bool make_token(char *e) {
   nr_token = 0;
 
 
+  printf("%sab\n", e);
   while (e[position] != '\0') {
   printf("%sab\n", e);
     /* Try all rules one by one. */
