@@ -39,7 +39,7 @@ static struct rule {
   {"==",  TK_EQ},               // equal
   {"[1-9][0-9]*|0",  TK_NUM},   // number
   {"(",   TK_LPARENT},          // left parenthese
-  {"(",   TK_RPARENT},          // right parenthese
+  {")",   TK_RPARENT},          // right parenthese
 
 };
 
