@@ -116,6 +116,7 @@ static int cmd_info(char *args)
 
 static int cmd_p(char *args)
 {
+    printf("inner:%s\n", args);
     bool success = false;
     uint32_t result = 0;
     if (args)
@@ -258,7 +259,6 @@ void ui_mainloop(int is_batch_mode)
          * which may need further parsing
          */
         char *args = cmd + strlen(cmd) + 1;
-        printf("%s\n", args);
         if (args >= str_end)
         {
             args = NULL;
@@ -274,6 +274,7 @@ void ui_mainloop(int is_batch_mode)
         {
             if (strcmp(cmd, cmd_table[i].name) == 0)
             {
+                printf("outer:%s\n", args);
                 if (cmd_table[i].handler(args) < 0)
                 {
                     return;
