@@ -253,5 +253,6 @@ uint32_t expr(char *e, bool *success)
   /* TODO: Insert codes to evaluate the expression. */
   uint32_t result = evalute(nr_token, success);
   nr_token = 0;
+  printf("%d\n", result);
   return result;
 }
