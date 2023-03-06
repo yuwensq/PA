@@ -116,7 +116,6 @@ static int cmd_info(char *args)
 
 static int cmd_p(char *args)
 {
-    printf("%s\n", args);
     bool success = false;
     uint32_t result = 0;
     if (args)
@@ -246,6 +245,7 @@ void ui_mainloop(int is_batch_mode)
 
     for (char *str; (str = rl_gets()) != NULL;)
     {
+        printf("%s\n", str);
         char *str_end = str + strlen(str);
 
         /* extract the first token as the command */
