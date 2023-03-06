@@ -14,7 +14,9 @@ enum {
   TK_MUL,
   TK_DIV,
   TK_EQ,
-  TK_NUM
+  TK_NUM,
+  TK_LPARENT,
+  TK_RPARENT
 
   /* TODO: Add more token types */
 
@@ -35,7 +37,9 @@ static struct rule {
   {"\\*", TK_MUL},              // mul
   {"/",   TK_DIV},              // div
   {"==",  TK_EQ},               // equal
-  {"[1-9][0-9]*|0",  TK_NUM}    // number
+  {"[1-9][0-9]*|0",  TK_NUM},   // number
+  {"(",   TK_LPARENT},          // left parenthese
+  {"(",   TK_RPARENT},          // right parenthese
 
 };
 
@@ -131,7 +135,7 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  // TODO();
+  TODO();
 
   return 0;
 }
