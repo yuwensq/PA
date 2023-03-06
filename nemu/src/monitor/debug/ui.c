@@ -245,7 +245,6 @@ void ui_mainloop(int is_batch_mode)
 
     for (char *str; (str = rl_gets()) != NULL;)
     {
-        printf("%s\n", str);
         char *str_end = str + strlen(str);
 
         /* extract the first token as the command */
@@ -259,6 +258,7 @@ void ui_mainloop(int is_batch_mode)
          * which may need further parsing
          */
         char *args = cmd + strlen(cmd) + 1;
+        printf("%s\n", args);
         if (args >= str_end)
         {
             args = NULL;
