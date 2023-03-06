@@ -86,6 +86,7 @@ static bool make_token(char *e)
   regmatch_t pmatch;
 
   nr_token = 0;
+  memset(tokens, 0, sizeof(tokens));
 
   Assert(e, "要解析的字符串为空");
 
@@ -252,7 +253,6 @@ uint32_t expr(char *e, bool *success)
 
   /* TODO: Insert codes to evaluate the expression. */
   uint32_t result = evalute(nr_token, success);
-  nr_token = 0;
   printf("%d\n", result);
   return result;
 }
