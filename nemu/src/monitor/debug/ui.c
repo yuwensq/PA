@@ -116,6 +116,18 @@ static int cmd_info(char *args)
 
 static int cmd_p(char *args)
 {
+    bool success = false;
+    uint32_t result = expr(args, &success);
+
+    if (!success)
+    {
+        Log("%s\n", "输入表达式不合法");
+    }
+    else
+    {
+        printf("%d\n", *(int *)(&result));
+    }
+
     return 0;
 }
 

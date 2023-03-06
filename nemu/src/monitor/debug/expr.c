@@ -28,13 +28,14 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {" +",  TK_NOTYPE},     // spaces
-  {"\\+", TK_ADD},        // add
-  {"-",   TK_SUB},        // sub
-  {"\\*", TK_MUL},        // mul
-  {"/",   TK_DIV},        // div
-  {"==",  TK_EQ},         // equal
-  {"[1-9][0-9]*|0",  TK_NUM}          // number
+  {" +",  TK_NOTYPE},           // spaces
+  {"\\+", TK_ADD},              // add
+  {"-",   TK_SUB},              // sub
+  {"\\*", TK_MUL},              // mul
+  {"/",   TK_DIV},              // div
+  {"==",  TK_EQ},               // equal
+  {"[1-9][0-9]*|0",  TK_NUM}    // number
+
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
