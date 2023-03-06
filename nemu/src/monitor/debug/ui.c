@@ -131,7 +131,7 @@ static int cmd_p(char *args)
     {
         printf("%d\n", *(int *)(&result));
     }
-
+    printf("12");
     return 0;
 }
 
