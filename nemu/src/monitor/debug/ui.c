@@ -118,7 +118,7 @@ static int cmd_p(char *args)
 {
     bool success = false;
     uint32_t result = expr(args, &success);
-
+    Log("1");
     if (!success)
     {
         Log("%s\n", "输入表达式不合法");
