@@ -5,6 +5,7 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <string.h>
 
 enum {
   TK_NOTYPE = 256, 
@@ -89,9 +90,23 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
+        int tk_type = rules[i].token_type;
 
-        switch (rules[i].token_type) {
-          default: TODO();
+        if (substr_len > 32 || (tk_type != TK_NOTYPE && nr_token >= 32)) {
+          printf("运算符过长或过多\n");
+          return false;
+        }
+
+        switch (tk_type) {
+          case TK_NOTYPE: break;
+          case TK_ADD: case TK_SUB: 
+          case TK_MUL: case TK_DIV: tokens[nr_token++].type = tk_type; break;
+          case TK_NUM: {
+            tokens[nr_token].type = tk_type;
+            memcpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
+            } break;
+          default: printf("unknown token type\n"); return false;
         }
 
         break;
