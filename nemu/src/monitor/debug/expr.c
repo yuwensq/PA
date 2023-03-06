@@ -106,7 +106,9 @@ static bool make_token(char *e) {
         switch (tk_type) {
           case TK_NOTYPE: break;
           case TK_ADD: case TK_SUB: 
-          case TK_MUL: case TK_DIV: tokens[nr_token++].type = tk_type; break;
+          case TK_MUL: case TK_DIV:
+          case TK_LPARENT: case TK_RPARENT:
+            tokens[nr_token++].type = tk_type; break;
           case TK_NUM: {
             tokens[nr_token].type = tk_type;
             memcpy(tokens[nr_token].str, substr_start, substr_len);
