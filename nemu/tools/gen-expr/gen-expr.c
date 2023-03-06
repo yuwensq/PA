@@ -9,6 +9,19 @@
 static char buf[65536];
 static inline void gen_rand_expr() {
   buf[0] = '\0';
+  char string[32] = {0};
+  int op = rand() % 3;
+  switch (op)
+  {
+  case 0:
+    itoa(rand() % 0xFFFFFFFF, string, 10);
+
+    break;
+  case 1:
+  break;
+  default:
+    break;
+  }
 }
 
 static char code_buf[65536];
@@ -41,7 +54,7 @@ int main(int argc, char *argv[]) {
     int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
     if (ret != 0) continue;
 
-    fp = popen("/tmp/.expr", "r");
+    fp = popen("/tmp/.expr", "r"); // 用创建管道的方式启动一个线程
     assert(fp != NULL);
 
     int result;
