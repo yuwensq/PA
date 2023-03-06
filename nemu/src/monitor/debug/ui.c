@@ -130,7 +130,7 @@ static int cmd_p(char *args)
     }
     else
     {
-        printf("%d\n", *(int *)(&result));
+        printf("%d\n", result);
     }
 
     return 0;
