@@ -123,7 +123,6 @@ static int cmd_p(char *args)
     else
         success = false;
 
-    printf("12");
     if (!success)
     {
         Log("%s\n", "输入表达式不合法");
