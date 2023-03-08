@@ -247,6 +247,7 @@ uint32_t expr(char *e, bool *success)
 {
   if (!make_token(e))
   {
+    Log("make token失败\n");
     *success = false;
     return 0;
   }
