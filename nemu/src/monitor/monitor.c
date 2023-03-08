@@ -90,15 +90,18 @@ static inline void test_expr() {
   Assert(fp, "打开表达式测试文件失败");
   bool success = true;
   char line[65536] = {};
+  char *l_expr = NULL;
   char *true_result = NULL; 
   uint32_t t_result = 0;
   uint32_t my_result = 0;
   while (fgets(line, 65536, fp)) {
     true_result = strtok(line, " ");
     t_result = atoi(true_result);
-    my_result = expr(strtok(NULL, " "), &success);
+    l_expr = true_result + strlen(true_result);
+    my_result = expr(l_expr, &success);
     if (!success || t_result != my_result) {
       success = false;
+      printf("expr:%s, true:%u, my:%u\n", l_expr, t_result, my_result);
       break;
     }
   }
