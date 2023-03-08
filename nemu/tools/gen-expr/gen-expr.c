@@ -75,12 +75,12 @@ static int32_t gen_rand_expr(int father_type, int left) {
       buf[pos++] = '(';
       nr_token++;
     }
+    nr_token++;
     int32_t res1 = gen_rand_expr(op, 1);
     int32_t res2 = 0;
     int old_pos = pos;
     int old_nr_token = nr_token;
     pos++; // 加加是为了留一个运算符位置
-    nr_token++;
     res2 = gen_rand_expr(op, 0);
     // printf("%u %u\n", res1, res2);
     if (res2 == 0 && op == DIV) { // 如果除零要恢复
