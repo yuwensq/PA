@@ -159,6 +159,7 @@ static uint32_t eval(int l, int r, bool *success)
     return 0;
   if (l > r)
   {
+    Log("左边界大于右边界，错误\n");
     *success = false;
     return 0;
   }
@@ -166,6 +167,7 @@ static uint32_t eval(int l, int r, bool *success)
   {
     if (tokens[l].type != TK_NUM)
     {
+      Log("token应该为数字\n");
       *success = false;
       return 0;
     }
