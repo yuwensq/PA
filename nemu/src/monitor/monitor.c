@@ -95,6 +95,8 @@ static inline void test_expr() {
   uint32_t t_result = 0;
   uint32_t my_result = 0;
   while (fgets(line, 65536, fp)) {
+    if (line[strlen(line) - 1] == '\n') 
+      line[strlen(line) - 1] = 0;
     true_result = strtok(line, " ");
     t_result = atoi(true_result);
     l_expr = true_result + strlen(true_result) + 1;
