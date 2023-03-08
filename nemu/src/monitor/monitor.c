@@ -1,6 +1,7 @@
 #include "nemu.h"
 #include "monitor/monitor.h"
 #include <unistd.h>
+#include <stdio.h>
 
 void init_log(const char *log_file);
 void init_isa();
@@ -81,6 +82,11 @@ static inline void parse_args(int argc, char *argv[]) {
   }
 }
 
+static inline void test_expr() {
+  FILE *fp = fopen("../../tools/gen-expr/input", "r");
+  Assert(fp, "打开失败");
+}
+
 int init_monitor(int argc, char *argv[]) {
   /* Perform some global initialization. */
 
@@ -98,6 +104,8 @@ int init_monitor(int argc, char *argv[]) {
 
   /* Compile the regular expressions. */
   init_regex();
+
+  test_expr();
 
   /* Initialize the watchpoint pool. */
   init_wp_pool();
