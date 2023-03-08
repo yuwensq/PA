@@ -43,7 +43,7 @@ enum {
 
 static int32_t gen_rand_expr(int father_type, int left) {
   char string[32] = {0};
-  int type = nr_token > 24 ? 0 : rand() % 3; // 限制总的token数目
+  int type = nr_token > 12 ? 0 : rand() % 3; // 限制总的token数目
   switch (type)
   {
   case 0: {
