@@ -225,6 +225,7 @@ static uint32_t evalute(int nm_token, bool *success)
   int i = 0;
   for (; i < nm_token; i++)
   {
+    printf("%d ", tokens[i].type);
     if (tokens[i].type == TK_LPARENT)
       nr_lparen++;
     else if (tokens[i].type == TK_RPARENT)
@@ -235,6 +236,7 @@ static uint32_t evalute(int nm_token, bool *success)
       break;
     }
   }
+  printf("\n");
   if (nr_lparen || *success == false)
   {
     *success = false;
