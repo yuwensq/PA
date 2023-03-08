@@ -175,6 +175,7 @@ static uint32_t eval(int l, int r, bool *success)
   }
   else if (tokens[l].type == TK_LPARENT && tokens[r].type == TK_RPARENT)
   {
+    printf("%d\t%d\n", l, r);
     return eval(l + 1, r - 1, success);
   }
   else
@@ -184,12 +185,10 @@ static uint32_t eval(int l, int r, bool *success)
     int min_op_type = TK_MUL;
     int min_op_pos = 0;
     for (i = l; i <= r; i++) {
-      if (tokens[i].type == TK_LPARENT) {
+      if (tokens[i].type == TK_LPARENT)
         nr_lparen++;
-      }
-      else if (tokens[i].type == TK_RPARENT) {
+      else if (tokens[i].type == TK_RPARENT)
         nr_lparen--;
-      }
       else if (nr_lparen == 0) { // 只有在括号外才判断
         if (tokens[i].type == TK_ADD || tokens[i].type == TK_SUB) {
           min_op_type = tokens[i].type;
@@ -204,7 +203,6 @@ static uint32_t eval(int l, int r, bool *success)
     }
     uint32_t sub_res1 = eval(l, min_op_pos - 1, success);
     uint32_t sub_res2 = eval(min_op_pos + 1, r, success);
-    // printf("%d\t%d\n", sub_res1, sub_res2);
     switch (min_op_type)
     {
     case TK_ADD: return sub_res1 + sub_res2;
