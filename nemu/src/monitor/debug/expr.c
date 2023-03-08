@@ -179,7 +179,7 @@ static bool expr_surrounded_by_paren(int l, int r) {
   return bracket_check(l + 1, r - 1);
 }
 
-static uint32_t eval(int l, int r, bool *success)
+static int32_t eval(int l, int r, bool *success)
 {
   if (*success == false)
     return 0;
@@ -197,7 +197,7 @@ static uint32_t eval(int l, int r, bool *success)
       *success = false;
       return 0;
     }
-    uint32_t res = atoi(tokens[l].str);
+    int32_t res = atoi(tokens[l].str);
     printf("%d\n", res);
     return atoi(tokens[l].str);
   }
@@ -228,8 +228,8 @@ static uint32_t eval(int l, int r, bool *success)
           }
       }
     }
-    uint32_t sub_res1 = eval(l, min_op_pos - 1, success);
-    uint32_t sub_res2 = eval(min_op_pos + 1, r, success);
+    int32_t sub_res1 = eval(l, min_op_pos - 1, success);
+    int32_t sub_res2 = eval(min_op_pos + 1, r, success);
     switch (min_op_type)
     {
     case TK_ADD: printf("%u %c %u\n", sub_res1, '+', sub_res2); return sub_res1 + sub_res2;
@@ -254,7 +254,7 @@ static uint32_t evalute(int nm_token, bool *success)
     Log("表达式括号不匹配\n");
     return 0;
   }
-  return eval(0, nm_token - 1, success);
+  return (unsigned)eval(0, nm_token - 1, success);
 }
 
 uint32_t expr(char *e, bool *success)

@@ -41,14 +41,14 @@ enum {
   DIV,
 };
 
-static uint32_t gen_rand_expr(int father_type, int left) {
+static int32_t gen_rand_expr(int father_type, int left) {
   char string[32] = {0};
-  int type = nr_token > 5 ? 0 : rand() % 3; // 限制总的token数目
+  int type = nr_token > 24 ? 0 : rand() % 3; // 限制总的token数目
   switch (type)
   {
   case 0: {
     insert_space();
-    uint32_t rand_num = rand() % 0xFFFFFFFF;
+    int32_t rand_num = rand() % 0xFFFFFFFF;
     itoa(rand_num, string);
     memcpy(buf + pos, string, strlen(string));
     pos += strlen(string);
@@ -60,7 +60,7 @@ static uint32_t gen_rand_expr(int father_type, int left) {
     insert_space();
     buf[pos++] = '(';
     nr_token++;
-    uint32_t res = gen_rand_expr(ORIGIN, 1);
+    int32_t res = gen_rand_expr(ORIGIN, 1);
     buf[pos++] = ')';
     nr_token++;
     insert_space();
@@ -69,22 +69,20 @@ static uint32_t gen_rand_expr(int father_type, int left) {
   default: {
     insert_space();
     int op = rand() % 4 + 1;
-    if ((op == ADD || op == SUB) && father_type >= MUL) {
+    if (((op == ADD || op == SUB) && father_type >= MUL)
+      ||(op >= MUL && father_type >= MUL && left == 0)
+      ||((op == SUB || op == ADD) && father_type == SUB && left == 0)) {
       buf[pos++] = '(';
       nr_token++;
     }
-    else if (op == DIV && father_type == DIV && left == 0) {
-      buf[pos++] = '(';
-      nr_token++;
-    }
-    uint32_t res1 = gen_rand_expr(op, 1);
-    uint32_t res2 = 0;
+    int32_t res1 = gen_rand_expr(op, 1);
+    int32_t res2 = 0;
     int old_pos = pos;
     int old_nr_token = nr_token;
     pos++; // 加加是为了留一个运算符位置
     nr_token++;
     res2 = gen_rand_expr(op, 0);
-    printf("%u %u\n", res1, res2);
+    // printf("%u %u\n", res1, res2);
     if (res2 == 0 && op == DIV) { // 如果除零要恢复
       memset(buf + old_pos, 0, pos - old_pos);
       pos = old_pos;
@@ -92,10 +90,9 @@ static uint32_t gen_rand_expr(int father_type, int left) {
       insert_space();
       return res1;
     }
-    if ((op == ADD || op == SUB) && father_type >= MUL) {
-      buf[pos++] = ')';
-    }
-    else if (op == DIV && father_type == DIV && left == 0) {
+    if (((op == ADD || op == SUB) && father_type >= MUL)
+      ||(op >= MUL && father_type >= MUL && left == 0)
+      ||((op == SUB || op == ADD) && father_type == SUB && left == 0)) {
       buf[pos++] = ')';
       nr_token++;
     }
@@ -115,7 +112,7 @@ static char code_buf[65536];
 static char *code_format =
 "#include <stdio.h>\n"
 "int main() { "
-"  unsigned result = (unsigned int)(%s); "
+"  unsigned result = %s; "
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
@@ -129,7 +126,8 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
-    // printf("%d----------------\n", i);
+    // if (i % 500 == 0)
+    //   printf("前%d个表达式生成成功\n", i);
     nr_token = 0;
     pos = 0;
     memset(buf, 0, sizeof(buf));
@@ -155,5 +153,6 @@ int main(int argc, char *argv[]) {
 
     printf("%u %s\n", result, buf);
   }
+  // printf("生成完成，一共生成%d个表达式\n", loop);
   return 0;
 }
