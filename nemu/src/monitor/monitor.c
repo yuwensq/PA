@@ -97,7 +97,7 @@ static inline void test_expr() {
   while (fgets(line, 65536, fp)) {
     true_result = strtok(line, " ");
     t_result = atoi(true_result);
-    l_expr = true_result + strlen(true_result);
+    l_expr = true_result + strlen(true_result) + 1;
     my_result = expr(l_expr, &success);
     if (!success || t_result != my_result) {
       success = false;
