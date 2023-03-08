@@ -41,15 +41,14 @@ enum {
   DIV,
 };
 
-static int32_t gen_rand_expr(int father_type, int left) {
-  // printf("%d\n", pos);
+static uint32_t gen_rand_expr(int father_type, int left) {
   char string[32] = {0};
   int type = nr_token > 5 ? 0 : rand() % 3; // 限制总的token数目
   switch (type)
   {
   case 0: {
     insert_space();
-    int32_t rand_num = rand() % 0xFFFFFFFF;
+    uint32_t rand_num = rand() % 0xFFFFFFFF;
     itoa(rand_num, string);
     memcpy(buf + pos, string, strlen(string));
     pos += strlen(string);
@@ -61,7 +60,7 @@ static int32_t gen_rand_expr(int father_type, int left) {
     insert_space();
     buf[pos++] = '(';
     nr_token++;
-    int32_t res = gen_rand_expr(ORIGIN, 1);
+    uint32_t res = gen_rand_expr(ORIGIN, 1);
     buf[pos++] = ')';
     nr_token++;
     insert_space();
@@ -78,13 +77,14 @@ static int32_t gen_rand_expr(int father_type, int left) {
       buf[pos++] = '(';
       nr_token++;
     }
-    int32_t res1 = gen_rand_expr(op, 1);
-    int32_t res2 = 0;
+    uint32_t res1 = gen_rand_expr(op, 1);
+    uint32_t res2 = 0;
     int old_pos = pos;
     int old_nr_token = nr_token;
     pos++; // 加加是为了留一个运算符位置
     nr_token++;
     res2 = gen_rand_expr(op, 0);
+    printf("%u %u\n", res1, res2);
     if (res2 == 0 && op == DIV) { // 如果除零要恢复
       memset(buf + old_pos, 0, pos - old_pos);
       pos = old_pos;
@@ -115,7 +115,7 @@ static char code_buf[65536];
 static char *code_format =
 "#include <stdio.h>\n"
 "int main() { "
-"  unsigned result = %s; "
+"  unsigned result = (unsigned int)(%s); "
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
