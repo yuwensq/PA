@@ -83,7 +83,7 @@ static inline void parse_args(int argc, char *argv[]) {
 }
 
 static inline void test_expr() {
-  FILE *fp = fopen("../../tools/gen-expr/input", "r");
+  FILE *fp = fopen("./input", "r");
   Assert(fp, "打开失败");
 }
 
