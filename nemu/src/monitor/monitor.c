@@ -2,6 +2,7 @@
 #include "monitor/monitor.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void init_log(const char *log_file);
 void init_isa();
@@ -82,9 +83,27 @@ static inline void parse_args(int argc, char *argv[]) {
   }
 }
 
+uint32_t expr(char*, bool*);
+
 static inline void test_expr() {
   FILE *fp = fopen("/home/yuwensq/tmp_workspace/ics2019/nemu/tools/gen-expr/input", "r");
-  Assert(fp, "打开失败");
+  Assert(fp, "打开表达式测试文件失败");
+  bool success = true;
+  char line[65536] = {};
+  char *true_result = NULL; 
+  uint32_t t_result = 0;
+  uint32_t my_result = 0;
+  while (fgets(line, 65536, fp)) {
+    true_result = strtok(line, " ");
+    t_result = atoi(true_result);
+    my_result = expr(strtok(NULL, " "), &success);
+    if (!success || t_result != my_result) {
+      success = false;
+      break;
+    }
+  }
+  Assert(success, "表达式计算有问题，请检查错误");
+  fclose(fp);
 }
 
 int init_monitor(int argc, char *argv[]) {
