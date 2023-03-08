@@ -153,6 +153,32 @@ static bool make_token(char *e)
   return true;
 }
 
+static bool bracket_check(int l, int r) {
+  if (l > r) {
+    Log("左边界大于有边界，请检查输入\n");
+  }
+  int nr_lparen = 0;
+  int i = l;
+  for (; i <= r; i++) {
+    if (tokens[i].type == TK_LPARENT)
+      nr_lparen++;
+    else if (tokens[i].type == TK_RPARENT) {
+      nr_lparen--;
+      if (nr_lparen < 0) 
+        return false;
+    }
+  }
+  if (nr_lparen)
+    return false;
+  return true;
+}
+
+static bool expr_surrounded_by_paren(int l, int r) {
+  if (tokens[l].type != TK_LPARENT || tokens[r].type != TK_RPARENT)
+    return false;
+  return bracket_check(l + 1, r - 1);
+}
+
 static uint32_t eval(int l, int r, bool *success)
 {
   if (*success == false)
@@ -173,9 +199,8 @@ static uint32_t eval(int l, int r, bool *success)
     }
     return atoi(tokens[l].str);
   }
-  else if (tokens[l].type == TK_LPARENT && tokens[r].type == TK_RPARENT)
+  else if (expr_surrounded_by_paren(l, r))
   {
-    printf("%d\t%d\n", l, r);
     return eval(l + 1, r - 1, success);
   }
   else
@@ -221,26 +246,10 @@ static uint32_t evalute(int nm_token, bool *success)
 {
   *success = true;
   // 括号匹配提前，很显然，只用遍历一次就行，没必要添加到函数中
-  int nr_lparen = 0;
-  int i = 0;
-  for (; i < nm_token; i++)
-  {
-    // printf("%d ", tokens[i].type);
-    if (tokens[i].type == TK_LPARENT)
-      nr_lparen++;
-    else if (tokens[i].type == TK_RPARENT)
-      nr_lparen--;
-    if (nr_lparen < 0)
-    {
-      *success = false;
-      break;
-    }
-  }
-  // printf("\n");
-  if (nr_lparen || *success == false)
+  *success = bracket_check(0, nm_token - 1);
+  if (*success == false)
   {
     Log("表达式括号不匹配\n");
-    *success = false;
     return 0;
   }
   return eval(0, nm_token - 1, success);
