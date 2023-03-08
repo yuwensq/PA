@@ -107,8 +107,9 @@ static inline void test_expr() {
       break;
     }
   }
-  Assert(success, "表达式计算有问题，请检查错误");
   fclose(fp);
+  Assert(success, "表达式计算有问题，请检查错误");
+  Log("表达式计算测试成功\n");
 }
 
 int init_monitor(int argc, char *argv[]) {

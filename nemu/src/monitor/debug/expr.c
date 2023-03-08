@@ -197,8 +197,8 @@ static int32_t eval(int l, int r, bool *success)
       *success = false;
       return 0;
     }
-    int32_t res = atoi(tokens[l].str);
-    printf("%d\n", res);
+    // int32_t res = atoi(tokens[l].str);
+    // printf("%d\n", res);
     return atoi(tokens[l].str);
   }
   else if (expr_surrounded_by_paren(l, r))
@@ -232,10 +232,14 @@ static int32_t eval(int l, int r, bool *success)
     int32_t sub_res2 = eval(min_op_pos + 1, r, success);
     switch (min_op_type)
     {
-    case TK_ADD: printf("%u %c %u\n", sub_res1, '+', sub_res2); return sub_res1 + sub_res2;
-    case TK_SUB: printf("%u %c %u\n", sub_res1, '-', sub_res2);return sub_res1 - sub_res2;
-    case TK_MUL: printf("%u %c %u\n", sub_res1, '*', sub_res2);return sub_res1 * sub_res2;
-    case TK_DIV: printf("%u %c %u\n", sub_res1, '/', sub_res2);if (sub_res2) return sub_res1 / sub_res2;
+    case TK_ADD: //printf("%u %c %u\n", sub_res1, '+', sub_res2); 
+      return sub_res1 + sub_res2;
+    case TK_SUB: //printf("%u %c %u\n", sub_res1, '-', sub_res2);
+      return sub_res1 - sub_res2;
+    case TK_MUL: //printf("%u %c %u\n", sub_res1, '*', sub_res2);
+      return sub_res1 * sub_res2;
+    case TK_DIV: //printf("%u %c %u\n", sub_res1, '/', sub_res2);
+      if (sub_res2) return sub_res1 / sub_res2;
     default:
       *success = false;
       break;
