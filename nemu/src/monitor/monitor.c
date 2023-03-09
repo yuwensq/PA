@@ -130,6 +130,7 @@ int init_monitor(int argc, char *argv[]) {
   /* Compile the regular expressions. */
   init_regex();
 
+  // 测试表达式功能时开启这个
   test_expr();
 
   /* Initialize the watchpoint pool. */

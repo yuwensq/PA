@@ -16,9 +16,14 @@ enum
   TK_MUL,
   TK_DIV,
   TK_EQ,
+  TK_NEQ,
+  TK_AND,
   TK_NUM,
+  TK_HEX_NUM,
   TK_LPARENT,
-  TK_RPARENT
+  TK_RPARENT,
+  TK_REG,
+  TK_REF,
 
   /* TODO: Add more token types */
 
@@ -40,9 +45,13 @@ static struct rule
     {"\\*", TK_MUL},           // mul
     {"/", TK_DIV},             // div
     {"==", TK_EQ},             // equal
+    {"!=", TK_NEQ},            // not equal
+    {"&&", TK_AND},            // and
     {"[1-9][0-9]*|0", TK_NUM}, // number
+    {"0[xX][0-9A-Fa-f]+", TK_HEX_NUM}, // hexi number
     {"\\(", TK_LPARENT},       // left parenthese
     {"\\)", TK_RPARENT},       // right parenthese
+    {"$eax|$ebx|$ecx|$edx|$esi|$edi|$esp|$ebp|$pc", TK_REG},  // register
 
 };
 
