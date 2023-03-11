@@ -50,8 +50,8 @@ static struct rule
     {"==", TK_EQ},             // equal
     {"!=", TK_NEQ},            // not equal
     {"&&", TK_AND},            // and
-    {"[1-9][0-9]*|0", TK_NUM}, // number
     {"0[xX][0-9A-Fa-f]+", TK_HEX_NUM}, // hexi number
+    {"[1-9][0-9]*|0", TK_NUM}, // number
     {"\\(", TK_LPARENT},       // left parenthese
     {"\\)", TK_RPARENT},       // right parenthese
     {"\\$eax|\\$ebx|\\$ecx|\\$edx|\\$esi|\\$edi|\\$esp|\\$ebp|\\$pc", TK_REG},  // register
