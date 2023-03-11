@@ -209,6 +209,44 @@ static bool expr_surrounded_by_paren(int l, int r) {
 
 uint32_t isa_reg_str2val(const char *s, bool *success);
 
+bool op_is_lower_than(int op_a, int op_b) {
+  // 判断运算符a运算顺序是否低于b
+  // b可以看作已经记录的最后算的运算符，a是当前遍历到的运算符，返回true表示更新最后运算符
+  if (op_b == TK_DEREF) {
+    if (op_a == TK_DEREF)
+      return false;
+    else 
+      return true;
+  }
+  else if ((op_b & (TK_MUL | TK_DIV)) != 0) {
+    if ((op_a & (TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB | TK_MUL | TK_DIV)) != 0)
+      return true;
+    else 
+      return false;
+  }
+  else if ((op_b & (TK_ADD | TK_SUB)) != 0) {
+    if ((op_a & (TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB)) != 0)
+      return true;
+    else 
+      return false;
+  }
+  else if ((op_b & (TK_EQ | TK_NEQ)) != 0) {
+    if ((op_a & (TK_AND | TK_NEQ | TK_EQ)) != 0)
+      return true;
+    else 
+      return false;
+  }
+  else if ((op_b & TK_AND) != 0) {
+    if ((op_a & TK_AND) != 0)
+      return true;
+    else 
+      return false;
+  }
+  else {
+    Assert(false, "未知运算符");
+  }
+}
+
 static int32_t eval(int l, int r, bool *success)
 {
   if (*success == false)
@@ -258,20 +296,10 @@ static int32_t eval(int l, int r, bool *success)
       else if (now_tk_type == TK_RPARENT)
         nr_lparen--;
       else if (nr_lparen == 0) { // 只有在括号外才判断
-        if (min_op_pos == -1) {
+        if (min_op_pos == -1 || op_is_lower_than(now_tk_type, min_op_pos)) {
           min_op_pos = i;
           min_op_type = now_tk_type;
-          continue;
         }
-        if (tokens[i].type == TK_ADD || tokens[i].type == TK_SUB) {
-          min_op_type = tokens[i].type;
-          min_op_pos = i;
-        }
-        else if (tokens[i].type == TK_MUL || tokens[i].type == TK_DIV) 
-          if (!(min_op_type == TK_ADD || min_op_type == TK_SUB)) {
-            min_op_type = tokens[i].type;
-            min_op_pos = i;
-          }
       }
     }
     int32_t sub_res1 = eval(l, min_op_pos - 1, success);
