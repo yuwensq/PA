@@ -176,7 +176,11 @@ static bool make_token(char *e)
       return false;
     }
   }
-
+  i = 0;
+  for (; i < nr_token; i++) {
+    printf("%d ", tokens[i].type);
+  }
+  printf("\n");
   return true;
 }
 
