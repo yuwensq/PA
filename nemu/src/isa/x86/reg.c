@@ -49,11 +49,11 @@ void isa_reg_display()
     printf("ecx\t\t0x%x\t%d\n", cpu.ecx, cpu.ecx);
     printf("edx\t\t0x%x\t%d\n", cpu.edx, cpu.edx);
     printf("ebx\t\t0x%x\t%d\n", cpu.ebx, cpu.ebx);
-    printf("esp\t\t0x%x\t%x\n", cpu.esp, cpu.esp);
-    printf("ebp\t\t0x%x\t%x\n", cpu.ebp, cpu.ebp);
+    printf("esp\t\t0x%x\t0x%x\n", cpu.esp, cpu.esp);
+    printf("ebp\t\t0x%x\t0x%x\n", cpu.ebp, cpu.ebp);
     printf("esi\t\t0x%x\t%d\n", cpu.esi, cpu.esi);
     printf("edi\t\t0x%x\t%d\n", cpu.edi, cpu.edi);
-    printf("pc\t\t0x%x\t%x\n", cpu.pc, cpu.pc);
+    printf("pc\t\t0x%x\t0x%x\n", cpu.pc, cpu.pc);
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success)
