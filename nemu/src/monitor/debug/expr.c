@@ -243,7 +243,7 @@ bool op_is_lower_than(int op_a, int op_b) {
       return false;
   }
   else {
-    // Assert(false, "未知运算符%d", op_b);
+    Assert(false, "未知运算符%d", op_b);
   }
   return true;
 }
@@ -297,6 +297,8 @@ static int32_t eval(int l, int r, bool *success)
       else if (now_tk_type == TK_RPARENT)
         nr_lparen--;
       else if (nr_lparen == 0) { // 只有在括号外才判断
+        if ((now_tk_type &(TK_NUM | TK_HEX_NUM | TK_REG)) != 0) 
+          continue;
         if (min_op_pos == -1 || op_is_lower_than(now_tk_type, min_op_type)) {
           min_op_pos = i;
           min_op_type = now_tk_type;
