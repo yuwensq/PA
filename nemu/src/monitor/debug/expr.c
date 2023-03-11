@@ -221,7 +221,7 @@ bool op_is_lower_than(int op_a, int op_b) {
   else if ((op_b & (TK_MUL | TK_DIV)) != 0) {
     if ((op_a & (TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB | TK_MUL | TK_DIV)) != 0)
       return true;
-    else 
+    else
       return false;
   }
   else if ((op_b & (TK_ADD | TK_SUB)) != 0) {
