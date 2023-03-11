@@ -243,7 +243,7 @@ bool op_is_lower_than(int op_a, int op_b) {
       return false;
   }
   else {
-    Assert(false, "未知运算符");
+    Assert(false, "未知运算符%d", op_b);
   }
 }
 
