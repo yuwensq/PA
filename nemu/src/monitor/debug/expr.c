@@ -8,22 +8,25 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define use_bit(x) (1 << (x))
+
 enum
 {
-  TK_NOTYPE = 256,
-  TK_ADD,
-  TK_SUB,
-  TK_MUL,
-  TK_DIV,
-  TK_EQ,
-  TK_NEQ,
-  TK_AND,
-  TK_NUM,
-  TK_HEX_NUM,
-  TK_LPARENT,
-  TK_RPARENT,
-  TK_REG,
-  TK_REF,
+  // 独热码，方便用，但是最多支持32种Token
+  TK_NOTYPE = use_bit(0),
+  TK_ADD = use_bit(1),
+  TK_SUB = use_bit(2),
+  TK_MUL = use_bit(3),
+  TK_DIV = use_bit(4),
+  TK_EQ = use_bit(5),
+  TK_NEQ = use_bit(6),
+  TK_AND = use_bit(7),
+  TK_NUM = use_bit(8),
+  TK_HEX_NUM = use_bit(9),
+  TK_LPARENT = use_bit(10),
+  TK_RPARENT = use_bit(11),
+  TK_REG = use_bit(12),
+  TK_DEREF = use_bit(13),
 
   /* TODO: Add more token types */
 
@@ -131,13 +134,24 @@ static bool make_token(char *e)
           break;
         case TK_ADD:
         case TK_SUB:
-        case TK_MUL:
         case TK_DIV:
+        case TK_EQ:
+        case TK_NEQ:
+        case TK_AND:
         case TK_LPARENT:
         case TK_RPARENT:
           tokens[nr_token++].type = tk_type;
           break;
+        case TK_MUL:
+        {
+          if (nr_token == 0) {
+            
+          }
+        }
+          break;
+        case TK_REG:
         case TK_NUM:
+        case TK_HEX_NUM:
         {
           tokens[nr_token].type = tk_type;
           memcpy(tokens[nr_token].str, substr_start, substr_len);
