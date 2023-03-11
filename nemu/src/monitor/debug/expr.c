@@ -183,7 +183,7 @@ static bool make_token(char *e)
 
 static bool bracket_check(int l, int r) {
   if (l > r) {
-    Log("左边界大于有边界，请检查输入\n");
+    Log("左边界大于右边界，请检查输入\n");
   }
   int nr_lparen = 0;
   int i = l;

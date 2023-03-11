@@ -58,5 +58,26 @@ void isa_reg_display()
 
 uint32_t isa_reg_str2val(const char *s, bool *success)
 {
+    *success = true;
+    if (strcmp(s, "$eax") == 0) 
+        return cpu.eax;
+    else if (strcmp(s, "$ebx") == 0)
+        return cpu.ebx;
+    else if (strcmp(s, "$ecx") == 0)
+        return cpu.ecx;
+    else if (strcmp(s, "$edx") == 0)
+        return cpu.edx;
+    else if (strcmp(s, "$esi") == 0)
+        return cpu.esi;
+    else if (strcmp(s, "$edi") == 0)
+        return cpu.edi;
+    else if (strcmp(s, "$esp") == 0)
+        return cpu.esp;
+    else if (strcmp(s, "$ebp") == 0)
+        return cpu.ebp;
+    else if (strcmp(s, "$pc") == 0)
+        return cpu.pc;
+    else 
+        *success = false;
     return 0;
 }
