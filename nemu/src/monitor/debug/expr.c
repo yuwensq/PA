@@ -245,7 +245,7 @@ bool op_is_lower_than(int op_a, int op_b) {
   else {
     // Assert(false, "未知运算符%d", op_b);
   }
-  return false;
+  return true;
 }
 
 static int32_t eval(int l, int r, bool *success)
