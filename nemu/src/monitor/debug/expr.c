@@ -305,8 +305,10 @@ static int32_t eval(int l, int r, bool *success)
         }
       }
     }
-    int32_t sub_res1 = eval(l, min_op_pos - 1, success);
+    int32_t sub_res1 = 0;
     int32_t sub_res2 = eval(min_op_pos + 1, r, success);
+    if (min_op_type != TK_DEREF) 
+      sub_res1 = eval(l, min_op_pos - 1, success);
     switch (min_op_type)
     {
     case TK_ADD: //printf("%u %c %u\n", sub_res1, '+', sub_res2); 
