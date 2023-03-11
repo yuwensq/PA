@@ -219,7 +219,7 @@ static int32_t eval(int l, int r, bool *success)
   }
   else if (l == r)
   {
-    if (tokens[l].type != TK_NUM)
+    if ((tokens[l].type & (TK_NUM | TK_HEX_NUM)) == 0)
     {
       Log("token应该为数字\n");
       *success = false;
@@ -227,7 +227,8 @@ static int32_t eval(int l, int r, bool *success)
     }
     // int32_t res = atoi(tokens[l].str);
     // printf("%d\n", res);
-    return atoi(tokens[l].str);
+    return strtol(tokens[l].str, NULL, tokens[l].type == TK_NUM ? 10 : 16);
+    // return atoi(tokens[l].str);
   }
   else if (expr_surrounded_by_paren(l, r))
   {
