@@ -146,11 +146,8 @@ static bool make_token(char *e)
         {
           if (nr_token == 0 || 
           (tokens[nr_token - 1].type & (TK_ADD | TK_SUB | TK_MUL | TK_DIV | TK_EQ | TK_NEQ | TK_AND | TK_DEREF))) 
-          {
-            tokens[nr_token++].type = TK_DEREF;
-          }
-          else 
-            tokens[nr_token].type = tk_type;
+            tk_type = TK_DEREF;
+          tokens[nr_token++].type = tk_type;
         }
           break;
         case TK_REG:
