@@ -207,6 +207,8 @@ static bool expr_surrounded_by_paren(int l, int r) {
   return bracket_check(l + 1, r - 1);
 }
 
+uint32_t isa_reg_str2val(const char *s, bool *success);
+
 static int32_t eval(int l, int r, bool *success)
 {
   if (*success == false)
@@ -219,16 +221,24 @@ static int32_t eval(int l, int r, bool *success)
   }
   else if (l == r)
   {
-    if ((tokens[l].type & (TK_NUM | TK_HEX_NUM)) == 0)
+    switch (tokens[l].type)
     {
-      Log("token应该为数字\n");
+    case TK_NUM:
+      return strtol(tokens[l].str, NULL, 10);
+      break;
+    case TK_HEX_NUM:
+      return strtol(tokens[l].str, NULL, 16);
+      break;
+    case TK_REG:
+      return isa_reg_str2val(tokens[l].str, success);
+    default: 
+    {
+      Log("token应该为数字或寄存器\n");
       *success = false;
-      return 0;
     }
-    // int32_t res = atoi(tokens[l].str);
-    // printf("%d\n", res);
-    return strtol(tokens[l].str, NULL, tokens[l].type == TK_NUM ? 10 : 16);
-    // return atoi(tokens[l].str);
+      break;
+    }
+    return 0; 
   }
   else if (expr_surrounded_by_paren(l, r))
   {
@@ -237,15 +247,22 @@ static int32_t eval(int l, int r, bool *success)
   else
   {
     int i = 0;
+    int now_tk_type = 0;
     int nr_lparen = 0;
-    int min_op_type = TK_MUL;
-    int min_op_pos = 0;
+    int min_op_type = 0;
+    int min_op_pos = -1;
     for (i = l; i <= r; i++) {
-      if (tokens[i].type == TK_LPARENT)
+      now_tk_type = tokens[i].type;
+      if (now_tk_type == TK_LPARENT)
         nr_lparen++;
-      else if (tokens[i].type == TK_RPARENT)
+      else if (now_tk_type == TK_RPARENT)
         nr_lparen--;
       else if (nr_lparen == 0) { // 只有在括号外才判断
+        if (min_op_pos == -1) {
+          min_op_pos = i;
+          min_op_type = now_tk_type;
+          continue;
+        }
         if (tokens[i].type == TK_ADD || tokens[i].type == TK_SUB) {
           min_op_type = tokens[i].type;
           min_op_pos = i;
