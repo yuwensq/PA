@@ -311,12 +311,20 @@ static int32_t eval(int l, int r, bool *success)
       sub_res1 = eval(l, min_op_pos - 1, success);
     switch (min_op_type)
     {
+    case TK_DEREF:
+      return paddr_read(sub_res2, 4);
     case TK_ADD: //printf("%u %c %u\n", sub_res1, '+', sub_res2); 
       return sub_res1 + sub_res2;
     case TK_SUB: //printf("%u %c %u\n", sub_res1, '-', sub_res2);
       return sub_res1 - sub_res2;
     case TK_MUL: //printf("%u %c %u\n", sub_res1, '*', sub_res2);
       return sub_res1 * sub_res2;
+    case TK_EQ:
+      return (sub_res1 == sub_res2);
+    case TK_NEQ:
+      return (sub_res1 != sub_res2);
+    case TK_AND:
+      return (sub_res1 && sub_res2);
     case TK_DIV: //printf("%u %c %u\n", sub_res1, '/', sub_res2);
       if (sub_res2) return sub_res1 / sub_res2;
     default:
