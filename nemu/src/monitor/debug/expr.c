@@ -296,7 +296,7 @@ static int32_t eval(int l, int r, bool *success)
       else if (now_tk_type == TK_RPARENT)
         nr_lparen--;
       else if (nr_lparen == 0) { // 只有在括号外才判断
-        if (min_op_pos == -1 || op_is_lower_than(now_tk_type, min_op_pos)) {
+        if (min_op_pos == -1 || op_is_lower_than(now_tk_type, min_op_type)) {
           min_op_pos = i;
           min_op_type = now_tk_type;
         }
