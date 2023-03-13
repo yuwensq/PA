@@ -117,5 +117,6 @@ void remove_wp(int no) {
     if (tmp->NO == no) {
       free_wp(tmp);
     }
+    tmp = tmp->next;
   }
 }
