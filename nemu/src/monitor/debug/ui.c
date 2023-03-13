@@ -174,14 +174,11 @@ static int cmd_x(char *args)
     return 0;
 }
 
+WP* new_wp(char*);
+
 static int cmd_w(char *args)
 {
-    // bool success = false;
-    // uint32_t res = expr(args, &success);
-    // if (!success) {
-    //     Log("监视点表达式不合法\n");
-    // }
-    // WP* wp = new_wp();
+    new_wp(args);
 
     return 0;
 }
