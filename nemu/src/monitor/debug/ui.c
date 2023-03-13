@@ -94,6 +94,7 @@ static int cmd_si(char *args)
 static int cmd_info(char *args)
 {
     void isa_reg_display(void);
+    void print_wp_info(void);
 
     char *arg[1];
     int nr_arg = get_args(args, arg, 1);
@@ -105,7 +106,7 @@ static int cmd_info(char *args)
     else if (nr_arg == 1 && !strcmp(arg[0], "w"))
     {
         // 打印断点
-         
+        print_wp_info(); 
     }
     else
     {
