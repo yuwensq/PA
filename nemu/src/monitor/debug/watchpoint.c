@@ -23,6 +23,13 @@ void init_wp_pool() {
 
 WP* new_wp(char* expre) {
   if (free_ == NULL) {
+    Log("无可用断点\n");
+    return NULL;
+  }
+  bool success = false;
+  uint32_t res = expr(expre, &success);
+  if (!success) {
+    Log("断点表达式不合法\n");
     return NULL;
   }
   // 从free_里摘一个头头
@@ -31,7 +38,11 @@ WP* new_wp(char* expre) {
   // 把监视点加到head中
   result->next = head;
   head = result;
+  // 初始化断点
   result->NO = ++nr_use_wp;
+  result->last_val = res;
+  memcpy(result->expr, expre, strlen(expre));
+  result->expr[strlen(expre)] = 0;
   Log("分配监视点，No为%d\n", result->NO);
   return result;
 }
@@ -64,7 +75,6 @@ void free_wp(WP* wp) {
     goto END;
   }
 SUCCESS:
-  nr_use_wp--;
   
 END:
   return;
