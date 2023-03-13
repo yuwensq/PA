@@ -153,10 +153,15 @@ static int cmd_x(char *args)
     char *arg[2];
     int nr_arg = get_args(args, arg, 2);
 
-    if (nr_arg == 2 && is_digital(arg[0], 10) && is_digital(arg[1], 16))
+    if (nr_arg == 2 && is_digital(arg[0], 10))
     {
         int words = atoi(arg[0]); // 打印words个四字节
-        uint32_t addr = strtoll(arg[1], NULL, 16);
+        bool success = false;
+        uint32_t addr = expr(arg[1], &success);
+        if (!success) {
+            Log("表达式格式错误\n");
+            return 0;
+        }
         int i = 0;
         for (; i < words; i++)
         {
@@ -181,7 +186,7 @@ static int cmd_x(char *args)
     }
     else
     {
-        Log("%s\n", "参数不合法, 指令格式为 x N addr, N 为正整数, addr为16进制地址");
+        Log("%s\n", "参数不合法, 指令格式为 x N expr, N 为正整数, expr为表达式");
     }
 
     return 0;
