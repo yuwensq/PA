@@ -249,10 +249,8 @@ void ui_mainloop(int is_batch_mode)
         cmd_c(NULL);
         return;
     }
-    char *prev;
     for (char *str; (str = rl_gets()) != NULL;)
     {
-        printf("prev:%s str:%s\n", prev, str);
         char *str_end = str + strlen(str);
 
         /* extract the first token as the command */
@@ -294,6 +292,5 @@ void ui_mainloop(int is_batch_mode)
         {
             printf("Unknown command '%s'\n", cmd);
         }
-        prev = str;
     }
 }
