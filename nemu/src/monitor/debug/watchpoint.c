@@ -79,3 +79,15 @@ SUCCESS:
 END:
   return;
 }
+
+void print_wp(WP* wp) {
+  if (wp == NULL)
+    return;
+  print_wp(wp->next);
+  printf("%d\t\t%s", wp->NO, wp->expr);
+}
+
+void print_wp_info() {
+  printf("wp_NO\t\twp_expr");
+  print_wp(head);
+}

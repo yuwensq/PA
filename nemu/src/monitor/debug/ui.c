@@ -105,6 +105,7 @@ static int cmd_info(char *args)
     else if (nr_arg == 1 && !strcmp(arg[0], "w"))
     {
         // 打印断点
+         
     }
     else
     {
@@ -179,7 +180,6 @@ WP* new_wp(char*);
 static int cmd_w(char *args)
 {
     new_wp(args);
-
     return 0;
 }
 
