@@ -120,20 +120,31 @@ static int cmd_p(char *args)
 {
     bool success = false;
     uint32_t result = 0;
-    if (args)
-        result = expr(args, &success);
-    else
+    char *arg[2];
+    int nr_arg = get_args(args, arg, 2);
+    if (args) {
+        if (nr_arg == 1) {
+            result = expr(arg[0], &success);
+        } 
+        else if (nr_arg == 2 && !strcmp(arg[0], "x")) {
+            result = expr(arg[1], &success);
+        }
+        else
+            success = false;
+    }
+    else 
         success = false;
-
     if (!success)
     {
         Log("%s\n", "输入表达式不合法");
     }
     else
     {
-        printf("%d\n", *(int *)(&result));
+        if (nr_arg == 2 && !strcmp(arg[0], "x"))
+            printf("0x%x\n", result);
+        else
+            printf("%d\n", *(int *)(&result));
     }
-
     return 0;
 }
 
