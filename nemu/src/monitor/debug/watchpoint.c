@@ -110,3 +110,12 @@ static bool judge_wp(WP* wp) {
 bool wp_trigger() {
   return judge_wp(head);
 }
+
+void remove_wp(int no) {
+  WP* tmp = head;
+  while (tmp && tmp->next) {
+    if (tmp->NO == no) {
+      free_wp(tmp);
+    }
+  }
+}

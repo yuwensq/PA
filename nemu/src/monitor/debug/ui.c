@@ -196,6 +196,14 @@ static int cmd_w(char *args)
 
 static int cmd_d(char *args)
 {
+    void remove_wp(int);
+    char *arg[1];
+    int nr_arg = get_args(args, arg, 1);
+    if (nr_arg != 1) {
+        Log("指令格式不正确\n");
+        return 0;
+    }
+    remove_wp(atoi(arg[0]));
     return 0;
 }
 
