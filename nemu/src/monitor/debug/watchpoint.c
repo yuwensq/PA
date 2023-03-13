@@ -113,8 +113,7 @@ bool wp_trigger() {
 
 void remove_wp(int no) {
   WP* tmp = head;
-  while (tmp && tmp->next) {
-    printf("%d\t", tmp->NO);
+  while (tmp) {
     if (tmp->NO == no) {
       free_wp(tmp);
     }
