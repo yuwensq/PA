@@ -176,6 +176,13 @@ static int cmd_x(char *args)
 
 static int cmd_w(char *args)
 {
+    // bool success = false;
+    // uint32_t res = expr(args, &success);
+    // if (!success) {
+    //     Log("监视点表达式不合法\n");
+    // }
+    // WP* wp = new_wp();
+
     return 0;
 }
 
@@ -242,9 +249,10 @@ void ui_mainloop(int is_batch_mode)
         cmd_c(NULL);
         return;
     }
-
+    char *prev;
     for (char *str; (str = rl_gets()) != NULL;)
     {
+        printf("prev:%s str:%s\n", prev, str);
         char *str_end = str + strlen(str);
 
         /* extract the first token as the command */
@@ -286,5 +294,6 @@ void ui_mainloop(int is_batch_mode)
         {
             printf("Unknown command '%s'\n", cmd);
         }
+        prev = str;
     }
 }
