@@ -176,10 +176,9 @@ static int cmd_x(char *args)
     return 0;
 }
 
-WP* new_wp(char*);
-
 static int cmd_w(char *args)
 {
+    WP* new_wp(char*);
     new_wp(args);
     return 0;
 }

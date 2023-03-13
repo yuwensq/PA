@@ -84,10 +84,10 @@ void print_wp(WP* wp) {
   if (wp == NULL)
     return;
   print_wp(wp->next);
-  printf("%d\t\t%s", wp->NO, wp->expr);
+  printf("%d\t\t%s\n", wp->NO, wp->expr);
 }
 
 void print_wp_info() {
-  printf("wp_NO\t\twp_expr");
+  printf("wp_NO\t\twp_expr\n");
   print_wp(head);
 }
