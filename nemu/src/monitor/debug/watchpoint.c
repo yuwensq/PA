@@ -80,7 +80,7 @@ END:
   return;
 }
 
-void print_wp(WP* wp) {
+static void print_wp(WP* wp) {
   if (wp == NULL)
     return;
   print_wp(wp->next);
@@ -90,4 +90,23 @@ void print_wp(WP* wp) {
 void print_wp_info() {
   printf("wp_NO\t\twp_expr\n");
   print_wp(head);
+}
+
+static bool judge_wp(WP* wp) {
+  bool trigger = false;
+  uint32_t res = 0;
+  if (wp == NULL) 
+    return false;
+  trigger = judge_wp(wp->next);
+  res = expr(wp->expr, NULL);
+  if (res != wp->last_val) {
+    trigger = true;
+    printf("NO:%d\tlast_val:%d\tnew_val:%d\texpr:%s\n", wp->NO, wp->last_val, res, wp->expr);
+    wp->last_val = res;
+  }
+  return trigger;
+}
+
+bool wp_trigger() {
+  return judge_wp(head);
 }

@@ -353,11 +353,18 @@ uint32_t expr(char *e, bool *success)
   if (!make_token(e))
   {
     Log("make token失败\n");
-    *success = false;
+    if (success)
+      *success = false;
     return 0;
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  uint32_t result = evalute(nr_token, success);
-  return result;
+  uint32_t res = 0;
+  if (success)
+    res = evalute(nr_token, success);
+  else {
+    bool succ = false;
+    res = evalute(nr_token, &succ);
+  }
+  return res;
 }
