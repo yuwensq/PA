@@ -120,30 +120,17 @@ static int cmd_p(char *args)
 {
     bool success = false;
     uint32_t result = 0;
-    char *arg[2];
-    int nr_arg = get_args(args, arg, 2);
-    if (args) {
-        if (nr_arg == 1) {
-            result = expr(arg[0], &success);
-        } 
-        else if (nr_arg == 2 && !strcmp(arg[0], "x")) {
-            result = expr(arg[1], &success);
-        }
-        else
-            success = false;
-    }
+
+    if (args)
+        result = expr(args, &success);
     else 
         success = false;
     if (!success)
-    {
         Log("%s\n", "输入表达式不合法");
-    }
     else
     {
-        if (nr_arg == 2 && !strcmp(arg[0], "x"))
-            printf("0x%x\n", result);
-        else
-            printf("%d\n", *(int *)(&result));
+        printf("%d\n", *(int *)(&result));
+        printf("0x%x\n", result);
     }
     return 0;
 }
@@ -151,7 +138,17 @@ static int cmd_p(char *args)
 static int cmd_x(char *args)
 {
     char *arg[2];
-    int nr_arg = get_args(args, arg, 2);
+    int nr_arg = 0;
+
+    // 得到整数和表达式
+    arg[0] = strtok(args, " ");
+    if (arg[0]) {
+        arg[1] = arg[0] + strlen(arg[0]) + 1;
+        nr_arg = 2;
+    }
+    else {
+        nr_arg = 0;
+    }
 
     if (nr_arg == 2 && is_digital(arg[0], 10))
     {
