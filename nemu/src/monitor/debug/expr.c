@@ -27,6 +27,7 @@ enum
   TK_RPARENT = use_bit(11),
   TK_REG = use_bit(12),
   TK_DEREF = use_bit(13),
+  TK_MINUS = use_bit(14),
 
   /* TODO: Add more token types */
 
@@ -133,7 +134,6 @@ static bool make_token(char *e)
         case TK_NOTYPE:
           break;
         case TK_ADD:
-        case TK_SUB:
         case TK_DIV:
         case TK_EQ:
         case TK_NEQ:
@@ -142,11 +142,12 @@ static bool make_token(char *e)
         case TK_RPARENT:
           tokens[nr_token++].type = tk_type;
           break;
+        case TK_SUB:
         case TK_MUL:
         {
           if (nr_token == 0 || 
           (tokens[nr_token - 1].type & (TK_ADD | TK_SUB | TK_MUL | TK_DIV | TK_EQ | TK_NEQ | TK_AND | TK_DEREF))) 
-            tk_type = TK_DEREF;
+            tk_type = (tk_type == TK_MUL ? TK_DEREF : TK_MINUS);
           tokens[nr_token++].type = tk_type;
         }
           break;
@@ -214,6 +215,12 @@ bool op_is_lower_than(int op_a, int op_b) {
   // b可以看作已经记录的最后算的运算符，a是当前遍历到的运算符，返回true表示更新最后运算符
   if (op_b == TK_DEREF) {
     if (op_a == TK_DEREF)
+      return false;
+    else 
+      return true;
+  }
+  else if (op_b == TK_MINUS) {
+    if (op_a == TK_MINUS)
       return false;
     else 
       return true;
@@ -307,12 +314,14 @@ static uint32_t eval(int l, int r, bool *success)
     }
     uint32_t sub_res1 = 0;
     uint32_t sub_res2 = eval(min_op_pos + 1, r, success);
-    if (min_op_type != TK_DEREF) 
+    if (min_op_type != TK_DEREF && min_op_type != TK_MINUS) 
       sub_res1 = eval(l, min_op_pos - 1, success);
     switch (min_op_type)
     {
     case TK_DEREF:
       return paddr_read(sub_res2, 4);
+    case TK_MINUS:
+      return -sub_res2;
     case TK_ADD: //printf("%u %c %u\n", sub_res1, '+', sub_res2); 
       return sub_res1 + sub_res2;
     case TK_SUB: //printf("%u %c %u\n", sub_res1, '-', sub_res2);

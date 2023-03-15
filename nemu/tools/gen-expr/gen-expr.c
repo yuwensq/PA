@@ -41,7 +41,7 @@ enum {
   DIV,
 };
 
-static uint32_t gen_rand_expr(int father_type, int left) {
+static int32_t gen_rand_expr(int father_type, int left) {
   char string[32] = {0};
   int type = nr_token > 12 ? 0 : rand() % 3; // 限制总的token数目
   switch (type)
@@ -76,8 +76,8 @@ static uint32_t gen_rand_expr(int father_type, int left) {
       nr_token++;
     }
     nr_token++;
-    uint32_t res1 = gen_rand_expr(op, 1);
-    uint32_t res2 = 0;
+    int32_t res1 = gen_rand_expr(op, 1);
+    int32_t res2 = 0;
     int old_pos = pos;
     int old_nr_token = nr_token;
     pos++; // 加加是为了留一个运算符位置
