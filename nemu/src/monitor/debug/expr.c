@@ -213,32 +213,32 @@ uint32_t isa_reg_str2val(const char *s, bool *success);
 bool op_is_lower_than(int op_a, int op_b) {
   // 判断运算符a运算顺序是否低于b
   // b可以看作已经记录的最后算的运算符，a是当前遍历到的运算符，返回true表示更新最后运算符
-  if (op_b & (TK_DEREF & TK_MINUS)) {
-    if (op_a & (TK_DEREF & TK_MINUS))
+  if (op_b & (TK_DEREF | TK_MINUS)) {
+    if (op_a & (TK_DEREF | TK_MINUS))
       return false;
     else 
       return true;
   }
-  else if ((op_b & (TK_MUL | TK_DIV)) != 0) {
-    if ((op_a & (TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB | TK_MUL | TK_DIV)) != 0)
+  else if (op_b & (TK_MUL | TK_DIV)) {
+    if (op_a & (TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB | TK_MUL | TK_DIV))
       return true;
     else
       return false;
   }
-  else if ((op_b & (TK_ADD | TK_SUB)) != 0) {
-    if ((op_a & (TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB)) != 0)
+  else if (op_b & (TK_ADD | TK_SUB)) {
+    if (op_a & (TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB))
       return true;
     else 
       return false;
   }
-  else if ((op_b & (TK_EQ | TK_NEQ)) != 0) {
-    if ((op_a & (TK_AND | TK_NEQ | TK_EQ)) != 0)
+  else if (op_b & (TK_EQ | TK_NEQ)) {
+    if (op_a & (TK_AND | TK_NEQ | TK_EQ))
       return true;
     else 
       return false;
   }
-  else if ((op_b & TK_AND) != 0) {
-    if ((op_a & TK_AND) != 0)
+  else if (op_b & TK_AND) {
+    if (op_a & TK_AND)
       return true;
     else 
       return false;
