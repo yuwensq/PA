@@ -255,7 +255,7 @@ bool op_is_lower_than(int op_a, int op_b) {
   return true;
 }
 
-static uint32_t eval(int l, int r, bool *success)
+static int32_t eval(int l, int r, bool *success)
 {
   if (*success == false)
     return 0;
@@ -312,8 +312,8 @@ static uint32_t eval(int l, int r, bool *success)
         }
       }
     }
-    uint32_t sub_res1 = 0;
-    uint32_t sub_res2 = eval(min_op_pos + 1, r, success);
+    int32_t sub_res1 = 0;
+    int32_t sub_res2 = eval(min_op_pos + 1, r, success);
     if (min_op_type != TK_DEREF && min_op_type != TK_MINUS) 
       sub_res1 = eval(l, min_op_pos - 1, success);
     switch (min_op_type)
