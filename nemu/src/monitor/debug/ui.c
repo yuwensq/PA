@@ -168,7 +168,7 @@ static int cmd_x(char *args)
                     printf("\n");
                 printf("0x%x:\t", addr);
             }
-            uint32_t data = paddr_read(addr, 4);
+            uint32_t data = vaddr_read(addr, 4);
             printf("0x");
             int j = 0;
             for (; j < 4; j++)
