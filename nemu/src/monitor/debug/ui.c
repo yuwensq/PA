@@ -166,7 +166,7 @@ static int cmd_x(char *args)
             {
                 if (i != 0)
                     printf("\n");
-                printf("0x%x:\t", addr);
+                printf("0x%x: ", addr);
             }
             uint32_t data = vaddr_read(addr, 4);
             int j = 0;
