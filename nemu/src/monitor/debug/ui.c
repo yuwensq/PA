@@ -175,7 +175,7 @@ static int cmd_x(char *args)
                 printf("%02x ", (data & 0xFF));
                 data >>= 8;
             }
-            printf("\t");
+            printf("    ");
             addr += 4;
         }
         printf("\n");
