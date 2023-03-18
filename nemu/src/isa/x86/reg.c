@@ -45,7 +45,7 @@ void reg_test()
 // 打印寄存器信息的函数
 void isa_reg_display()
 {
-    printf("eax\t\t0x%-10x\t%d\n", cpu.eax, cpu.eax);
+    printf("eax\t\t0x%x\t%d\n", cpu.eax, cpu.eax);
     printf("ecx\t\t0x%x\t%d\n", cpu.ecx, cpu.ecx);
     printf("edx\t\t0x%x\t%d\n", cpu.edx, cpu.edx);
     printf("ebx\t\t0x%x\t%d\n", cpu.ebx, cpu.ebx);
