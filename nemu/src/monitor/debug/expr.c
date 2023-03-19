@@ -28,6 +28,8 @@ enum
   TK_REG = use_bit(12),
   TK_DEREF = use_bit(13),
   TK_MINUS = use_bit(14),
+  TK_NOT = use_bit(15),
+  TK_OR = use_bit(16),
 
   /* TODO: Add more token types */
 
@@ -50,7 +52,9 @@ static struct rule
     {"/", TK_DIV},             // div
     {"==", TK_EQ},             // equal
     {"!=", TK_NEQ},            // not equal
+    {"!", TK_NOT},            // not
     {"&&", TK_AND},            // and
+    {"\\|\\|", TK_OR},            // or
     {"0[xX][0-9A-Fa-f]+", TK_HEX_NUM}, // hexi number
     {"[1-9][0-9]*|0", TK_NUM}, // number
     {"\\(", TK_LPARENT},       // left parenthese
@@ -138,6 +142,8 @@ static bool make_token(char *e)
         case TK_EQ:
         case TK_NEQ:
         case TK_AND:
+        case TK_NOT:
+        case TK_OR:
         case TK_LPARENT:
         case TK_RPARENT:
           tokens[nr_token++].type = tk_type;
@@ -212,32 +218,38 @@ uint32_t isa_reg_str2val(const char *s, bool *success);
 bool op_is_lower_than(int op_a, int op_b) {
   // 判断运算符a运算顺序是否低于b
   // b可以看作已经记录的最后算的运算符，a是当前遍历到的运算符，返回true表示更新最后运算符
-  if (op_b & (TK_DEREF | TK_MINUS)) {
-    if (op_a & (TK_DEREF | TK_MINUS))
+  if (op_b & (TK_DEREF | TK_MINUS | TK_NOT)) {
+    if (op_a & (TK_DEREF | TK_MINUS | TK_NOT))
       return false;
     else 
       return true;
   }
   else if (op_b & (TK_MUL | TK_DIV)) {
-    if (op_a & (TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB | TK_MUL | TK_DIV))
+    if (op_a & (TK_OR | TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB | TK_MUL | TK_DIV))
       return true;
     else
       return false;
   }
   else if (op_b & (TK_ADD | TK_SUB)) {
-    if (op_a & (TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB))
+    if (op_a & (TK_OR | TK_AND | TK_NEQ | TK_EQ | TK_ADD | TK_SUB))
       return true;
     else 
       return false;
   }
   else if (op_b & (TK_EQ | TK_NEQ)) {
-    if (op_a & (TK_AND | TK_NEQ | TK_EQ))
+    if (op_a & (TK_OR | TK_AND | TK_NEQ | TK_EQ))
       return true;
     else 
       return false;
   }
   else if (op_b & TK_AND) {
-    if (op_a & TK_AND)
+    if (op_a & (TK_AND | TK_OR))
+      return true;
+    else 
+      return false;
+  }
+  else if (op_b & TK_OR) {
+    if (op_a & TK_OR)
       return true;
     else 
       return false;
@@ -297,7 +309,7 @@ static int32_t eval(int l, int r, bool *success)
       else if (now_tk_type == TK_RPARENT)
         nr_lparen--;
       else if (nr_lparen == 0) { // 只有在括号外才判断
-        if ((now_tk_type &(TK_NUM | TK_HEX_NUM | TK_REG)) != 0) 
+        if ((now_tk_type & (TK_NUM | TK_HEX_NUM | TK_REG)) != 0) 
           continue;
         if (min_op_pos == -1 || op_is_lower_than(now_tk_type, min_op_type)) {
           min_op_pos = i;
@@ -312,7 +324,7 @@ static int32_t eval(int l, int r, bool *success)
     switch (min_op_type)
     {
     case TK_DEREF:
-      return paddr_read(sub_res2, 4);
+      return vaddr_read(sub_res2, 4);
     case TK_MINUS:
       return -sub_res2;
     case TK_ADD: //printf("%u %c %u\n", sub_res1, '+', sub_res2); 
