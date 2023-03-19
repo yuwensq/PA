@@ -319,7 +319,7 @@ static int32_t eval(int l, int r, bool *success)
     }
     int32_t sub_res1 = 0;
     int32_t sub_res2 = eval(min_op_pos + 1, r, success);
-    if (min_op_type != TK_DEREF && min_op_type != TK_MINUS) 
+    if (!(min_op_type & (TK_DEREF | TK_MINUS | TK_NOT)))
       sub_res1 = eval(l, min_op_pos - 1, success);
     switch (min_op_type)
     {
@@ -327,6 +327,8 @@ static int32_t eval(int l, int r, bool *success)
       return vaddr_read(sub_res2, 4);
     case TK_MINUS:
       return -sub_res2;
+    case TK_NOT:
+      return !sub_res2;
     case TK_ADD: //printf("%u %c %u\n", sub_res1, '+', sub_res2); 
       return sub_res1 + sub_res2;
     case TK_SUB: //printf("%u %c %u\n", sub_res1, '-', sub_res2);
@@ -339,6 +341,8 @@ static int32_t eval(int l, int r, bool *success)
       return (sub_res1 != sub_res2);
     case TK_AND:
       return (sub_res1 && sub_res2);
+    case TK_OR:
+      return (sub_res1 || sub_res2);
     case TK_DIV: //printf("%u %c %u\n", sub_res1, '/', sub_res2);
       if (sub_res2) return sub_res1 / sub_res2;
     default:
