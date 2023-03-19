@@ -146,7 +146,7 @@ static bool make_token(char *e)
         case TK_MUL:
         {
           if (nr_token == 0 || 
-          (tokens[nr_token - 1].type & (TK_ADD | TK_SUB | TK_MUL | TK_DIV | TK_EQ | TK_NEQ | TK_AND | TK_DEREF | TK_MINUS))) 
+          (tokens[nr_token - 1].type & (TK_LPARENT | TK_ADD | TK_SUB | TK_MUL | TK_DIV | TK_EQ | TK_NEQ | TK_AND | TK_DEREF | TK_MINUS))) 
             tk_type = (tk_type == TK_MUL ? TK_DEREF : TK_MINUS);
           tokens[nr_token++].type = tk_type;
         }
