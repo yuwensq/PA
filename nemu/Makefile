@@ -84,3 +84,8 @@ clean:
 	-rm -rf $(BUILD_DIR)
 	$(MAKE) -C tools/gen-expr clean
 	$(MAKE) -C tools/qemu-diff clean
+
+COUNT_SHELL := $(shell find . -name "*.[ch]" | xargs grep -ve "^$$" | wc -l)
+
+count:
+	@echo total code lines: $(COUNT_SHELL)
