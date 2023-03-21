@@ -101,7 +101,7 @@ static bool judge_wp(WP* wp) {
   res = expr(wp->expr, NULL);
   if (res != wp->last_val) {
     trigger = true;
-    printf("NO:%d\tlast_val:%d\tnew_val:%d\texpr:%s\n", wp->NO, wp->last_val, res, wp->expr);
+    printf("Trigger WP NO:%d\tlast_val:%d\tnew_val:%d\texpr:%s\n", wp->NO, wp->last_val, res, wp->expr);
     wp->last_val = res;
   }
   return trigger;
