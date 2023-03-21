@@ -73,7 +73,7 @@ void cpu_exec(uint64_t n)
 
     /* TODO: check watchpoints here. */
     bool wp_trigger();
-    if (wp_trigger())
+    if (wp_trigger() && nemu_state.state != NEMU_ABORT && nemu_state.state != NEMU_END)
     {
       nemu_state.state = NEMU_STOP;
     }
