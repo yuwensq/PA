@@ -131,7 +131,7 @@ int init_monitor(int argc, char *argv[]) {
   init_regex();
 
   // 测试表达式功能时开启这个
-  test_expr();
+  // test_expr();
 
   /* Initialize the watchpoint pool. */
   init_wp_pool();
