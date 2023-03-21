@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ICS2019 Programming Assignment
 
 This project is the programming assignment of the class ICS(Introduction to Computer System) in Department of Computer Science and Technology, Nanjing University.
@@ -15,3 +16,8 @@ The following subprojects/components are included. Some of them are not fully im
 * [Nexus-am](https://github.com/NJU-ProjectN/nexus-am)
 * [Nanos-lite](https://github.com/NJU-ProjectN/nanos-lite)
 * [Navy-apps](https://github.com/NJU-ProjectN/navy-apps)
+=======
+# PA
+
+南开大学本科系统设计课程实验
+>>>>>>> 7f69e4d4422d407987d87a53fa8fd70d5916b4b8
