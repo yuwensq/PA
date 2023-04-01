@@ -1,6 +1,8 @@
 #include "nemu.h"
 #include "monitor/monitor.h"
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void init_log(const char *log_file);
 void init_isa();
@@ -63,6 +65,7 @@ static inline long load_img() {
 }
 
 static inline void parse_args(int argc, char *argv[]) {
+	//https://www.cnblogs.com/qingergege/p/5914218.html
   int o;
   while ( (o = getopt(argc, argv, "-bl:d:a:")) != -1) {
     switch (o) {
@@ -78,6 +81,35 @@ static inline void parse_args(int argc, char *argv[]) {
                 panic("Usage: %s [-b] [-l log_file] [img_file]", argv[0]);
     }
   }
+}
+
+uint32_t expr(char*, bool*);
+
+static inline void test_expr() {
+  FILE *fp = fopen("/home/yuwensq/tmp_workspace/ics2019/nemu/tools/gen-expr/input", "r");
+  Assert(fp, "打开表达式测试文件失败");
+  bool success = true;
+  char line[65536] = {};
+  char *l_expr = NULL;
+  char *true_result = NULL; 
+  uint32_t t_result = 0;
+  uint32_t my_result = 0;
+  while (fgets(line, 65536, fp)) {
+    if (line[strlen(line) - 1] == '\n') 
+      line[strlen(line) - 1] = 0;
+    true_result = strtok(line, " ");
+    t_result = atoi(true_result);
+    l_expr = true_result + strlen(true_result) + 1;
+    my_result = expr(l_expr, &success);
+    if (!success || t_result != my_result) {
+      success = false;
+      printf("expr:%s, true:%u, my:%u\n", l_expr, t_result, my_result);
+      break;
+    }
+  }
+  fclose(fp);
+  Assert(success, "表达式计算有问题，请检查错误");
+  Log("表达式计算测试成功\n");
 }
 
 int init_monitor(int argc, char *argv[]) {
@@ -97,6 +129,9 @@ int init_monitor(int argc, char *argv[]) {
 
   /* Compile the regular expressions. */
   init_regex();
+
+  // 测试表达式功能时开启这个
+  // test_expr();
 
   /* Initialize the watchpoint pool. */
   init_wp_pool();

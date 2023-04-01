@@ -6,9 +6,106 @@
 #include <string.h>
 
 // this should be enough
+static void itoa(int num, char *str) {
+  int cnt = 0;
+  while (num) {
+    str[cnt++] = '0' + num % 10;
+    num /= 10;
+  }
+  int i = 0;
+  for (; i < cnt / 2; i++) {
+    char tmp = str[i];
+    str[i] = str[cnt - i - 1];
+    str[cnt - i - 1] = tmp;
+  }
+  return;
+}
+
 static char buf[65536];
-static inline void gen_rand_expr() {
-  buf[0] = '\0';
+static int pos = 0;
+static int nr_token = 0;
+
+static void insert_space() {
+  int space_num = rand() % 7;
+  int i = 0;
+  for (; i < space_num; i++, pos++) {
+    buf[pos] = ' ';
+  }
+}
+
+enum {
+  ORIGIN = 0,
+  ADD, 
+  SUB,
+  MUL,
+  DIV,
+};
+
+static int32_t gen_rand_expr(int father_type, int left) {
+  char string[32] = {0};
+  int type = nr_token > 12 ? 0 : rand() % 3; // 限制总的token数目
+  switch (type)
+  {
+  case 0: {
+    insert_space();
+    int32_t rand_num = rand() % 0xFFFFFFFF;
+    itoa(rand_num, string);
+    memcpy(buf + pos, string, strlen(string));
+    pos += strlen(string);
+    nr_token++;
+    insert_space();
+    return rand_num;
+  }
+  case 1: {
+    insert_space();
+    buf[pos++] = '(';
+    nr_token++;
+    int32_t res = gen_rand_expr(ORIGIN, 1);
+    buf[pos++] = ')';
+    nr_token++;
+    insert_space();
+    return res;
+  }
+  default: {
+    insert_space();
+    int op = rand() % 4 + 1;
+    if (((op == ADD || op == SUB) && father_type >= MUL)
+      ||(op >= MUL && father_type >= MUL && left == 0)
+      ||((op == SUB || op == ADD) && father_type == SUB && left == 0)) {
+      buf[pos++] = '(';
+      nr_token++;
+    }
+    nr_token++;
+    int32_t res1 = gen_rand_expr(op, 1);
+    int32_t res2 = 0;
+    int old_pos = pos;
+    int old_nr_token = nr_token;
+    pos++; // 加加是为了留一个运算符位置
+    res2 = gen_rand_expr(op, 0);
+    // printf("%u %u\n", res1, res2);
+    if (res2 == 0 && op == DIV) { // 如果除零要恢复
+      memset(buf + old_pos, 0, pos - old_pos);
+      pos = old_pos;
+      nr_token = old_nr_token;
+      insert_space();
+      return res1;
+    }
+    if (((op == ADD || op == SUB) && father_type >= MUL)
+      ||(op >= MUL && father_type >= MUL && left == 0)
+      ||((op == SUB || op == ADD) && father_type == SUB && left == 0)) {
+      buf[pos++] = ')';
+      nr_token++;
+    }
+    insert_space();
+    switch (op)
+    {
+    case ADD: buf[old_pos] = '+'; return res1 + res2;
+    case SUB: buf[old_pos] = '-'; return res1 - res2;
+    case MUL: buf[old_pos] = '*'; return res1 * res2; 
+    default: buf[old_pos] = '/'; return res1 / res2;
+    }
+  } break;
+  }
 }
 
 static char code_buf[65536];
@@ -29,7 +126,12 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
-    gen_rand_expr();
+    // if (i % 500 == 0)
+    //   printf("前%d个表达式生成成功\n", i);
+    nr_token = 0;
+    pos = 0;
+    memset(buf, 0, sizeof(buf));
+    gen_rand_expr(ORIGIN, 1);
 
     sprintf(code_buf, code_format, buf);
 
@@ -41,14 +143,16 @@ int main(int argc, char *argv[]) {
     int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
     if (ret != 0) continue;
 
-    fp = popen("/tmp/.expr", "r");
+    fp = popen("/tmp/.expr", "r"); // 用创建管道的方式启动一个线程
     assert(fp != NULL);
 
     int result;
-    fscanf(fp, "%d", &result);
+    __attribute__((unused))
+    int error = fscanf(fp, "%d", &result); 
     pclose(fp);
 
     printf("%u %s\n", result, buf);
   }
+  // printf("生成完成，一共生成%d个表达式\n", loop);
   return 0;
 }

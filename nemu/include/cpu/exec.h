@@ -11,6 +11,7 @@ typedef void (*EHelper) (vaddr_t *);
 #include "cpu/decode.h"
 
 typedef struct {
+	// 是俩函数指针
   DHelper decode;
   EHelper execute;
   int width;
