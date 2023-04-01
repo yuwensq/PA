@@ -14,7 +14,7 @@ make_EHelper(and) {
 }
 
 make_EHelper(xor) {
-  TODO();
+  // TODO();
 
   print_asm_template2(xor);
 }
