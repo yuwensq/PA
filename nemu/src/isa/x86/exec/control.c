@@ -30,6 +30,7 @@ make_EHelper(call) {
   Log("%d", id_dest->val);
   rtl_push(&cpu.pc);
   rtl_add(&cpu.pc, &cpu.pc, &(id_dest->val));
+  Log("%d", cpu.pc);
   decinfo.is_jmp = true;
 
   print_asm("call %x", decinfo.jmp_pc);
