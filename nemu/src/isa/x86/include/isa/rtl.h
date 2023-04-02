@@ -43,7 +43,24 @@ static inline void rtl_is_sub_overflow(rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
   // dest <- is_overflow(src1 - src2)
   // TODO();
+  // 100
+  rtl_msb(&t0, src1, width);
+  rtl_msb(&t1, src2, width);
+  rtl_not(&t1, &t1);
+  rtl_and(&t0, &t0, &t1);
+  rtl_msb(&t1, res, width);
+  rtl_not(&t1, &t1);
+  rtl_and(dest, &t0, &t1);
+  // 011
+  rtl_msb(&t0, src1, width);
+  rtl_msb(&t1, src2, width);
+  rtl_not(&t0, &t0);
+  rtl_and(&t0, &t0, &t1);
+  rtl_msb(&t1, res, width);
+  rtl_and(&t0, &t0, &t1);
 
+  rtl_or(dest, dest, &t0);
+  rtl_setrelopi(RELOP_NE, dest, dest, 0);
 }
 
 static inline void rtl_is_sub_carry(rtlreg_t* dest,
@@ -74,7 +91,10 @@ static inline void rtl_is_add_carry(rtlreg_t* dest,
     rtl_or(&cpu.eflags, &cpu.eflags, &t0);  \
   } \
   static inline void concat(rtl_get_, f) (rtlreg_t* dest) { \
-    TODO(); \
+    rtl_li(dest, 1);  \
+    rtl_shli(dest, dest, concat(f, _OFF));  \
+    rtl_and(dest, dest, &cpu.eflags);  \
+    rtl_shri(dest, dest, concat(f, _OFF));  \
   }
 
 make_rtl_setget_eflags(CF)
@@ -85,21 +105,16 @@ make_rtl_setget_eflags(SF)
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   // TODO();
-
+  rtl_shli(&t0, result, 32 - width * 8);
+  rtl_setrelopi(RELOP_NE, &t0, &t0, 0);
+  rtl_set_ZF(&t0);
 }
 
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
   // TODO();
-  // 先把eflags的sf位清零
-  rtl_li(&t0, 1);
-  rtl_shli(&t0, &t0, 7);
-  rtl_not(&t0, &t0);
-  rtl_and(&cpu.eflags, &cpu.eflags, &t0);
-  // 根据符号位置位sf
   rtl_msb(&t0, result, width);
-  rtl_shli(&t0, &t0, 7); // SF是eflags[7]
-  rtl_or(&cpu.eflags, &cpu.eflags, &t0);
+  rtl_set_SF(&t0);
 }
 
 static inline void rtl_update_ZFSF(const rtlreg_t* result, int width) {
