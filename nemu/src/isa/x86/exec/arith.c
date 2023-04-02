@@ -13,15 +13,15 @@ make_EHelper(sub)
   switch (id_dest->type)
   {
   case OP_TYPE_REG:
+    Assert(id_src->type == OP_TYPE_IMM, "sub寄存器没实现");
     // Log("%d", id_dest->reg);
     // Log("%x", id_src->val);
-    
-
-
+    rtl_sub(&s0, &id_dest->val, &id_src->val);
+    rtl_sr(id_dest->reg, &s0, id_dest->width);
     break;
   case OP_TYPE_MEM:
     // Log("%d", id_dest->addr);
-
+    TODO();
     break;
   default:
     Assert(false, "sub指令错误的目的地址");
