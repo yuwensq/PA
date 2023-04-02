@@ -53,6 +53,7 @@ void isa_reg_display()
     printf("ebp:\t0x%-10x\t%-10d\n", cpu.ebp, cpu.ebp);
     printf("esi:\t0x%-10x\t%-10d\n", cpu.esi, cpu.esi);
     printf("edi:\t0x%-10x\t%-10d\n", cpu.edi, cpu.edi);
+    printf("eflags:\t0x%-10x\t%-10d\n", cpu.eflags, cpu.eflags);
     printf("pc:\t0x%-10x\t%-10d\n", cpu.pc, cpu.pc);
 }
 
@@ -77,6 +78,8 @@ uint32_t isa_reg_str2val(const char *s, bool *success)
         return cpu.ebp;
     else if (strcmp(s, "$pc") == 0)
         return cpu.pc;
+    else if (strcmp(s, "$eflags") == 0)
+        return cpu.eflags;
     else 
         *success = false;
     return 0;
