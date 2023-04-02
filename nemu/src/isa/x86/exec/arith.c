@@ -14,7 +14,7 @@ make_EHelper(sub)
   {
   case OP_TYPE_REG:
     // Log("%d", id_dest->reg);
-    Log("%x", id_src->val);
+    // Log("%x", id_src->val);
 
     break;
   case OP_TYPE_MEM:
