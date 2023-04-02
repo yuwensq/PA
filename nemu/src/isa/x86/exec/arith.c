@@ -10,24 +10,15 @@ make_EHelper(add)
 make_EHelper(sub)
 {
   // TODO();
-  switch (id_dest->type)
-  {
-  case OP_TYPE_REG:
-    Assert(id_src->type == OP_TYPE_IMM, "sub寄存器没实现");
-    Log("%d", id_dest->reg);
-    Log("%x", id_src->val);
-    rtl_sub(&s0, &id_dest->val, &id_src->val);
-    rtl_sr(id_dest->reg, &s0, id_dest->width);
-    // Log("%x");
-    break;
-  case OP_TYPE_MEM:
-    // Log("%d", id_dest->addr);
-    TODO();
-    break;
-  default:
-    Assert(false, "sub指令错误的目的地址");
-    break;
-  }
+  rtl_sub(&s0, &id_dest->val, &id_src->val);
+  operand_write(id_dest, &s0);
+
+  // 更新标志位
+  rtl_update_ZFSF(&s0, id_dest->width);
+  rtl_is_sub_overflow(&s1, &s0, &id_dest->val, &id_src->val, id_dest->width);
+  rtl_set_OF(&s1);
+  rtl_is_sub_carry(&s1, &s0, &id_dest->val);
+  rtl_set_CF(&s1);
 
   print_asm_template2(sub);
 }
