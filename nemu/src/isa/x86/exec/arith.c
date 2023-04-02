@@ -13,10 +13,13 @@ make_EHelper(sub)
   switch (id_dest->type)
   {
   case OP_TYPE_REG:
-    Log("%d", id_dest->reg);
+    // Log("%d", id_dest->reg);
+    Log("%d", id_src->val);
+
     break;
   case OP_TYPE_MEM:
-    Log("%d", id_dest->addr);
+    // Log("%d", id_dest->addr);
+
     break;
   default:
     Assert(false, "sub指令错误的目的地址");
