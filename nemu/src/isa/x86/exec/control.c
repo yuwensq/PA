@@ -34,7 +34,7 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
-  TODO();
+  // TODO();
 
   print_asm("ret");
 }
