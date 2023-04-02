@@ -13,6 +13,7 @@ make_EHelper(sub)
   rtl_sub(&s0, &id_dest->val, &id_src->val);
   operand_write(id_dest, &s0);
 
+  Log("%d", s0);
   // 更新标志位
   rtl_update_ZFSF(&s0, id_dest->width);
   rtl_is_sub_overflow(&s1, &s0, &id_dest->val, &id_src->val, id_dest->width);
