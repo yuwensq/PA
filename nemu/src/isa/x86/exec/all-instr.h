@@ -26,3 +26,5 @@ make_EHelper(leave);
 make_EHelper(inc);
 make_EHelper(cmp);
 make_EHelper(pop);
+make_EHelper(shl);
+make_EHelper(sar);
