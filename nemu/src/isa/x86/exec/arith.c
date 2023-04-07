@@ -52,20 +52,17 @@ make_EHelper(inc)
 {
   // TODO();
   rtl_li(&s0, 1);
-  rtl_add(&s0, &id_dest->val, &s0);
-  operand_write(id_dest, &s0);
-  
-  if (id_dest->width != 4)
-  {
-    rtl_andi(&s0, &s0, 0xffffffffu >> ((4 - id_dest->width) * 8));
-  }
+  rtl_add(&s1, &id_dest->val, &s0);
+  operand_write(id_dest, &s1);
 
-  // 更新标志位
-  rtl_update_ZFSF(&s0, id_dest->width);
-  rtl_is_add_overflow(&s1, &s0, &id_dest->val, &id_src->val, id_dest->width);
-  rtl_set_OF(&s1);
-  rtl_is_add_carry(&s1, &s0, &id_dest->val);
-  rtl_set_CF(&s1);
+  // 001
+  rtl_update_ZFSF(&s1, id_dest->width);
+  rtl_xor(&s0, &id_dest->val, &s0);
+  rtl_not(&s0, &s0);
+  rtl_xor(&s1, &id_dest->val, &s1);
+  rtl_and(&s0, &s0, &s1);
+  rtl_msb(&s0, &s0, id_dest->width);
+  rtl_set_OF(&s0);
 
   print_asm_template1(inc);
 }
