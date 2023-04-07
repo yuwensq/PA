@@ -68,6 +68,8 @@ make_EHelper(inc)
   rtl_add(&s1, &id_dest->val, &s0);
   operand_write(id_dest, &s1);
 
+  Log("%d", s1);
+
   // 001
   rtl_update_ZFSF(&s1, id_dest->width);
   rtl_xor(&s0, &id_dest->val, &s0);
