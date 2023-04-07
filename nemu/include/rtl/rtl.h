@@ -141,7 +141,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // 这个其实不需要额外的存储中间结果，这里是为了方便编程
   int wide = width * 8;
   bool neg = ((*src1 & (1 << (wide - 1))) >> (1 << (wide - 1)));
-  *dest = ((*src1 & ((1 << wide) - 1)) | (((0 - neg) >> wide) << wide));
+  *dest = ((*src1 & ((1 << wide) - 1)) | ((((unsigned)(0 - neg)) >> wide) << wide));
   // TODO();
 }
 
