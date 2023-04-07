@@ -14,7 +14,7 @@ make_EHelper(jcc) {
   uint32_t cc = decinfo.opcode & 0xf;
   rtl_setcc(&s0, cc);
   if (cc == 5)
-    Log("%d", cpu.CF);
+    Log("%d", cpu.ZF);
   decinfo.is_jmp = s0;
 
   rtl_li(&s1, 0);
