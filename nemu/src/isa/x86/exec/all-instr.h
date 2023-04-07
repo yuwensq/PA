@@ -28,3 +28,4 @@ make_EHelper(cmp);
 make_EHelper(pop);
 make_EHelper(shl);
 make_EHelper(sar);
+make_EHelper(dec);
