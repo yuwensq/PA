@@ -12,8 +12,9 @@ make_EHelper(jmp) {
 make_EHelper(jcc) {
   // the target address is calculated at the decode stage
   uint32_t cc = decinfo.opcode & 0xf;
-  Log("%d", cc);
   rtl_setcc(&s0, cc);
+  if (cc == 5)
+    Log("%d", s0);
   decinfo.is_jmp = s0;
 
   rtl_li(&s1, 0);
