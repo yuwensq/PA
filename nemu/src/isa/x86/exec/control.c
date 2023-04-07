@@ -4,6 +4,7 @@
 make_EHelper(jmp) {
   // the target address is calculated at the decode stage
   rtl_j(decinfo.jmp_pc);
+  decinfo.is_jmp = true;
 
   print_asm("jmp %x", decinfo.jmp_pc);
 }
@@ -12,6 +13,8 @@ make_EHelper(jcc) {
   // the target address is calculated at the decode stage
   uint32_t cc = decinfo.opcode & 0xf;
   rtl_setcc(&s0, cc);
+  decinfo.is_jmp = s0;
+
   rtl_li(&s1, 0);
   rtl_jrelop(RELOP_NE, &s0, &s1, decinfo.jmp_pc);
 
