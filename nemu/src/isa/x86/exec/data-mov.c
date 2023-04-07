@@ -43,7 +43,7 @@ make_EHelper(leave) {
 
 make_EHelper(cltd) {
   if (decinfo.isa.is_operand_size_16) {
-    TODO();
+    // TODO();
     rtl_msb(&s0, &cpu.eax, 2);
     rtl_li(&s1, 0);
     rtl_sub(&s1, &s1, &s0);
