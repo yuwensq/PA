@@ -6,6 +6,11 @@ make_EHelper(add)
   rtl_add(&s0, &id_dest->val, &id_src->val);
   operand_write(id_dest, &s0);
 
+  if (id_dest->width != 4)
+  {
+    rtl_andi(&s0, &s0, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  }
+
   // 更新标志位
   rtl_update_ZFSF(&s0, id_dest->width);
   rtl_is_add_overflow(&s1, &s0, &id_dest->val, &id_src->val, id_dest->width);
@@ -20,6 +25,11 @@ make_EHelper(sub)
   // TODO();
   rtl_sub(&s0, &id_dest->val, &id_src->val);
   operand_write(id_dest, &s0);
+
+  if (id_dest->width != 4)
+  {
+    rtl_andi(&s0, &s0, 0xffffffffu >> ((4 - id_dest->width) * 8));
+  }
 
   // 更新标志位
   rtl_update_ZFSF(&s0, id_dest->width);
