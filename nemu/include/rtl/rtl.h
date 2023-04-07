@@ -138,11 +138,8 @@ static inline void rtl_not(rtlreg_t *dest, const rtlreg_t* src1) {
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  // 这个其实不需要额外的存储中间结果，这里是为了方便编程
-  int wide = width * 8;
-  bool neg = ((*src1 & (1 << (wide - 1))) >> (1 << (wide - 1)));
-  *dest = ((*src1 & ((1 << wide) - 1)) | ((((unsigned)(0 - neg)) >> wide) << wide));
   // TODO();
+  *dest = (int32_t)(((int32_t)*src1 << (32 - 8 * width)) >> (32 - 8 * width));
 }
 
 static inline void rtl_setrelopi(uint32_t relop, rtlreg_t *dest,
