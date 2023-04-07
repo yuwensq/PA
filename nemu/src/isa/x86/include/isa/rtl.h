@@ -77,18 +77,10 @@ static inline void rtl_is_add_carry(rtlreg_t* dest,
 
 #define make_rtl_setget_eflags(f) \
   static inline void concat(rtl_set_, f) (const rtlreg_t* src) { \
-    rtl_li(&t0, 1);  \
-    rtl_shli(&t0, &t0, concat(f, _OFF));  \
-    rtl_not(&t0, &t0);  \
-    rtl_and(&cpu.eflags, &cpu.eflags, &t0);  \
-    rtl_shli(&t0, src, concat(f, _OFF)); \
-    rtl_or(&cpu.eflags, &cpu.eflags, &t0);  \
+    cpu.f = (*src); \
   } \
   static inline void concat(rtl_get_, f) (rtlreg_t* dest) { \
-    rtl_li(dest, 1);  \
-    rtl_shli(dest, dest, concat(f, _OFF));  \
-    rtl_and(dest, dest, &cpu.eflags);  \
-    rtl_shri(dest, dest, concat(f, _OFF));  \
+    *dest = cpu.f; \
   }
 
 make_rtl_setget_eflags(CF)
