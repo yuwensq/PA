@@ -92,7 +92,7 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   // TODO();
   rtl_shli(&t0, result, 32 - width * 8);
-  rtl_setrelopi(RELOP_NE, &t0, &t0, 0);
+  rtl_setrelopi(RELOP_EQ, &t0, &t0, 0);
   rtl_set_ZF(&t0);
 }
 
