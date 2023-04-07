@@ -10,7 +10,7 @@ make_EHelper(push) {
 
   s0 = 128;
   rtl_sext(&s1, &s0, 4);
-  Log("%u %u", s0, s1);
+  Log("%x %x", s0, s1);
   rtl_sext(&s0, &id_dest->val, id_dest->width);
   rtl_push(&s0);
 
