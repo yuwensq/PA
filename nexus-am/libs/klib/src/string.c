@@ -27,7 +27,14 @@ int strncmp(const char* s1, const char* s2, size_t n) {
 }
 
 void* memset(void* v,int c,size_t n) {
-  return NULL;
+  char* mem = v;
+  uint8_t byte = (c & 0xff);
+  int i = 0;
+  while (i < n) {
+    mem[i] = byte;
+    i++;
+  }
+  return v;
 }
 
 void* memcpy(void* out, const void* in, size_t n) {
