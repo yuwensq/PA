@@ -26,7 +26,12 @@ char *strncpy(char *dst, const char *src, size_t n)
 
 char *strcat(char *dst, const char *src)
 {
-  return NULL;
+  size_t dst_len = strlen(dst);
+  size_t i;
+  for (i = 0; src[i] != '\0'; i++)
+    dst[dst_len + i] = src[i];
+  dst[dst_len + i] = '\0';
+  return dst;
 }
 
 int strcmp(const char *s1, const char *s2)
