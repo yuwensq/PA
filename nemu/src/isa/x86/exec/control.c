@@ -42,8 +42,6 @@ make_EHelper(ret) {
   rtl_j(decinfo.jmp_pc);
   decinfo.is_jmp = true;
 
-  
-
   print_asm("ret");
 }
 
