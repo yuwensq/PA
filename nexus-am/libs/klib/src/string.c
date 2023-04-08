@@ -5,16 +5,18 @@
 size_t strlen(const char *s)
 {
   size_t len = 0;
-  while (*s) {
+  while (s[len] != '\0')
     len++;
-    s++;
-  }
   return len;
 }
 
 char *strcpy(char *dst, const char *src)
 {
-  return NULL;
+  size_t i;
+  for (i = 0; src[i] != '\0'; i++)
+    dst[i] = src[i];
+  dst[i] = '\0';
+  return dst;
 }
 
 char *strncpy(char *dst, const char *src, size_t n)
