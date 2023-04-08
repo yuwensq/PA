@@ -71,6 +71,16 @@ void *memcpy(void *out, const void *in, size_t n)
 
 int memcmp(const void *s1, const void *s2, size_t n)
 {
+  const uint8_t *a = s1;
+  const uint8_t *b = s2;
+  size_t i = 0;
+  for (i = 0; i < n && a[i] == b[i]; i++);
+  if (i == n)
+    return 0;
+  if (a[i] - b[i] > 0)
+    return 1;
+  else if (a[i] - b[i] < 0)
+    return -1;
   return 0;
 }
 
