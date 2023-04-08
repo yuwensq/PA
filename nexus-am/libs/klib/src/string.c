@@ -4,7 +4,12 @@
 
 size_t strlen(const char *s)
 {
-  return 0;
+  size_t len = 0;
+  while (*s) {
+    len++;
+    s++;
+  }
+  return len;
 }
 
 char *strcpy(char *dst, const char *src)
