@@ -1,27 +1,20 @@
-#include "klib.h"
+#include <iostream>
+#include <cstring>
 #include <stdarg.h>
+using namespace std;
 
-#if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
-
-int printf(const char *fmt, ...)
+static char* set_num(int num, char *s)
 {
-  return 0;
-}
-
-static char *set_num(int num, char *s)
-{
-  int len = 0;
-  char buf[50];
-  while (num)
-  {
-    buf[len++] = num % 10 + '0';
-    num /= 10;
-  }
-  while (len > 0)
-  {
-    *s++ = buf[--len];
-  }
-  return s;
+    int len = 0;
+    char buf[50];
+    while (num) {
+        buf[len++] = num % 10 + '0';
+        num /= 10;
+    }
+    while (len > 0) {
+        *s++ = buf[--len];
+    }
+    return s;
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap)
@@ -78,9 +71,9 @@ int sprintf(char *out, const char *fmt, ...)
   return i;
 }
 
-int snprintf(char *out, size_t n, const char *fmt, ...)
-{
-  return 0;
+int main() {
+    char buf[100];
+    sprintf(buf, "haha%s%d", "hello", 100);
+    cout << buf;
+    return 0;
 }
-
-#endif
