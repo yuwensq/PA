@@ -43,3 +43,4 @@ make_EHelper(mul);
 make_EHelper(sbb);
 make_EHelper(neg);
 make_EHelper(pusha);
+make_EHelper(popa);
