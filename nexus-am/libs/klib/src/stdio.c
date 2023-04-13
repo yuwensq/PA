@@ -20,8 +20,9 @@ int printf(const char *fmt, ...)
   return i;
 }
 
-static char *set_num(int num, char *s)
+static char *set_num(int num, char *s, int width)
 {
+  int i;
   int len = 0;
   char buf[50];
   if (num == 0)
@@ -30,6 +31,10 @@ static char *set_num(int num, char *s)
   {
     buf[len++] = num % 10 + '0';
     num /= 10;
+  }
+  for (i = 0; i < width - len; i++)
+  {
+    *s++ = '0';
   }
   while (len > 0)
   {
@@ -44,6 +49,9 @@ int vsprintf(char *out, const char *fmt, va_list ap)
   unsigned long long num;
   char *str;
   const char *s;
+  int end;
+  int flag;
+  int width;
 
   for (str = out; *fmt; fmt++)
   {
@@ -52,7 +60,26 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       *str++ = *fmt;
       continue;
     }
-    fmt++;
+    end = 0;
+    flag = 0;
+    while (!end)
+    {
+      switch (*fmt++)
+      {
+      case '0':
+        flag |= 1;
+        break;
+      default:
+        end = 1;
+        break;
+      }
+    }
+    width = 0;
+    while (*fmt <= '9' && *fmt >= '0')
+    {
+      width = width * 10 + *fmt - '0';
+      fmt++;
+    }
     switch (*fmt)
     {
     case 's':
@@ -60,6 +87,10 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       if (!s)
         s = "<NULL>";
       len = strlen(s);
+      for (i = 0; i < width - len; i++)
+      {
+        *str++ = ' ';
+      }
       for (i = 0; i < len; i++)
       {
         *str++ = *s++;
@@ -71,8 +102,9 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       {
         *str++ = '-';
         num = -num;
+        width--;
       }
-      str = set_num(num, str);
+      str = set_num(num, str, width);
       continue;
     default:
       break;
