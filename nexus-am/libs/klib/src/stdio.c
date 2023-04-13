@@ -38,6 +38,7 @@ static char *set_num(int num, char *s)
 
 int vsprintf(char *out, const char *fmt, va_list ap)
 {
+  _putc('1');
   int len, i;
   unsigned long long num;
   char *str;
