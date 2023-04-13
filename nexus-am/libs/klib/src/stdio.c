@@ -24,6 +24,8 @@ static char *set_num(int num, char *s)
 {
   int len = 0;
   char buf[50];
+  if (num == 0)
+    buf[len++] = '0';
   while (num)
   {
     buf[len++] = num % 10 + '0';
