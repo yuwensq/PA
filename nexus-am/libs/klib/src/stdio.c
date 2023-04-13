@@ -17,7 +17,6 @@ int printf(const char *fmt, ...)
     _putc(*c);
   }
   return i;
-  return i + buf[0];
 }
 
 static char *set_num(int num, char *s)
