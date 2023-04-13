@@ -66,7 +66,36 @@ void *memset(void *v, int c, size_t n)
 
 void *memcpy(void *out, const void *in, size_t n)
 {
-  return NULL;
+  if (NULL == out || NULL == in)
+  {
+    return NULL;
+  }
+
+  void *ret = out;
+
+  if (out <= in || (char *)out >= (char *)in + n)
+  {
+    // 没有内存重叠，从低地址开始复制
+    while (n--)
+    {
+      *(char *)out = *(char *)in;
+      out = (char *)out + 1;
+      in = (char *)in + 1;
+    }
+  }
+  else
+  {
+    // 有内存重叠，从高地址开始复制
+    in = (char *)in + n - 1;
+    out = (char *)out + n - 1;
+    while (n--)
+    {
+      *(char *)out = *(char *)in;
+      out = (char *)out - 1;
+      in = (char *)in - 1;
+    }
+  }
+  return ret;
 }
 
 int memcmp(const void *s1, const void *s2, size_t n)
@@ -74,7 +103,8 @@ int memcmp(const void *s1, const void *s2, size_t n)
   const uint8_t *a = s1;
   const uint8_t *b = s2;
   size_t i = 0;
-  for (i = 0; i < n && a[i] == b[i]; i++);
+  for (i = 0; i < n && a[i] == b[i]; i++)
+    ;
   if (i == n)
     return 0;
   if (a[i] - b[i] > 0)
