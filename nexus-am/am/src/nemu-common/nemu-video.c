@@ -30,7 +30,7 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size)
     _DEV_VIDEO_FBCTL_t *ctl = (_DEV_VIDEO_FBCTL_t *)buf;
 
     uint32_t *vga_buffer = (uint32_t *)(uintptr_t)FB_ADDR;
-    int bytes_per_row  = sizeof(uint32_t) * (ctl->x + ctl->w >= W ? W - ctl->x : ctl->w);
+    int bytes_per_row  = sizeof(uint32_t) * (ctl->x + ctl->w > W ? W - ctl->x : ctl->w);
 
     for (int j = 0; j < ctl->h && ctl->y + j < H; j++)
     {
