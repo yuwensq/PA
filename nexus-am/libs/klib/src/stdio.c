@@ -9,7 +9,7 @@ int printf(const char *fmt, ...)
   va_list args;
   int i = 0;
   va_start(args, fmt);
-  // i = vsprintf(buf, fmt, args);
+  i = vsprintf(buf, fmt, args);
   // va_end(args);
   // char *c = buf;
   // while (*c != '\0')
