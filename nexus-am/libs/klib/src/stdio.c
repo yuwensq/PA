@@ -15,6 +15,7 @@ int printf(const char *fmt, ...)
   while (*c != '\0')
   {
     _putc(*c);
+    c++;
   }
   return i;
 }
