@@ -5,7 +5,7 @@
 
 int printf(const char *fmt, ...)
 {
-  char buf[10] = {};
+  char buf[65535] = {};
   va_list args;
   int i = 0;
   va_start(args, fmt);
