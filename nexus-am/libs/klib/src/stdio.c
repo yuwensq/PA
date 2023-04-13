@@ -5,18 +5,19 @@
 
 int printf(const char *fmt, ...)
 {
-  char buf[65535] = {};
-  va_list args;
-  int i;
-  va_start(args, fmt);
-  i = vsprintf(buf, fmt, args);
-  va_end(args);
-  char *c = buf;
-  while (*c != '\0')
-  {
-    _putc(*c);
-  }
-  return i;
+  // char buf[65535] = {};
+  // va_list args;
+  // int i;
+  // va_start(args, fmt);
+  // i = vsprintf(buf, fmt, args);
+  // va_end(args);
+  // char *c = buf;
+  // while (*c != '\0')
+  // {
+  //   _putc(*c);
+  // }
+  // return i;
+  return 0;
 }
 
 static char *set_num(int num, char *s)
