@@ -102,11 +102,23 @@ make_EHelper(setcc)
   print_asm("set%s %s", get_cc_name(cc), id_dest->str);
 }
 
-make_EHelper(not)
+make_EHelper(not )
 {
   // TODO();
   rtl_not(&s0, &id_dest->val);
   operand_write(id_dest, &s0);
 
   print_asm_template1(not );
+}
+
+make_EHelper(rol)
+{
+  rtl_li(&s0, id_dest->val);
+  rtl_shri(&s1, &s0, id_dest->width * 8 - id_src->val);
+  rtl_shli(&s0, &s0, id_src->val);
+  rtl_or(&s0, &s1, &s0);
+  operand_write(id_dest, &s0);
+  rtl_update_ZFSF(&s0, id_dest->width);
+
+  print_asm_template1(rol);
 }
