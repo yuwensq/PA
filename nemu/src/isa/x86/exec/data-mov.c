@@ -1,11 +1,13 @@
 #include "cpu/exec.h"
 
-make_EHelper(mov) {
+make_EHelper(mov)
+{
   operand_write(id_dest, &id_src->val);
   print_asm_template2(mov);
 }
 
-make_EHelper(push) {
+make_EHelper(push)
+{
   // TODO();
   rtl_sext(&s0, &id_dest->val, id_dest->width);
   rtl_push(&s0);
@@ -13,7 +15,8 @@ make_EHelper(push) {
   print_asm_template1(push);
 }
 
-make_EHelper(pop) {
+make_EHelper(pop)
+{
   // TODO();
   rtl_pop(&s0);
   operand_write(id_dest, &s0);
@@ -21,7 +24,8 @@ make_EHelper(pop) {
   print_asm_template1(pop);
 }
 
-make_EHelper(pusha) {
+make_EHelper(pusha)
+{
   // TODO();
   rtl_mv(&s0, &cpu.esp);
   rtl_push(&cpu.eax);
@@ -36,7 +40,8 @@ make_EHelper(pusha) {
   print_asm("pusha");
 }
 
-make_EHelper(popa) {
+make_EHelper(popa)
+{
   // TODO();
   rtl_pop(&cpu.edi);
   rtl_pop(&cpu.esi);
@@ -50,7 +55,8 @@ make_EHelper(popa) {
   print_asm("popa");
 }
 
-make_EHelper(leave) {
+make_EHelper(leave)
+{
   // TODO();
   rtl_mv(&cpu.esp, &cpu.ebp);
   rtl_pop(&cpu.ebp);
@@ -58,8 +64,10 @@ make_EHelper(leave) {
   print_asm("leave");
 }
 
-make_EHelper(cltd) {
-  if (decinfo.isa.is_operand_size_16) {
+make_EHelper(cltd)
+{
+  if (decinfo.isa.is_operand_size_16)
+  {
     // TODO();
     rtl_msb(&s0, &cpu.eax, 2);
     rtl_li(&s1, 0);
@@ -68,7 +76,8 @@ make_EHelper(cltd) {
     rtl_andi(&cpu.edx, &cpu.edx, 0xffff0000);
     rtl_or(&cpu.edx, &cpu.edx, &s1);
   }
-  else {
+  else
+  {
     // TODO();
     rtl_sari(&cpu.edx, &cpu.eax, 31);
   }
@@ -76,31 +85,44 @@ make_EHelper(cltd) {
   print_asm(decinfo.isa.is_operand_size_16 ? "cwtl" : "cltd");
 }
 
-make_EHelper(cwtl) {
-  if (decinfo.isa.is_operand_size_16) {
-    TODO();
+make_EHelper(cwtl)
+{
+  if (decinfo.isa.is_operand_size_16)
+  {
+    // TODO();
+    rtl_msb(&s0, &cpu.eax, 1);
+    rtl_li(&s1, 0);
+    rtl_sub(&s0, &s1, &s0);
+    rtl_shli(&s0, &s0, 24);
+    rtl_shri(&s0, &s0, 16);
+    rtl_or(&cpu.eax, &cpu.eax, &s0);
   }
-  else {
-    TODO();
+  else
+  {
+    // TODO();
+    rtl_sext(&cpu.eax, &cpu.eax, 2);
   }
 
   print_asm(decinfo.isa.is_operand_size_16 ? "cbtw" : "cwtl");
 }
 
-make_EHelper(movsx) {
+make_EHelper(movsx)
+{
   id_dest->width = decinfo.isa.is_operand_size_16 ? 2 : 4;
   rtl_sext(&s0, &id_src->val, id_src->width);
   operand_write(id_dest, &s0);
   print_asm_template2(movsx);
 }
 
-make_EHelper(movzx) {
+make_EHelper(movzx)
+{
   id_dest->width = decinfo.isa.is_operand_size_16 ? 2 : 4;
   operand_write(id_dest, &id_src->val);
   print_asm_template2(movzx);
 }
 
-make_EHelper(lea) {
+make_EHelper(lea)
+{
   operand_write(id_dest, &id_src->addr);
   print_asm_template2(lea);
 }
