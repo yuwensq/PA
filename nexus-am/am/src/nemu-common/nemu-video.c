@@ -4,7 +4,7 @@
 #include <klib.h>
 
 #define W 400
-#define H 320
+#define H 300
 
 size_t __am_video_read(uintptr_t reg, void *buf, size_t size)
 {
