@@ -10,13 +10,13 @@ int printf(const char *fmt, ...)
   int i = 0;
   va_start(args, fmt);
   i = vsprintf(buf, fmt, args);
-  // va_end(args);
-  // char *c = buf;
-  // while (*c != '\0')
-  // {
-  //   _putc(*c);
-  // }
-  // return i;
+  va_end(args);
+  char *c = buf;
+  while (*c != '\0')
+  {
+    _putc(*c);
+  }
+  return i;
   return i + buf[0];
 }
 
