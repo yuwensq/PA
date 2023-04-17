@@ -17,7 +17,7 @@ static inline void interpret_rtl_li(rtlreg_t* dest, uint32_t imm) {
   *dest = imm;
 }
 
-void interpret_rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
+static inline void interpret_rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
   *dest = *src1;
 }
 
@@ -56,7 +56,7 @@ static inline void interpret_rtl_div64_q(rtlreg_t* dest,
   *dest = dividend / divisor;
 }
 
-static inline void interpret_rtl_div64_r(rtlreg_t* dest,
+ inline void interpret_rtl_div64_r(rtlreg_t* dest,
     const rtlreg_t* src1_hi, const rtlreg_t* src1_lo, const rtlreg_t* src2) {
   uint64_t dividend = ((uint64_t)(*src1_hi) << 32) | (*src1_lo);
   uint32_t divisor = (*src2);
