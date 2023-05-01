@@ -18,19 +18,19 @@ int main() {
   init_mm();
 #endif
 
-  init_ramdisk();
+  // init_ramdisk();
 
-  init_device();
+  // init_device();
 
 #ifdef HAS_CTE
   init_irq();
 #endif
 
-  init_fs();
+  // init_fs();
 
-  init_proc();
+  // init_proc();
 
-  Log("Finish initialization");
+  // Log("Finish initialization");
 
 #ifdef HAS_CTE
   _yield();
