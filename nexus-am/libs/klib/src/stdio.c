@@ -5,6 +5,7 @@
 
 int printf(const char *fmt, ...)
 {
+  return 0;
   char buf[512] = {};
   va_list args;
   int i = 0;

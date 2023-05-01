@@ -11,26 +11,26 @@ extern const char logo[];
 
 int main() {
   printf("%s", logo);
-  // Log("'Hello World!' from Nanos-lite");
-  // Log("Build time: %s, %s", __TIME__, __DATE__);
+  Log("'Hello World!' from Nanos-lite");
+  Log("Build time: %s, %s", __TIME__, __DATE__);
 
 #ifdef HAS_VME
   init_mm();
 #endif
 
-  // init_ramdisk();
+  init_ramdisk();
 
-  // init_device();
+  init_device();
 
 #ifdef HAS_CTE
   init_irq();
 #endif
 
-  // init_fs();
+  init_fs();
 
-  // init_proc();
+  init_proc();
 
-  // Log("Finish initialization");
+  Log("Finish initialization");
 
 #ifdef HAS_CTE
   _yield();
