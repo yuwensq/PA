@@ -12,10 +12,10 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr)
   cpu.IF = 0;
   uint32_t addr_hi, addr_lo, present;
   addr_lo = vaddr_read(cpu.idtr.base + 8 * NO, 2);
-  addr_hi = vaddr_read(cpu.idtr.base + 8 * NO + 6, 2);
+  addr_hi = (vaddr_read(cpu.idtr.base + 8 * NO + 4, 4) & 0xffff0000);
   present = (vaddr_read(cpu.idtr.base + 8 * NO + 5, 1) >> 7);
   Assert(present, "idt entry not exist");
-  rtl_j((addr_hi << 16) | addr_lo);
+  rtl_j(addr_hi | addr_lo);
 }
 
 bool isa_query_intr(void)
