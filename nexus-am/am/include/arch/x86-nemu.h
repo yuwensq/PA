@@ -1,9 +1,10 @@
 #ifndef __ARCH_H__
 #define __ARCH_H__
 
-struct _Context {
-  uintptr_t esi, ebx, eax, eip, edx, eflags, ecx, cs, esp, edi, ebp;
+struct _Context
+{
   struct _AddressSpace *as;
+  uintptr_t edi, esi, ebp, esp, ebx, edx, ecx, eax, eip, cs, eflags;
   int irq;
 };
 
