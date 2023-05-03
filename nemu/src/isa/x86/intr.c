@@ -7,9 +7,9 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr)
    */
   Assert(NO < cpu.idtr.limit, "int number is too large");
   rtl_push(&cpu.eflags);
+  cpu.IF = 0;
   rtl_push(&cpu.cs);
   rtl_push(&ret_addr);
-  cpu.IF = 0;
   uint32_t addr_hi, addr_lo, present;
   addr_lo = vaddr_read(cpu.idtr.base + 8 * NO, 2);
   addr_hi = (vaddr_read(cpu.idtr.base + 8 * NO + 4, 4) & 0xffff0000);
