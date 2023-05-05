@@ -20,7 +20,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
   Elf_Ehdr elf_head;
   ramdisk_read(&elf_head, 0, sizeof(Elf_Ehdr));
   Elf_Phdr elf_phentry;
-  for (int i = elf_head.e_phoff; i < elf_head.e_phnum * sizeof(Elf_Phdr); i += sizeof(Elf_Phdr))
+  for (int i = elf_head.e_phoff; i < elf_head.e_phnum * elf_head.e_phentsize; i += elf_head.e_phentsize)
   {
     ramdisk_read(&elf_phentry, i, sizeof(Elf_Phdr));
     if (elf_phentry.p_type == PT_LOAD)
