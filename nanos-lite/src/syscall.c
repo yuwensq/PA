@@ -25,8 +25,8 @@ _Context *do_syscall(_Context *c)
     char *buf = (char *)a[2];
     if (fd != 1 && fd != 2)
       panic("not impletement");
-    for (int i = 0; i < a[3]; i++, buf++)
-      _putc(*buf);
+    for (int i = 0; i < a[3]; i++)
+      _putc(buf[i]);
     c->GPRx = a[3];
   }
   break;
