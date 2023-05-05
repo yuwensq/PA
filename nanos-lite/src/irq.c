@@ -1,6 +1,8 @@
 #include "common.h"
 #include "am.h"
 
+_Context* do_syscall(_Context *c);
+
 static _Context *do_event(_Event e, _Context *c)
 {
   switch (e.event)
@@ -10,7 +12,7 @@ static _Context *do_event(_Event e, _Context *c)
     break;
   case _EVENT_SYSCALL:
     printf("syscall\n");
-
+    do_syscall(c);
     break;
   default:
     panic("Unhandled event ID = %d", e.event);
