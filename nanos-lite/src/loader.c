@@ -9,7 +9,9 @@
 #define Elf_Phdr Elf32_Phdr
 #endif
 
-size_t ramdisk_read(void *, size_t, size_t);
+extern size_t ramdisk_read(void *buf, size_t offset, size_t len);
+extern size_t get_ramdisk_size();  
+extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 static uintptr_t loader(PCB *pcb, const char *filename)
 {
