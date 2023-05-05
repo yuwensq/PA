@@ -37,7 +37,7 @@ static char *set_num(int num, char *s, int width, int hexi)
     else
     {
       int low_num = (num % 16);
-      buf[len++] = low_num > 9 ? 'a' + low_num - 10 : low_num;
+      buf[len++] = low_num > 9 ? 'a' + low_num - 10 : low_num + '0';
       num /= 16;
     }
   }
