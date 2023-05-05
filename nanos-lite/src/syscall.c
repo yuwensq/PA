@@ -20,7 +20,7 @@ _Context *do_syscall(_Context *c)
     _halt(a[1]);
     break;
   case SYS_write:
-    panic("");
+    c->GPRx = a[3];
   break;
   default:
     panic("Unhandled syscall ID = %d", a[0]);
