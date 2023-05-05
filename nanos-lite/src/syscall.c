@@ -27,7 +27,7 @@ _Context *do_syscall(_Context *c)
       panic("not impletement");
     for (int i = 0; i < a[3]; i++, buf++)
       _putc(*buf);
-    c->GPRx = 0;
+    c->GPRx = a[3];
   }
   break;
   default:
