@@ -15,6 +15,10 @@ _Context *do_syscall(_Context *c)
     _yield();
     c->GPRx = 0;
     break;
+  case SYS_exit:
+    c->GPRx = 0;
+    _halt(a[1]);
+    break;
   default:
     panic("Unhandled syscall ID = %d", a[0]);
   }
