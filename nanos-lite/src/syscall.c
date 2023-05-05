@@ -20,9 +20,16 @@ _Context *do_syscall(_Context *c)
     _halt(a[1]);
     break;
   case SYS_write:
+  {
+    int fd = a[1];
+    char *buf = (char *)a[2];
+    if (fd != 1 && fd != 2)
+      panic("not impletement");
+    for (int i = 0; i < a[3]; i++, buf++)
+      _putc(*buf);
     c->GPRx = 0;
-    _putc('x');
-    break;
+  }
+  break;
   default:
     panic("Unhandled syscall ID = %d", a[0]);
   }
