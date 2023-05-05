@@ -33,6 +33,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
         memcpy(mem_addr, buf, mov_size);
         file_off += mov_size;
         mem_addr += mov_size;
+        len += mov_size;
       }
       memset(mem_addr, 0, elf_phentry.p_memsz - len);
     }
