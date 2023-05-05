@@ -11,7 +11,7 @@ static _Context *do_event(_Event e, _Context *c)
     printf("yield\n");
     break;
   case _EVENT_SYSCALL:
-    printf("syscall\n");
+    // printf("syscall\n");
     do_syscall(c);
     break;
   default:
