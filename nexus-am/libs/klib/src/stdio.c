@@ -20,7 +20,7 @@ int printf(const char *fmt, ...)
   return i;
 }
 
-static char *set_num(int num, char *s, int width)
+static char *set_num(int num, char *s, int width, int hexi)
 {
   int i;
   int len = 0;
@@ -29,8 +29,17 @@ static char *set_num(int num, char *s, int width)
     buf[len++] = '0';
   while (num)
   {
-    buf[len++] = num % 10 + '0';
-    num /= 10;
+    if (!hexi)
+    {
+      buf[len++] = num % 10 + '0';
+      num /= 10;
+    }
+    else
+    {
+      int low_num = (num % 16);
+      buf[len++] = low_num > 9 ? 'a' + low_num - 10 : low_num;
+      num /= 16;
+    }
   }
   for (i = 0; i < width - len; i++)
   {
@@ -52,6 +61,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
   int end;
   int flag;
   int width;
+  int hexi = 0;
 
   for (str = out; *fmt; fmt++)
   {
@@ -60,6 +70,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       *str++ = *fmt;
       continue;
     }
+    hexi = 0;
     end = 0;
     flag = 0;
     while (!end)
@@ -96,6 +107,8 @@ int vsprintf(char *out, const char *fmt, va_list ap)
         *str++ = *s++;
       }
       continue;
+    case 'x':
+      hexi = 1;
     case 'd':
       num = va_arg(ap, int32_t);
       if (num < 0)
@@ -104,7 +117,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
         num = -num;
         width--;
       }
-      str = set_num(num, str, width);
+      str = set_num(num, str, width, hexi);
       continue;
     default:
       break;

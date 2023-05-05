@@ -10,6 +10,7 @@ static _Context *do_event(_Event e, _Context *c)
     break;
   case _EVENT_SYSCALL:
     printf("syscall\n");
+
     break;
   default:
     panic("Unhandled event ID = %d", e.event);
