@@ -79,7 +79,7 @@ void *_sbrk(intptr_t increment)
   {
     uintptr_t result = old_probreak;
     old_probreak = new_probreak;
-    return (void*)result;
+    return (void *)result;
   }
   return (void *)-1;
 }
