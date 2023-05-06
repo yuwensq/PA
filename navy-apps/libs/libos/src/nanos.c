@@ -71,15 +71,15 @@ int _write(int fd, void *buf, size_t count)
 
 void *_sbrk(intptr_t increment)
 {
-  extern __uint32_t _end;
-  static __uint32_t old_probreak = &_end;
-  __uint32_t new_probreak = old_probreak + increment;
+  extern uintptr_t _end;
+  static uintptr_t old_probreak = &_end;
+  uintptr_t new_probreak = old_probreak + increment;
   int ret = _syscall_(SYS_brk, new_probreak, 0, 0);
   if (!ret)
   {
-    void *result = old_probreak;
+    uintptr_t result = old_probreak;
     old_probreak = new_probreak;
-    return result;
+    return (void*)result;
   }
   return (void *)-1;
 }
