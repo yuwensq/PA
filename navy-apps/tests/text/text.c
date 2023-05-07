@@ -2,10 +2,8 @@
 #include <assert.h>
 
 int main() {
-  Log("1");
   FILE *fp = fopen("/share/texts/num", "r+");
   assert(fp);
-  printf("pass 1\n");
 
   fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
