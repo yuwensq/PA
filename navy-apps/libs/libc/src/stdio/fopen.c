@@ -126,16 +126,16 @@ _fopen_r (struct _reent *ptr,
   if ((fp = __sfp (ptr)) == NULL)
     return NULL;
 
-//   if ((f = _open_r (ptr, file, oflags, 0666)) < 0)
-//     {
-//       _newlib_sfp_lock_start (); 
-//       fp->_flags = 0;		/* release */
-// #ifndef __SINGLE_THREAD__
-//       __lock_close_recursive (fp->_lock);
-// #endif
-//       _newlib_sfp_lock_end (); 
-//       return NULL;
-//     }
+  if ((f = _open_r (ptr, file, oflags, 0666)) < 0)
+    {
+      _newlib_sfp_lock_start (); 
+      fp->_flags = 0;		/* release */
+#ifndef __SINGLE_THREAD__
+      __lock_close_recursive (fp->_lock);
+#endif
+      _newlib_sfp_lock_end (); 
+      return NULL;
+    }
 
   _newlib_flockfile_start (fp);
 
