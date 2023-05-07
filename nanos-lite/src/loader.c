@@ -47,6 +47,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
       memset(mem_addr, 0, elf_phentry.p_memsz - len);
     }
   }
+  fs_close(fd);
   return elf_head.e_entry;
 }
 
