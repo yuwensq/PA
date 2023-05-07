@@ -165,7 +165,7 @@ FILE *
 fopen (const char *file,
        const char *mode)
 {
-  return _fopen_r (_REENT, file, mode);
+  // return _fopen_r (_REENT, file, mode);
 }
 
 #endif
