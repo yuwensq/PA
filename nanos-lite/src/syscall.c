@@ -4,6 +4,7 @@
 
 _Context *do_syscall(_Context *c)
 {
+  printf("open\n");
   uintptr_t a[4];
   a[0] = c->GPR1;
   a[1] = c->GPR2;
@@ -36,7 +37,6 @@ _Context *do_syscall(_Context *c)
     c->GPRx = 0;
     break;
   case SYS_open:
-  printf("open\n");
     c->GPRx = fs_open((void *)a[1], a[2], a[3]);
     break;
   case SYS_read:
