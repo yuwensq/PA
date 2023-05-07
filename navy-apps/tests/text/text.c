@@ -2,7 +2,7 @@
 #include <assert.h>
 
 int main() {
-  // Log("1");
+  Log("1");
   // FILE *fp = fopen("/share/texts/num", "r+");
   // assert(fp);
   // printf("pass 1\n");
