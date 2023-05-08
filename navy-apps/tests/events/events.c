@@ -23,9 +23,6 @@ int main() {
     else if (time % 1024 == 0) {
       printf("receive time event for the %dth time: %s", time, buf);
     }
-    int num = 0;
-    while (num < 100000)
-      num++;
   }
 
   fclose(fp);

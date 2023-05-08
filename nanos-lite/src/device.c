@@ -45,7 +45,7 @@ size_t events_read(void *buf, size_t offset, size_t len)
   //   ((char *)buf)[read_size++] = '\n';
   //   return read_size;
   // }
-  ((char *)buf)[0] = 0;
+  ((char *)buf)[0] = '\n';
   return 0;
 }
 
