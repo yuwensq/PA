@@ -132,7 +132,7 @@ size_t fs_read(int fd,void*buf,size_t len){
 size_t fs_write(int fd, const void *buf, size_t len)
 {
   if (file_table[fd].write != NULL)
-    return file_table[fd].write(buf, 0, len);
+    return file_table[fd].write(buf, file_table[fd].open_offset, len);
   int paddr = file_table[fd].disk_offset + file_table[fd].open_offset;
   int end = file_table[fd].disk_offset + file_table[fd].size;
   size_t real_len = ((paddr + len <= end) ? len : (end - paddr));
