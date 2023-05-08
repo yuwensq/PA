@@ -83,7 +83,7 @@ size_t fs_read(int fd, void *buf, size_t len)
 	size_t true_len;
 	//Log("start");
 	//Log("len=%d,size=%d,open=%d\n",len,file_table[fd].size,file_table[fd].open_offset);
-	if (file_table[fd].open_offset+len<file_table[fd].size)
+	if (file_table[fd].open_offset+len<=file_table[fd].size)
 		true_len=len;
 	else
 		true_len=file_table[fd].size-file_table[fd].open_offset;
