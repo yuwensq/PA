@@ -19,7 +19,6 @@ enum
   FD_STDOUT,
   FD_STDERR,
   FD_FB,
-  FD_FBINFO,
 };
 
 size_t invalid_read(void *buf, size_t offset, size_t len)
@@ -49,7 +48,7 @@ static Finfo file_table[] __attribute__((used)) = {
     {"/dev/fb", 0, 0, 0, invalid_read, fb_write},
     {"/proc/dispinfo", 128, 0, 0, dispinfo_read, invalid_write},
     {"/dev/events", 0, 0, 0, events_read, invalid_write},
-    {"/dev/fbsync", 1, 0, 0, invalid_read, fbsync_write},
+    {"/dev/fbsync", 0, 0, 0, invalid_read, fbsync_write},
 #include "files.h"
 };
 
@@ -78,43 +77,43 @@ int fs_open(const char *pathname, int flags, int mode)
   assert(false);
 }
 
-size_t fs_read(int fd, void *buf, size_t len)
-{
-  assert(fd >= 0 && fd < NR_FILES);
-  size_t lens = len;
-  if (file_table[fd].size && file_table[fd].open_offset + len > file_table[fd].size)
-  {
-    lens = file_table[fd].size - file_table[fd].open_offset;
-  }
-  if (file_table[fd].read == NULL)
-  {
-    lens = ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, lens);
-    file_table[fd].open_offset += lens;
-  }
-  else
-  {
-    lens = file_table[fd].read(buf, file_table[fd].open_offset, lens);
-    file_table[fd].open_offset += lens;
-  }
-  return lens;
-}
-
 // size_t fs_read(int fd, void *buf, size_t len)
 // {
-//   if (file_table[fd].write != NULL)
+//   assert(fd >= 0 && fd < NR_FILES);
+//   size_t lens = len;
+//   if (file_table[fd].size && file_table[fd].open_offset + len > file_table[fd].size)
 //   {
-//     size_t res = file_table[fd].read(buf, file_table[fd].open_offset, len);
-//     file_table[fd].open_offset += res;
-//     return res;
+//     lens = file_table[fd].size - file_table[fd].open_offset;
 //   }
-//   int paddr = file_table[fd].disk_offset + file_table[fd].open_offset;
-//   int end = file_table[fd].disk_offset + file_table[fd].size;
-//   size_t real_len = ((paddr + len <= end) ? len : (end - paddr));
-//   assert(real_len >= 0);
-//   ramdisk_read(buf, paddr, real_len);
-//   file_table[fd].open_offset += real_len;
-//   return real_len;
+//   if (file_table[fd].read == NULL)
+//   {
+//     lens = ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, lens);
+//     file_table[fd].open_offset += lens;
+//   }
+//   else
+//   {
+//     lens = file_table[fd].read(buf, file_table[fd].open_offset, lens);
+//     file_table[fd].open_offset += lens;
+//   }
+//   return lens;
 // }
+
+size_t fs_read(int fd, void *buf, size_t len)
+{
+  if (file_table[fd].read != NULL)
+  {
+    size_t res = file_table[fd].read(buf, file_table[fd].open_offset, len);
+    file_table[fd].open_offset += res;
+    return res;
+  }
+  int paddr = file_table[fd].disk_offset + file_table[fd].open_offset;
+  int end = file_table[fd].disk_offset + file_table[fd].size;
+  size_t real_len = ((paddr + len <= end) ? len : (end - paddr));
+  assert(real_len >= 0);
+  ramdisk_read(buf, paddr, real_len);
+  file_table[fd].open_offset += real_len;
+  return real_len;
+}
 
 size_t fs_write(int fd, const void *buf, size_t len)
 {
