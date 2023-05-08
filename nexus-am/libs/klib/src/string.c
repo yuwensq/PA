@@ -19,9 +19,15 @@ char *strcpy(char *dst, const char *src)
   return dst;
 }
 
-char *strncpy(char *dst, const char *src, size_t n)
+char *strncpy(char *dest, const char *source, size_t count)
 {
-  return NULL;
+  char *start = dest;
+  while (count && (*dest++ = *source++))
+    count--;
+  if (count)
+    while (--count)
+      *dest++ = '\0';
+  return (start);
 }
 
 char *strcat(char *dst, const char *src)
