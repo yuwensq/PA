@@ -46,8 +46,8 @@ size_t events_read(void *buf, size_t offset, size_t len)
   //   ((char *)buf)[read_size++] = '\n';
   //   return read_size;
   // }
-  ((char *)buf)[0] = '\n';
-  return 1;
+  // ((char *)buf)[0] = '\n';
+  return 0;
 }
 
 static char dispinfo[128] __attribute__((used)) = {};
