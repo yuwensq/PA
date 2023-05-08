@@ -19,7 +19,7 @@ size_t events_read(void *buf, size_t offset, size_t len)
 {
   _DEV_INPUT_KBD_t kbd_event;
   int kb_res = _io_read(_DEV_INPUT, _DEVREG_INPUT_KBD, &kbd_event, 0);
-  if (kb_res != 0)
+  if (kb_res != 0 && kbd_event.keycode != _KEY_NONE)
   {
     ((char *)buf)[0] = 'k';
     if (kbd_event.keydown)
