@@ -79,36 +79,16 @@ int fs_open(const char *pathname, int flags, int mode)
 
 size_t fs_read(int fd, void *buf, size_t len)
 {
-	//TODO();
-	size_t true_len;
-	//Log("start");
-	//Log("len=%d,size=%d,open=%d\n",len,file_table[fd].size,file_table[fd].open_offset);
-	if (file_table[fd].open_offset+len<=file_table[fd].size)
-		true_len=len;
-	else
-		true_len=file_table[fd].size-file_table[fd].open_offset;
-	size_t ret;
-	if (file_table[fd].read==NULL)
-		ret=ramdisk_read(buf,file_table[fd].disk_offset+file_table[fd].open_offset,true_len);
-	else
-		ret=file_table[fd].read(buf,file_table[fd].open_offset,true_len);
-	file_table[fd].open_offset+=ret;
-	//if (file_table[fd].open_offset==4548) while(1);
-	return ret;
+  if (file_table[fd].read != NULL)
+    return file_table[fd].read(buf, 0, len);
+  int paddr = file_table[fd].disk_offset + file_table[fd].open_offset;
+  int end = file_table[fd].disk_offset + file_table[fd].size;
+  size_t real_len = ((paddr + len <= end) ? len : (end - paddr));
+  assert(real_len >= 0);
+  ramdisk_read(buf, paddr, real_len);
+  file_table[fd].open_offset += real_len;
+  return real_len;
 }
-
-// size_t fs_read(int fd, void *buf, size_t len)
-// {
-//   if (file_table[fd].read != NULL)
-//     return file_table[fd].read(buf, 0, len);
-//   int paddr = file_table[fd].disk_offset + file_table[fd].open_offset;
-//   int end = file_table[fd].disk_offset + file_table[fd].size;
-//   size_t real_len = ((paddr + len <= end) ? len : (end - paddr));
-//   assert(real_len >= 0);
-//   ramdisk_read(buf, paddr, real_len);
-//   file_table[fd].open_offset += real_len;
-//   return real_len;
-// }
 
 size_t fs_write(int fd, const void *buf, size_t len)
 {
