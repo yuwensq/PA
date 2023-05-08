@@ -17,37 +17,14 @@ static const char *keyname[256] __attribute__((used)) = {
 
 size_t events_read(void *buf, size_t offset, size_t len)
 {
-  _DEV_INPUT_KBD_t kbd_event;
-  int kb_res = _io_read(_DEV_INPUT, _DEVREG_INPUT_KBD, &kbd_event, 0);
-  if (kb_res != 0 && kbd_event.keycode != _KEY_NONE)
-  {
-    ((char *)buf)[0] = 'k';
-    if (kbd_event.keydown)
-      ((char *)buf)[1] = 'd';
-    else
-      ((char *)buf)[1] = 'u';
-    ((char *)buf)[2] = ' ';
-    printf("%d", kbd_event.keycode);
-    memcpy(buf + 3, keyname[kbd_event.keycode], strlen(keyname[kbd_event.keycode]));
-    int read_size = 3 + strlen(keyname[kbd_event.keycode]);
-    ((char *)buf)[read_size++] = '\n';
-    return read_size;
-  }
-  // _DEV_TIMER_UPTIME_t time_event;
-  // int ti_res = _io_read(_DEV_TIMER, _DEVREG_TIMER_UPTIME, &time_event, 0);
-  // if (ti_res != 0)
-  // {
-  //   ((char *)buf)[0] = 't';
-  //   ((char *)buf)[1] = ' ';
-  //   char up_time[16];
-  //   sprintf(up_time, "%u", time_event.lo);
-  //   memcpy(buf + 2, up_time, strlen(up_time));
-  //   int read_size = 2 + strlen(up_time);
-  //   ((char *)buf)[read_size++] = '\n';
-  //   return read_size;
-  // }
-  // ((char *)buf)[0] = '\n';
-  return 0;
+  int kb_code = read_key();
+  if (kb_code & 0x8000)
+    sprintf(buf, "kd %s\n", keyname[kb_code & ~0x8000]);
+  else if (kb_code != _KEY_NONE)
+    sprintf(buf, "ku %s\n", keyname[kb_code]);
+  else
+    sprintf(buf, "t %d\n", uptime());
+  return strlen(buf);
 }
 
 static char dispinfo[128] __attribute__((used)) = {};
