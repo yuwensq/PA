@@ -53,3 +53,4 @@ make_EHelper(lidt);
 make_EHelper(int);
 make_EHelper(iret);
 make_EHelper(movsb);
+make_EHelper(movswd);
