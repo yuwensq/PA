@@ -45,11 +45,11 @@ static Finfo file_table[] __attribute__((used)) = {
     {"stdin", 0, 0, invalid_read, invalid_write},
     {"stdout", 0, 0, invalid_read, serial_write},
     {"stderr", 0, 0, invalid_read, serial_write},
-#include "files.h"
-    {"/dev/events", 0, 0, events_read, invalid_write},
     {"/dev/fb", 0, 0, invalid_read, fb_write},
+    {"/dev/events", 0, 0, events_read, invalid_write},
     {"/dev/fbsync", 0, 0, invalid_read, fbsync_write},
     {"/proc/dispinfo", 0, 0, dispinfo_read, invalid_write},
+#include "files.h"
 };
 
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
@@ -57,6 +57,7 @@ static Finfo file_table[] __attribute__((used)) = {
 void init_fs()
 {
   // TODO: initialize the size of /dev/fb
+  file_table[FD_FB].size = screen_height() * screen_width() * 4;
 }
 
 extern size_t ramdisk_read(void *buf, size_t offset, size_t len);

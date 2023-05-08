@@ -41,12 +41,13 @@ size_t fb_write(const void *buf, size_t offset, size_t len)
   int x = offset / 4 % width;
   int y = offset / 4 / width;
   draw_rect((uint32_t *)buf, x, y, len / 4, 1);
-  return 0;
+  return len;
 }
 
 size_t fbsync_write(const void *buf, size_t offset, size_t len)
 {
-  return 0;
+  draw_sync();
+  return len;
 }
 
 void init_device()
