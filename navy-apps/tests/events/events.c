@@ -24,7 +24,7 @@ int main() {
       printf("receive time event for the %dth time: %s", time, buf);
     }
     int num = 0;
-    while (num < 1000000)
+    while (num < 100000)
       num++;
   }
 
