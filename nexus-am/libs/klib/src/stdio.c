@@ -20,7 +20,7 @@ int printf(const char *fmt, ...)
   return i;
 }
 
-static char *set_num(int num, char *s, int width, int hexi)
+static char *set_num(uint32_t num, char *s, int width, int hexi)
 {
   int i;
   int len = 0;
@@ -62,6 +62,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
   int flag;
   int width;
   int hexi = 0;
+  int unsign = 0;
 
   for (str = out; *fmt; fmt++)
   {
@@ -70,6 +71,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       *str++ = *fmt;
       continue;
     }
+    unsign = 0;
     hexi = 0;
     end = 0;
     flag = 0;
@@ -109,9 +111,11 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       continue;
     case 'x':
       hexi = 1;
+    case 'u':
+      unsign = 1;
     case 'd':
       num = va_arg(ap, int32_t);
-      if (num < 0)
+      if (!unsign && ((int32_t)num) < 0)
       {
         *str++ = '-';
         num = -num;
