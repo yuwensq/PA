@@ -27,6 +27,7 @@ size_t events_read(void *buf, size_t offset, size_t len)
     else
       ((char *)buf)[1] = 'u';
     ((char *)buf)[2] = ' ';
+    printf("%d", kbd_event.keycode);
     memcpy(buf + 3, keyname[kbd_event.keycode], strlen(keyname[kbd_event.keycode]));
     int read_size = 3 + strlen(keyname[kbd_event.keycode]);
     ((char *)buf)[read_size++] = '\n';
