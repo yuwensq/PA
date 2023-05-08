@@ -32,19 +32,19 @@ size_t events_read(void *buf, size_t offset, size_t len)
     ((char *)buf)[read_size++] = '\n';
     return read_size;
   }
-  _DEV_TIMER_UPTIME_t time_event;
-  int ti_res = _io_read(_DEV_TIMER, _DEVREG_TIMER_UPTIME, &time_event, 0);
-  if (ti_res != 0)
-  {
-    ((char *)buf)[0] = 't';
-    ((char *)buf)[1] = ' ';
-    char up_time[16];
-    sprintf(up_time, "%u", time_event.lo);
-    memcpy(buf + 2, up_time, strlen(up_time));
-    int read_size = 2 + strlen(up_time);
-    ((char *)buf)[read_size++] = '\n';
-    return read_size;
-  }
+  // _DEV_TIMER_UPTIME_t time_event;
+  // int ti_res = _io_read(_DEV_TIMER, _DEVREG_TIMER_UPTIME, &time_event, 0);
+  // if (ti_res != 0)
+  // {
+  //   ((char *)buf)[0] = 't';
+  //   ((char *)buf)[1] = ' ';
+  //   char up_time[16];
+  //   sprintf(up_time, "%u", time_event.lo);
+  //   memcpy(buf + 2, up_time, strlen(up_time));
+  //   int read_size = 2 + strlen(up_time);
+  //   ((char *)buf)[read_size++] = '\n';
+  //   return read_size;
+  // }
   return 0;
 }
 
