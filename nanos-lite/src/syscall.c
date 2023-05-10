@@ -13,8 +13,6 @@ _Context *do_syscall(_Context *c)
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
-  printf("%d\n", a[0]);
-
   switch (a[0])
   {
   case SYS_yield:
