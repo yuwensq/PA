@@ -1,6 +1,9 @@
 #include "common.h"
 #include "syscall.h"
+#include "proc.h"
 #include "fs.h"
+
+extern void naive_uload(PCB *pcb, const char *filename);
 
 _Context *do_syscall(_Context *c)
 {
@@ -48,6 +51,9 @@ _Context *do_syscall(_Context *c)
     break;
   case SYS_close:
     c->GPRx = fs_close(a[1]);
+    break;
+  case SYS_execve:
+    naive_uload(NULL, (const char*)a[1]);
     break;
   default:
     panic("Unhandled syscall ID = %d", a[0]);
