@@ -53,6 +53,7 @@ _Context *do_syscall(_Context *c)
     c->GPRx = fs_close(a[1]);
     break;
   case SYS_execve:
+    panic("x");
     naive_uload(NULL, (const char*)a[1]);
     break;
   default:
