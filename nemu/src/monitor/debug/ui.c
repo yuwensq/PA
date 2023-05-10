@@ -106,7 +106,7 @@ static int cmd_info(char *args)
     else if (nr_arg == 1 && !strcmp(arg[0], "w"))
     {
         // 打印断点
-        print_wp_info(); 
+        print_wp_info();
     }
     else
     {
@@ -123,7 +123,7 @@ static int cmd_p(char *args)
 
     if (args)
         result = expr(args, &success);
-    else 
+    else
         success = false;
     if (!success)
         Log("%s\n", "输入表达式不合法");
@@ -142,11 +142,13 @@ static int cmd_x(char *args)
 
     // 得到整数和表达式
     arg[0] = strtok(args, " ");
-    if (arg[0]) {
+    if (arg[0])
+    {
         arg[1] = arg[0] + strlen(arg[0]) + 1;
         nr_arg = 2;
     }
-    else {
+    else
+    {
         nr_arg = 0;
     }
 
@@ -155,7 +157,8 @@ static int cmd_x(char *args)
         int words = atoi(arg[0]); // 打印words个四字节
         bool success = false;
         uint32_t addr = expr(arg[1], &success);
-        if (!success) {
+        if (!success)
+        {
             Log("表达式格式错误\n");
             return 0;
         }
@@ -190,7 +193,7 @@ static int cmd_x(char *args)
 
 static int cmd_w(char *args)
 {
-    WP* new_wp(char*);
+    WP *new_wp(char *);
     new_wp(args);
     return 0;
 }
@@ -200,7 +203,8 @@ static int cmd_d(char *args)
     void remove_wp(int);
     char *arg[1];
     int nr_arg = get_args(args, arg, 1);
-    if (nr_arg != 1) {
+    if (nr_arg != 1)
+    {
         Log("指令格式不正确\n");
         return 0;
     }
@@ -225,6 +229,8 @@ static struct
     {"x", "Scan memory", cmd_x},
     {"w", "Set watchpoint", cmd_w},
     {"d", "Delete watchpoint", cmd_d},
+    // {"detach", "Quit difftest", cmd_detach},
+    // {"attach", "Activate difftest", cmd_attach},
 
 };
 
