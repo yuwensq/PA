@@ -20,9 +20,9 @@ _Context *do_syscall(_Context *c)
     c->GPRx = 0;
     break;
   case SYS_exit:
-    // c->GPRx = 0;
-    // _halt(a[1]);
-    naive_uload(NULL, "/bin/init");
+    c->GPRx = 0;
+    _halt(a[1]);
+    // naive_uload(NULL, "/bin/init");
     break;
   case SYS_write:
   {
