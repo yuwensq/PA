@@ -26,14 +26,14 @@ _Context *do_syscall(_Context *c)
     break;
   case SYS_write:
   {
-    int fd = a[1];
-    char *buf = (char *)a[2];
-    if (fd != 1 && fd != 2)
-      panic("not impletement");
-    for (int i = 0; i < a[3]; i++)
-      _putc(buf[i]);
-    c->GPRx = a[3];
-    // c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
+    // int fd = a[1];
+    // char *buf = (char *)a[2];
+    // if (fd != 1 && fd != 2)
+    //   panic("not impletement");
+    // for (int i = 0; i < a[3]; i++)
+    //   _putc(buf[i]);
+    // c->GPRx = a[3];
+    c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
   }
   break;
   case SYS_brk:
