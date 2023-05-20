@@ -4,9 +4,11 @@
 #include "fs.h"
 
 extern void naive_uload(PCB *pcb, const char *filename);
+extern _Context *schedule(_Context *prev);
 
 _Context *do_syscall(_Context *c)
 {
+  _Context *retContext = NULL;
   uintptr_t a[4];
   a[0] = c->GPR1;
   a[1] = c->GPR2;
@@ -16,8 +18,9 @@ _Context *do_syscall(_Context *c)
   switch (a[0])
   {
   case SYS_yield:
-    _yield();
     c->GPRx = 0;
+    // retContext = schedule(c);
+    _yield();
     break;
   case SYS_exit:
     c->GPRx = 0;
@@ -58,5 +61,5 @@ _Context *do_syscall(_Context *c)
     panic("Unhandled syscall ID = %d", a[0]);
   }
 
-  return NULL;
+  return retContext;
 }

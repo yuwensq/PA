@@ -58,7 +58,7 @@ void naive_uload(PCB *pcb, const char *filename)
   ((void (*)())entry)();
 }
 
-void context_kload(PCB *pcb, void *entry)
+void context_kload(PCB *pcb, void *entry, void *arg)
 {
   _Area stack;
   stack.start = pcb->stack;

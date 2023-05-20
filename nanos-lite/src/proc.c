@@ -23,18 +23,22 @@ void hello_fun(void *arg)
 }
 
 void naive_uload(PCB *, const char *);
+void context_kload(PCB *pcb, void *entry, void *arg);
 
 void init_proc()
 {
+  context_kload(&pcb[0], hello_fun, NULL);
   switch_boot_pcb();
 
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(NULL, "/bin/pal");
+  // naive_uload(NULL, "/bin/pal");
 }
 
 _Context *schedule(_Context *prev)
 {
-  return NULL;
+  current->cp = prev;
+  current = &pcb[0];
+  return current->cp;
 }
