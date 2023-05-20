@@ -23,11 +23,11 @@ void hello_fun(void *arg)
 }
 
 void naive_uload(PCB *, const char *);
-void context_kload(PCB *pcb, void *entry, void *arg);
+void context_kload(PCB *pcb, void *entry);
 
 void init_proc()
 {
-  context_kload(&pcb[0], hello_fun, NULL);
+  context_kload(&pcb[0], hello_fun);
   switch_boot_pcb();
 
   Log("Initializing processes...");
