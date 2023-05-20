@@ -16,18 +16,19 @@ void hello_fun(void *arg)
   int j = 1;
   while (1)
   {
-    Log("Hello World from Nanos-lite for the %dth time!", j);
+    Log("Hello World from Nanos-lite for the %dth time! thread: %s", j, (char*)arg);
     j++;
     _yield();
   }
 }
 
 void naive_uload(PCB *, const char *);
-void context_kload(PCB *pcb, void *entry);
+void context_kload(PCB *pcb, void *entry, void *arg);
 
 void init_proc()
 {
-  context_kload(&pcb[0], hello_fun);
+  context_kload(&pcb[0], hello_fun, "kernel thread 1");
+  context_kload(&pcb[0], hello_fun, "kernel thread 2");
   switch_boot_pcb();
 
   Log("Initializing processes...");
