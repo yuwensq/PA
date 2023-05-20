@@ -40,6 +40,5 @@ _Context *schedule(_Context *prev)
 {
   current->cp = prev;
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  printf("%x\n", current);
   return current->cp;
 }

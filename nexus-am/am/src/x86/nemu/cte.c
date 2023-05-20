@@ -63,7 +63,9 @@ int _cte_init(_Context *(*handler)(_Event, _Context *))
 
 _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg)
 {
-  _Context* new_context = stack.end - sizeof(_Context);
+  void **arg_stack = stack.end - sizeof(void*);
+  *arg_stack = arg;
+  _Context* new_context = stack.end - sizeof(_Context) - sizeof(void*);
   new_context->esp = (uintptr_t)(&new_context->irq);
   new_context->eip = (uintptr_t)entry;
   new_context->cs = 8;
