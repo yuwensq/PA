@@ -63,8 +63,7 @@ int _cte_init(_Context *(*handler)(_Event, _Context *))
 
 _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg)
 {
-  int context_len = sizeof(int) * 13;
-  _Context* new_context = stack.end - context_len;
+  _Context* new_context = stack.end - sizeof(_Context);
   ((int*)new_context)[0] = 0;
   ((int*)new_context)[1] = 0;
   ((int*)new_context)[2] = 0;
