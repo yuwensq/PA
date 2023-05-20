@@ -29,7 +29,7 @@ void context_kload(PCB *pcb, void *entry, void *arg);
 void init_proc()
 {
   context_kload(&pcb[0], hello_fun, "kernel thread 1");
-  context_kload(&pcb[0], hello_fun, "kernel thread 2");
+  context_kload(&pcb[1], hello_fun, "kernel thread 2");
   switch_boot_pcb();
 
   Log("Initializing processes...");
