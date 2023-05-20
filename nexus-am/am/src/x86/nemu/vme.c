@@ -84,5 +84,14 @@ int _map(_AddressSpace *as, void *va, void *pa, int prot) {
 }
 
 _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, void *args) {
-  return NULL;
+  void **arg_stack = ustack.end - sizeof(void*);
+  *arg_stack = args; // 这个args是不是应该是个数组呀，这里先这样搞
+  // 这里为啥x2呢，因为是要调用一个函数，x2模拟的是压入参数和返回地址，否则会出错
+  _Context* new_context = kstack.end - sizeof(_Context);
+  new_context->as = as;
+  new_context->esp = (uintptr_t)(ustack.end - 2 * sizeof(void*));
+  new_context->eip = (uintptr_t)entry;
+  new_context->cs = 8;
+  new_context->eflags = 2;
+  return new_context;
 }
