@@ -64,19 +64,10 @@ int _cte_init(_Context *(*handler)(_Event, _Context *))
 _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg)
 {
   _Context* new_context = stack.end - sizeof(_Context);
-  ((int*)new_context)[0] = 0;
-  ((int*)new_context)[1] = 0;
-  ((int*)new_context)[2] = 0;
-  ((int*)new_context)[3] = 0;
-  ((int*)new_context)[4] = ((int)new_context + sizeof(9));
-  ((int*)new_context)[5] = 0;
-  ((int*)new_context)[6] = 0;
-  ((int*)new_context)[7] = 0;
-  ((int*)new_context)[8] = 0;
-  ((int*)new_context)[9] = 0;
-  ((int*)new_context)[10] = (int)entry;
-  ((int*)new_context)[11] = 8;
-  ((int*)new_context)[12] = 2;
+  new_context->esp = (uintptr_t)(&new_context->irq);
+  new_context->eip = (uintptr_t)entry;
+  new_context->cs = 8;
+  new_context->eflags = 2;
   return new_context;
 }
 
