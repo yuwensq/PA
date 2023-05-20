@@ -24,11 +24,13 @@ void hello_fun(void *arg)
 
 void naive_uload(PCB *, const char *);
 void context_kload(PCB *pcb, void *entry, void *arg);
+void context_uload(PCB *pcb, const char *filename);
 
 void init_proc()
 {
   context_kload(&pcb[0], hello_fun, "kernel thread 1");
-  context_kload(&pcb[1], hello_fun, "kernel thread 2");
+  context_uload(&pcb[1], "/bin/pal");
+  // context_kload(&pcb[1], hello_fun, "kernel thread 2");
   switch_boot_pcb();
 
   Log("Initializing processes...");
