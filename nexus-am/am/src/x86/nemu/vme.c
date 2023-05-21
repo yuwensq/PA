@@ -99,6 +99,7 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
   extern void memcpy(void *, const void *, int);
   // 上下文在用户栈创建？
   _putc(argc);
+  _putc(10);
   memcpy(ustack.end - 4, (void*)(&argc), 4);
   memcpy(ustack.end - 8, (void*)argv, 4);
   memcpy(ustack.end - 12, (void*)envp, 4);
