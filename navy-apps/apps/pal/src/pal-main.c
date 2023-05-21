@@ -4,7 +4,8 @@ void main_loop();
 void hal_init();
 
 int
-main(void) {
+main(int argc, char *argv[]) {
+	Log("%d", argc);
 	Log("game start!");
 
   hal_init();
