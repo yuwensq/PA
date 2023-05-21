@@ -85,8 +85,6 @@ int _map(_AddressSpace *as, void *va, void *pa, int prot) {
 
 _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, void *args) {
   void **arg_stack = ustack.end - 1;
-  _putc((char)((int)ustack.end & 0xFF));
-  _putc((char)((int)arg_stack & 0xFF));
   *arg_stack = args; // 这个args是不是应该是个数组呀，这里先这样搞
   // 上下文在用户栈创建？
   _Context* new_context = kstack.end - sizeof(_Context);
