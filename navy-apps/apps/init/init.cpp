@@ -71,7 +71,6 @@ int main(int argc, char *argv[], char *envp[]) {
     // the OS does not meet the spec
     exit(1);
   }
-      fprintf(stdout, "dsafsdfdsfsdfdsafds");
 
   open_display();
 
