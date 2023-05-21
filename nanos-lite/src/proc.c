@@ -31,7 +31,7 @@ char *arg[] = {"/bin/hello", "--skip"};
 void init_proc()
 {
   // context_kload(&pcb[0], hello_fun, "kernel thread 1");
-  context_uload(&pcb[1], "/bin/hello", 2, arg, NULL);
+  context_uload(&pcb[0], "/bin/hello", 2, arg, NULL);
   // context_kload(&pcb[1], hello_fun, "kernel thread 2");
   switch_boot_pcb();
 
