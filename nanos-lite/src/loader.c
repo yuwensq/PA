@@ -67,7 +67,7 @@ void context_kload(PCB *pcb, void *entry, void *arg)
   pcb->cp = _kcontext(stack, entry, arg);
 }
 
-void context_uload(PCB *pcb, const char *filename)
+void context_uload(PCB *pcb, const char *filename, int argc, char *const argv[], char *const envp[])
 {
   uintptr_t entry = loader(pcb, filename);
 
@@ -75,5 +75,5 @@ void context_uload(PCB *pcb, const char *filename)
   stack.start = pcb->stack;
   stack.end = stack.start + sizeof(pcb->stack);
 
-  pcb->cp = _ucontext(&pcb->as, stack, stack, (void *)entry, NULL);
+  pcb->cp = _ucontext(&pcb->as, stack, stack, (void *)entry, argc, argv, envp);
 }
