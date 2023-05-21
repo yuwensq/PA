@@ -101,8 +101,8 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
   // _putc(argc);
   // _putc(10);
   memcpy(ustack.end - 12, (void*)(&argc), 4);
-  memcpy(ustack.end - 8, (void*)argv, 4);
-  memcpy(ustack.end - 4, (void*)envp, 4);
+  memcpy(ustack.end - 8, (void*)(&argv), 4);
+  memcpy(ustack.end - 4, (void*)(&envp), 4);
 
   _Context *new_context = ustack.end - 16 - sizeof(_Context);
   new_context->as = as;

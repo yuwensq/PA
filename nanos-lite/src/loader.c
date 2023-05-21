@@ -75,7 +75,5 @@ void context_uload(PCB *pcb, const char *filename, int argc, char *const argv[],
   stack.start = pcb->stack;
   stack.end = stack.start + sizeof(pcb->stack);
 
-  printf("%x", argv);
-
   pcb->cp = _ucontext(&pcb->as, stack, stack, (void *)entry, argc, argv, envp);
 }
