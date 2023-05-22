@@ -39,7 +39,7 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len)
     uint32_t suc_len = len - pre_len;
     uint32_t res = 0;
     res |= paddr_read(page_translate(addr), pre_len);
-    res <<= suc_len;
+    res <<= (pre_len << 3);
     res |= paddr_read(page_translate(e_vpage_num << PTXSHFT), suc_len);
     return res;
   }
@@ -64,5 +64,4 @@ void isa_vaddr_write(vaddr_t addr, uint32_t data, int len)
     paddr_write(page_translate(addr), data, pre_len);
     paddr_write(page_translate(e_vpage_num << PTXSHFT), (data >> (pre_len << 3)), suc_len);
   }
-  // paddr_write(addr, data, len);
 }
