@@ -38,9 +38,9 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len)
     uint32_t pre_len = 4096 - OFF(addr);
     uint32_t suc_len = len - pre_len;
     uint32_t res = 0;
-    res |= paddr_read(page_translate(addr), pre_len);
-    res <<= (pre_len << 3);
     res |= paddr_read(page_translate(e_vpage_num << PTXSHFT), suc_len);
+    res <<= (suc_len << 3);
+    res |= paddr_read(page_translate(addr), pre_len);
     return res;
   }
   return paddr_read(addr, len);
