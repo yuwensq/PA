@@ -22,7 +22,7 @@ paddr_t page_translate(vaddr_t addr)
   pte.val = paddr_read(pde.val + tab_index * 4, 4);
   if (!pte.present)
     assert(0);
-  return (PTE_ADDR(pte.val) | OFF(pte.val));
+  return (PTE_ADDR(pte.val) | OFF(addr));
 }
 
 uint32_t isa_vaddr_read(vaddr_t addr, int len)
@@ -48,5 +48,21 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len)
 
 void isa_vaddr_write(vaddr_t addr, uint32_t data, int len)
 {
-  paddr_write(addr, data, len);
+  if (!cpu.cr0.paging)
+  {
+    paddr_write(addr, data, len);
+    return;
+  }
+  uint32_t s_vpage_num = VPAGE_NUM(addr);
+  uint32_t e_vpage_num = VPAGE_NUM(addr + len - 1);
+  if (s_vpage_num == e_vpage_num) // 没有出现跨页
+    paddr_write(page_translate(addr), data, len);
+  else
+  {
+    uint32_t pre_len = 4096 - OFF(addr);
+    uint32_t suc_len = len - pre_len;
+    paddr_write(page_translate(addr), data, pre_len);
+    paddr_write(page_translate(e_vpage_num << PTXSHFT), (data >> (pre_len << 3)), suc_len);
+  }
+  // paddr_write(addr, data, len);
 }
