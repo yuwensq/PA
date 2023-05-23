@@ -46,6 +46,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
         _map(&pcb->as, v_addr, p_addr, _PROT_EXEC);
         fs_read(fd, p_addr, mov_size);
         v_addr += mov_size;
+        p_addr += mov_size;
         len += mov_size;
       }
       int gap = page_size - ((uint32_t)v_addr & 0xfff);
