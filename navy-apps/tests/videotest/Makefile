@@ -1,5 +1,5 @@
 NAME = videotest
-SRCS = main.c
+SRCS = videotest.c
 LIBS += libndl
 
 export NWM_APP
