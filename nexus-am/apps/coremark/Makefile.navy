@@ -1,0 +1,5 @@
+NAME = coremark-am
+APP = /home/yuwensq/tmp_workspace/ics2019/nexus-am/apps/coremark/build/coremark-x86-navy
+OBJS = /home/yuwensq/tmp_workspace/ics2019/nexus-am/apps/coremark/build/x86-navy//./src/core_list_join.o /home/yuwensq/tmp_workspace/ics2019/nexus-am/apps/coremark/build/x86-navy//./src/core_main.o /home/yuwensq/tmp_workspace/ics2019/nexus-am/apps/coremark/build/x86-navy//./src/core_matrix.o /home/yuwensq/tmp_workspace/ics2019/nexus-am/apps/coremark/build/x86-navy//./src/core_state.o /home/yuwensq/tmp_workspace/ics2019/nexus-am/apps/coremark/build/x86-navy//./src/core_portme.o /home/yuwensq/tmp_workspace/ics2019/nexus-am/apps/coremark/build/x86-navy//./src/core_util.o /home/yuwensq/tmp_workspace/ics2019/nexus-am/am/build/am-x86-navy.a /home/yuwensq/tmp_workspace/ics2019/nexus-am/libs/klib/build/klib-x86-navy.a
+LIBS += libndl
+include /home/yuwensq/tmp_workspace/ics2019/navy-apps/Makefile.app
