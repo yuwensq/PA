@@ -1,7 +1,7 @@
 #include "common.h"
 #include "am.h"
 
-_Context* do_syscall(_Context *c);
+_Context *do_syscall(_Context *c);
 extern _Context *schedule(_Context *prev);
 
 static _Context *do_event(_Event e, _Context *c)
@@ -18,7 +18,7 @@ static _Context *do_event(_Event e, _Context *c)
     do_syscall(c);
     break;
   case _EVENT_IRQ_TIMER:
-  Log("timer");
+    // Log("timer");
     _yield();
     break;
   default:
