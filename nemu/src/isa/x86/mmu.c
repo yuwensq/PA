@@ -16,8 +16,10 @@ paddr_t page_translate(vaddr_t addr)
   paddr_t pgdir = cpu.cr3.val;
   PDE pde;
   pde.val = paddr_read(pgdir + dir_index * 4, 4);
-  if (!pde.present)
+  if (!pde.present) {
+    Log("%x %x", addr, pde.val);
     assert(0);
+  }
   PTE pte;
   pte.val = paddr_read((pde.val & ~0xfff) + tab_index * 4, 4);
   if (!pte.present)
