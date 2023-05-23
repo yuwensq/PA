@@ -19,37 +19,37 @@ static uintptr_t loader(PCB *pcb, const char *filename)
   // TODO();
   const int page_size = 4096;
   int fd = fs_open(filename, 0, 0);
-  unsigned char buf[page_size];
   Elf_Ehdr elf_head;
   fs_read(fd, &elf_head, sizeof(Elf_Ehdr));
-  // ramdisk_read(&elf_head, 0, sizeof(Elf_Ehdr));
   Elf_Phdr elf_phentry;
   for (int i = 0; i < elf_head.e_phnum; i++)
   {
     fs_lseek(fd, elf_head.e_phoff + i * elf_head.e_phentsize, SEEK_SET);
     fs_read(fd, &elf_phentry, elf_head.e_phentsize);
-    // ramdisk_read(&elf_phentry, i, sizeof(Elf_Phdr));
     if (elf_phentry.p_type == PT_LOAD)
     {
       int len = 0;
       size_t file_off = elf_phentry.p_offset;
+      fs_lseek(fd, file_off, SEEK_SET);
       unsigned char *v_addr = (unsigned char *)elf_phentry.p_vaddr;
       while (len < elf_phentry.p_filesz)
       {
-        int mov_size = (elf_phentry.p_filesz - len > page_size ? page_size : elf_phentry.p_filesz - len);
-        fs_lseek(fd, file_off, SEEK_SET);
-        fs_read(fd, buf, mov_size);
+        int mov_size = (elf_phentry.p_filesz - len > page_size ? page_size
+                                                               : elf_phentry.p_filesz - len);
+        int gap = page_size - ((uint32_t)v_addr & 0xfff);
+        if (mov_size > gap)
+          mov_size = gap;
         // ramdisk_read(buf, file_off, mov_size);
         // 原来的框架写的还挺方便
         void *p_addr = new_page(1);
+        p_addr = (void *)((uint32_t)p_addr | ((uint32_t)v_addr & 0xfff));
         _map(&pcb->as, v_addr, p_addr, _PROT_EXEC);
-        // memcpy();
-
-        memcpy(v_addr, buf, mov_size);
-        file_off += mov_size;
+        fs_read(fd, p_addr, mov_size);
+        // memcpy(p_addr, buf, mov_size);
         v_addr += mov_size;
         len += mov_size;
       }
+      // 清零
       memset(v_addr, 0, elf_phentry.p_memsz - len);
     }
   }
