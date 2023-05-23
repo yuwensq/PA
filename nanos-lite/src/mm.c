@@ -28,7 +28,7 @@ int mm_brk(uintptr_t brk, intptr_t increment)
   if (new_brk > current->max_brk)
   {
     int page_num = ((new_brk - current->max_brk) / page_size);
-    printf("%d\n", page_num);
+    // printf("%d\n", page_num);
     for (int i = 0; i < page_num; i++)
     {
       void *p_addr = new_page(1);
