@@ -19,8 +19,8 @@ _Context *do_syscall(_Context *c)
   {
   case SYS_yield:
     c->GPRx = 0;
-    // retContext = schedule(c);
-    _yield();
+    retContext = schedule(c);
+    // _yield();
     break;
   case SYS_exit:
     c->GPRx = 0;
