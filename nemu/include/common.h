@@ -4,6 +4,7 @@
 // #define DEBUG
 // #define DIFF_TEST
 #define HAS_IOE
+#define HAS_VME
 
 #if _SHARE
 // do not enable these features while building a reference design

@@ -91,6 +91,17 @@ void __am_switch(_Context *c)
 
 int _map(_AddressSpace *as, void *va, void *pa, int prot)
 {
+  PDE *pgdir = as->ptr;
+  uint32_t dir_index = ((uint32_t)va >> 22);
+  uint32_t tab_index = (((uint32_t)va >> 12) & 0x3ff);
+  PTE *pgtab = (PTE *)(pgdir[dir_index] & ~0xfff);
+  if (!(pgdir[dir_index] & 1))
+  { // 页表不存在
+    pgtab = (PTE *)(pgalloc_usr(1));
+    pgdir[dir_index] = (PDE)pgtab;
+    pgdir[dir_index] |= 1;
+  }
+  pgtab[tab_index] = (((uint32_t)pa & ~0xfff) | 1);
   return 0;
 }
 
@@ -100,9 +111,9 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
   // 上下文在用户栈创建？
   // _putc(argc);
   // _putc(10);
-  memcpy(ustack.end - 12, (void*)(&argc), 4);
-  memcpy(ustack.end - 8, (void*)(&argv), 4);
-  memcpy(ustack.end - 4, (void*)(&envp), 4);
+  memcpy(ustack.end - 12, (void *)(&argc), 4);
+  memcpy(ustack.end - 8, (void *)(&argv), 4);
+  memcpy(ustack.end - 4, (void *)(&envp), 4);
 
   _Context *new_context = ustack.end - 16 - sizeof(_Context);
   new_context->as = as;
