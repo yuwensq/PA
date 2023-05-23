@@ -16,6 +16,8 @@ static _Area segments[] = { // Kernel memory mappings
 
 #define NR_KSEG_MAP (sizeof(segments) / sizeof(segments[0]))
 
+extern int printf(const char *fmt, ...);
+
 int _vme_init(void *(*pgalloc_f)(size_t), void (*pgfree_f)(void *))
 {
   pgalloc_usr = pgalloc_f;
@@ -50,7 +52,6 @@ int _vme_init(void *(*pgalloc_f)(size_t), void (*pgfree_f)(void *))
     }
   }
 
-  extern int printf(const char *fmt, ...);
   set_cr3(kpdirs);
   set_cr0(get_cr0() | CR0_PG);
   vme_enable = 1;
@@ -85,6 +86,7 @@ void __am_switch(_Context *c)
 {
   if (vme_enable)
   {
+    printf("%x", c->as->ptr);
     set_cr3(c->as->ptr);
     cur_as = c->as;
   }
