@@ -107,6 +107,7 @@ typedef struct
   uint32_t cs;
   CR0 cr0;
   CR3 cr3;
+  bool INTR;
 
 } CPU_state;
 

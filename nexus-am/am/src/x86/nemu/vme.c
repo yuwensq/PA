@@ -123,6 +123,6 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
   new_context->esp = (uintptr_t)(&new_context->irq);
   new_context->eip = (uintptr_t)entry;
   new_context->cs = 8;
-  new_context->eflags = 2;
+  new_context->eflags = 0x202;
   return new_context;
 }

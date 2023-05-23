@@ -27,6 +27,9 @@ _Context *__am_irq_handle(_Context *c)
     case 0x80:
       ev.event = _EVENT_SYSCALL;
       break;
+    case 0x20:
+      ev.event = _EVENT_IRQ_TIMER;
+      break;
     default:
       ev.event = _EVENT_ERROR;
       break;
@@ -38,7 +41,7 @@ _Context *__am_irq_handle(_Context *c)
       next = c;
     }
   }
-  
+
   // printf("%x ", next);
 
   __am_switch(next);
@@ -71,10 +74,10 @@ int _cte_init(_Context *(*handler)(_Event, _Context *))
 
 _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg)
 {
-  void **arg_stack = stack.end - sizeof(void*);
+  void **arg_stack = stack.end - sizeof(void *);
   *arg_stack = arg;
   // 这里为啥x2呢，因为是要调用一个函数，x2模拟的是压入参数和返回地址，否则会出错
-  _Context* new_context = stack.end - sizeof(_Context) - sizeof(void*) * 2;
+  _Context *new_context = stack.end - sizeof(_Context) - sizeof(void *) * 2;
   new_context->esp = (uintptr_t)(&new_context->irq);
   new_context->eip = (uintptr_t)entry;
   new_context->cs = 8;
