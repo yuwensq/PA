@@ -50,8 +50,9 @@ _Context *schedule(_Context *prev)
   current = &pcb[0];
   if (pcb1_times == 2) {
     current = &pcb[1];
-    pcb1_times ++;
+    pcb1_times = 0;
   }
+  pcb1_times ++;
   // current = &pcb[0];
   // Log("%x %x", pcb[0].cp, pcb[0].cp->as);
   return current->cp;
