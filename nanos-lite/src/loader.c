@@ -32,9 +32,9 @@ static uintptr_t loader(PCB *pcb, const char *filename)
       size_t file_off = elf_phentry.p_offset;
       fs_lseek(fd, file_off, SEEK_SET);
       unsigned char *v_addr = (unsigned char *)elf_phentry.p_vaddr;
-      while (len < elf_phentry.p_filesz)
+      while (len < elf_phentry.p_memsz)
       {
-        int mov_size = (elf_phentry.p_filesz - len > page_size ? page_size
+        int mov_size = (elf_phentry.p_memsz - len > page_size ? page_size
                                                                : elf_phentry.p_filesz - len);
         int gap = page_size - ((uint32_t)v_addr & 0xfff);
         if (mov_size > gap)
@@ -44,13 +44,13 @@ static uintptr_t loader(PCB *pcb, const char *filename)
         void *p_addr = new_page(1);
         p_addr = (void *)((uint32_t)p_addr | ((uint32_t)v_addr & 0xfff));
         _map(&pcb->as, v_addr, p_addr, _PROT_EXEC);
-        fs_read(fd, p_addr, mov_size);
-        // memcpy(p_addr, buf, mov_size);
+        if (len <= elf_phentry.p_filesz)
+          fs_read(fd, p_addr, mov_size);
+        else
+          memset(p_addr, 0, mov_size);
         v_addr += mov_size;
         len += mov_size;
       }
-      // 清零
-      memset(v_addr, 0, elf_phentry.p_memsz - len);
     }
   }
   fs_close(fd);
