@@ -50,9 +50,11 @@ static uintptr_t loader(PCB *pcb, const char *filename)
       }
       int gap = page_size - ((uint32_t)v_addr & 0xfff);
       if (gap != page_size)
+      {
         memset(p_addr, 0, gap);
-      v_addr += gap;
-      len += gap;
+        v_addr += gap;
+        len += gap;
+      }
       while (len < elf_phentry.p_memsz)
       {
         int mov_size = (elf_phentry.p_memsz - len > page_size ? page_size
