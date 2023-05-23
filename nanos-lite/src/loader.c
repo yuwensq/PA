@@ -39,7 +39,6 @@ static uintptr_t loader(PCB *pcb, const char *filename)
         int gap = page_size - ((uint32_t)v_addr & 0xfff);
         if (mov_size > gap)
           mov_size = gap;
-        // ramdisk_read(buf, file_off, mov_size);
         // 原来的框架写的还挺方便
         void *p_addr = new_page(1);
         p_addr = (void *)((uint32_t)p_addr | ((uint32_t)v_addr & 0xfff));
