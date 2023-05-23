@@ -21,9 +21,7 @@ paddr_t page_translate(vaddr_t addr)
   PTE pte;
   pte.val = paddr_read((pde.val & ~0xfff) + tab_index * 4, 4);
   if (!pte.present)
-  {
     assert(0);
-  }
   return (PTE_ADDR(pte.val) | OFF(addr));
 }
 
