@@ -50,11 +50,11 @@ int _vme_init(void *(*pgalloc_f)(size_t), void (*pgfree_f)(void *))
     }
   }
 
+  _putc(1);
   set_cr3(kpdirs);
   set_cr0(get_cr0() | CR0_PG);
   vme_enable = 1;
 
-  _putc(1);
 
   return 0;
 }
