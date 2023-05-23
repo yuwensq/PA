@@ -22,7 +22,7 @@ void free_page(void *p)
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk, intptr_t increment)
 {
-  // assert((current->max_brk & 0xfff) == 0);
+  assert((current->max_brk & 0xfff) == 0);
   const int page_size = 4096;
   uintptr_t new_brk = ROUNDUP(brk + increment, page_size);
   if (new_brk > current->max_brk)
