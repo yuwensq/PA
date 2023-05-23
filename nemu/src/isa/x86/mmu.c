@@ -7,7 +7,6 @@
 #define OFF(va) ((uint32_t)(va)&0xfff)
 #define VPAGE_NUM(va) ((uint32_t)(va) >> PTXSHFT)
 #define PTE_ADDR(pte) ((uint32_t)(pte) & ~0xfff)
-#define PGADDR(d, t, o) ((uint32_t)((d) << PDXSHFT | (t) << PTXSHFT | (o)))
 
 paddr_t page_translate(vaddr_t addr)
 {
