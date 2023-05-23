@@ -32,6 +32,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
       size_t file_off = elf_phentry.p_offset;
       fs_lseek(fd, file_off, SEEK_SET);
       unsigned char *v_addr = (unsigned char *)elf_phentry.p_vaddr;
+      void *p_addr = 0;
       while (len < elf_phentry.p_filesz)
       {
         int mov_size = (elf_phentry.p_filesz - len > page_size ? page_size
@@ -40,10 +41,25 @@ static uintptr_t loader(PCB *pcb, const char *filename)
         if (mov_size > gap)
           mov_size = gap;
         // 原来的框架写的还挺方便
-        void *p_addr = new_page(1);
+        p_addr = new_page(1);
         p_addr = (void *)((uint32_t)p_addr | ((uint32_t)v_addr & 0xfff));
         _map(&pcb->as, v_addr, p_addr, _PROT_EXEC);
         fs_read(fd, p_addr, mov_size);
+        v_addr += mov_size;
+        len += mov_size;
+      }
+      int gap = page_size - ((uint32_t)v_addr & 0xfff);
+      if (gap)
+        memset(p_addr, 0, gap);
+      v_addr += gap;
+      len += gap;
+      while (len < elf_phentry.p_memsz)
+      {
+        int mov_size = (elf_phentry.p_memsz - len > page_size ? page_size
+                                                              : elf_phentry.p_memsz - len);
+        p_addr = new_page(1);
+        _map(&pcb->as, v_addr, p_addr, _PROT_EXEC);
+        memset(p_addr, 0, mov_size);
         v_addr += mov_size;
         len += mov_size;
       }
