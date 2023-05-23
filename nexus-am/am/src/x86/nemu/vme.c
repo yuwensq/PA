@@ -21,7 +21,6 @@ int _vme_init(void *(*pgalloc_f)(size_t), void (*pgfree_f)(void *))
   pgalloc_usr = pgalloc_f;
   pgfree_usr = pgfree_f;
 
-  _putc(49);
   int i;
 
   // make all PDEs invalid
@@ -52,7 +51,7 @@ int _vme_init(void *(*pgalloc_f)(size_t), void (*pgfree_f)(void *))
   }
 
   set_cr3(kpdirs);
-  set_cr0(get_cr0() | CR0_PG);
+  // set_cr0(get_cr0() | CR0_PG);
   vme_enable = 1;
 
 
