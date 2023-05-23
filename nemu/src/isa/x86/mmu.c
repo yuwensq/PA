@@ -22,7 +22,7 @@ paddr_t page_translate(vaddr_t addr)
   PTE pte;
   pte.val = paddr_read(pde.val + tab_index * 4, 4);
   if (!pte.present){
-    Log("%x", (pte.val));
+    Log("%x %x", pde.val, (pte.val));
     assert(0);
   }
   return (PTE_ADDR(pte.val) | OFF(addr));
