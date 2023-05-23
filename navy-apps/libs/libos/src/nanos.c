@@ -73,7 +73,7 @@ void *_sbrk(intptr_t increment)
   extern uintptr_t _end;
   static uintptr_t old_probreak = &_end;
   uintptr_t new_probreak = old_probreak + increment;
-  int ret = _syscall_(SYS_brk, new_probreak, 0, 0);
+  int ret = _syscall_(SYS_brk, old_probreak, increment, 0);
   if (!ret)
   {
     uintptr_t result = old_probreak;
