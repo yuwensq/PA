@@ -10,6 +10,8 @@ void __am_vecnull();
 void __am_get_cur_as(_Context *c);
 void __am_switch(_Context *c);
 
+extern int printf(const char *fmt, ...);
+
 _Context *__am_irq_handle(_Context *c)
 {
   __am_get_cur_as(c);
@@ -36,6 +38,8 @@ _Context *__am_irq_handle(_Context *c)
       next = c;
     }
   }
+  
+  printf("%x", c);
 
   __am_switch(c);
   return next;
