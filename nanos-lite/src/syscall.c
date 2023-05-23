@@ -5,6 +5,7 @@
 
 extern void naive_uload(PCB *pcb, const char *filename);
 extern _Context *schedule(_Context *prev);
+extern int mm_brk(uintptr_t brk, intptr_t increment);
 
 _Context *do_syscall(_Context *c)
 {
@@ -40,7 +41,7 @@ _Context *do_syscall(_Context *c)
   }
   break;
   case SYS_brk:
-    c->GPRx = 0;
+    c->GPRx = mm_brk(a[1], a[2]);
     break;
   case SYS_open:
     c->GPRx = fs_open((void *)a[1], a[2], a[3]);
