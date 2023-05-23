@@ -23,18 +23,18 @@ void free_page(void *p)
 int mm_brk(uintptr_t brk, intptr_t increment)
 {
   // assert((current->max_brk & 0xfff) == 0);
-  // const int page_size = 4096;
-  // uintptr_t new_brk = ROUNDUP(brk + increment, page_size);
-  // if (new_brk > current->max_brk)
-  // {
-  //   int page_num = ((new_brk - current->max_brk) / page_size);
-  //   for (int i = 0; i < page_num; i++)
-  //   {
-  //     void *p_addr = new_page(1);
-  //     _map(&current->as, (void *)current->max_brk, p_addr, 8);
-  //     current->max_brk += page_size;
-  //   }
-  // }
+  const int page_size = 4096;
+  uintptr_t new_brk = ROUNDUP(brk + increment, page_size);
+  if (new_brk > current->max_brk)
+  {
+    int page_num = ((new_brk - current->max_brk) / page_size);
+    for (int i = 0; i < page_num; i++)
+    {
+      void *p_addr = new_page(1);
+      _map(&current->as, (void *)current->max_brk, p_addr, 8);
+      current->max_brk += page_size;
+    }
+  }
   return 0;
 }
 
