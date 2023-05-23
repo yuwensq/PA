@@ -11,7 +11,7 @@
 
 paddr_t page_translate(vaddr_t addr)
 {
-  Log("%x", addr);
+  Log("%x %x", cpu.cr3.val, addr);
   uint32_t dir_index = PDX(addr);
   uint32_t tab_index = PTX(addr);
   paddr_t pgdir = cpu.cr3.val;
