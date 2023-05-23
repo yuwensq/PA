@@ -13,9 +13,9 @@ make_EHelper(mov_r2cr)
   // TODO();
   if (id_dest->reg == 0)
     cpu.cr0.val = id_src->val;
-  else if (id_dest->reg == 3){
+  else if (id_dest->reg == 3)
+  {
     cpu.cr3.val = id_src->val;
-    printf("%x", cpu.cr3.val);
   }
   else
     panic("mov_r2cr error");
