@@ -31,7 +31,7 @@ int mm_brk(uintptr_t brk, intptr_t increment)
     for (int i = 0; i < page_num; i++)
     {
       void *p_addr = new_page(1);
-      _map(&current->as, (void*)current->max_brk, p_addr, 8);
+      _map(&current->as, (void *)current->max_brk, p_addr, 8);
       current->max_brk += page_size;
     }
   }
