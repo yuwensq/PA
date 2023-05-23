@@ -47,5 +47,6 @@ _Context *schedule(_Context *prev)
   current->cp = prev;
   // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   current = &pcb[0];
+  Log("%x %x", pcb[0].cp);
   return current->cp;
 }
