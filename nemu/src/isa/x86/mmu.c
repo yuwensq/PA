@@ -11,7 +11,6 @@
 
 paddr_t page_translate(vaddr_t addr)
 {
-  Log("%x %x", cpu.cr3.val, addr);
   uint32_t dir_index = PDX(addr);
   uint32_t tab_index = PTX(addr);
   paddr_t pgdir = cpu.cr3.val;
@@ -21,8 +20,8 @@ paddr_t page_translate(vaddr_t addr)
     assert(0);
   PTE pte;
   pte.val = paddr_read((pde.val & ~0xfff) + tab_index * 4, 4);
-  if (!pte.present){
-    Log("%x %x", pde.val, (pte.val));
+  if (!pte.present)
+  {
     assert(0);
   }
   return (PTE_ADDR(pte.val) | OFF(addr));

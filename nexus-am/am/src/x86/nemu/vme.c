@@ -52,8 +52,6 @@ int _vme_init(void *(*pgalloc_f)(size_t), void (*pgfree_f)(void *))
 
   extern int printf(const char *fmt, ...);
   set_cr3(kpdirs);
-  printf("%x\n", kpdirs[0]);
-  _putc('1');
   set_cr0(get_cr0() | CR0_PG);
   vme_enable = 1;
 
