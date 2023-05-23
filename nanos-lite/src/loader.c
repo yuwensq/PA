@@ -35,7 +35,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
       while (len < elf_phentry.p_memsz)
       {
         int mov_size = (elf_phentry.p_memsz - len > page_size ? page_size
-                                                               : elf_phentry.p_filesz - len);
+                                                              : elf_phentry.p_memsz - len);
         int gap = page_size - ((uint32_t)v_addr & 0xfff);
         if (mov_size > gap)
           mov_size = gap;
