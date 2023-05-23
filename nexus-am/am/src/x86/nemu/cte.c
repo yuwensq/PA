@@ -39,9 +39,9 @@ _Context *__am_irq_handle(_Context *c)
     }
   }
   
-  printf("%x ", c);
+  printf("%x ", next);
 
-  __am_switch(c);
+  __am_switch(next);
   return next;
 }
 
