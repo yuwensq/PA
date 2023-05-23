@@ -49,7 +49,7 @@ static uintptr_t loader(PCB *pcb, const char *filename)
         len += mov_size;
       }
       int gap = page_size - ((uint32_t)v_addr & 0xfff);
-      if (gap)
+      if (gap != page_size)
         memset(p_addr, 0, gap);
       v_addr += gap;
       len += gap;
