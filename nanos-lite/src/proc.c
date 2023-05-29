@@ -33,7 +33,7 @@ void init_proc()
 {
   // context_kload(&pcb[0], hello_fun, "kernel thread 1");
   context_uload(&pcb[0], "/bin/pal", 2, arg, NULL);
-  context_uload(&pcb[1], "/bin/litenes", 2, arg, NULL);
+  context_uload(&pcb[1], "/bin/litenes", 1, arg, NULL);
   context_uload(&pcb[2], "/bin/pal", 2, arg, NULL);
   context_uload(&pcb[3], "/bin/events", 1, arg, NULL);
   // context_kload(&pcb[1], hello_fun, "kernel thread 2");
