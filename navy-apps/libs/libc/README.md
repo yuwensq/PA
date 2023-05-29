@@ -24,7 +24,7 @@
     * 创建svfiscanf.c  svfscanf.c  vfiscanf.c  vfscanf.c
   * stdlib/mallocr.c -> stdlib/mallocr.t
     * 创建callocr.c  cfreer.c  freer.c  malignr.c  mallinfor.c  mallocr.c  malloptr.c  mallstatsr.c  msizer.c  pvallocr.c  reallor.c  vallocr.c
-* 添加platform/crt0.c和platform/cpp.cpp
+* 添加platform/.c和platform/cpp.cpp
 * 添加platform/setjmp/目录和支持的体系结构
 
 ## 与操作系统的接口
