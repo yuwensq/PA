@@ -33,9 +33,9 @@ void init_proc()
 {
   // context_kload(&pcb[0], hello_fun, "kernel thread 1");
   context_uload(&pcb[0], "/bin/pal", 1, arg, NULL);
-  context_uload(&pcb[1], "/bin/events", 1, arg, NULL);
-  context_uload(&pcb[2], "/bin/pal", 1, arg, NULL);
-  context_uload(&pcb[3], "/bin/pal", 1, arg, NULL);
+  // context_uload(&pcb[1], "/bin/pal", 1, arg, NULL);
+  // context_uload(&pcb[2], "/bin/pal", 1, arg, NULL);
+  context_uload(&pcb[3], "/bin/events", 1, arg, NULL);
   // context_kload(&pcb[1], hello_fun, "kernel thread 2");
   front_p = &pcb[0];
   switch_boot_pcb();
@@ -53,7 +53,7 @@ _Context *schedule(_Context *prev)
   // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   current = front_p;
   if (pcb1_times == 2) {
-    current = &pcb[1];
+    current = &pcb[3];
     pcb1_times = 0;
   }
   pcb1_times ++;
