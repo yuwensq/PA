@@ -18,4 +18,6 @@ typedef union {
 
 extern PCB *current;
 
+void change_front_program(int key_code);
+
 #endif

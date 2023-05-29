@@ -1,4 +1,5 @@
 #include "common.h"
+#include "proc.h"
 #include <amdev.h>
 
 size_t serial_write(const void *buf, size_t offset, size_t len)
@@ -20,7 +21,7 @@ size_t events_read(void *buf, size_t offset, size_t len)
   int kb_code = read_key();
   int key_down = (kb_code & 0x8000);
   kb_code &= (~0x8000);
-  Log("%d", kb_code);
+  change_front_program(kb_code);
   if (kb_code != _KEY_NONE)
     sprintf(buf, "k%s %s\n", (key_down ? "d" : "u"), keyname[kb_code]);
   else
