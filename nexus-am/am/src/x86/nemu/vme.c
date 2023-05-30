@@ -120,7 +120,6 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
 
   _Context *new_context = ustack.end - 16 - sizeof(_Context);
   new_context->as = as;
-  new_context->esp = (uintptr_t)(&new_context->irq);
   new_context->eip = (uintptr_t)entry;
   new_context->cs = 8;
   new_context->eflags = 0x202;
