@@ -62,7 +62,6 @@ _Context *schedule(_Context *prev)
   pcb1_times++;
   // current = &pcb[0];
   // Log("%x %x", pcb[0].cp, pcb[0].cp->as);
-  Log("x");
   return current->cp;
 }
 
