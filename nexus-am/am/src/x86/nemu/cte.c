@@ -42,7 +42,7 @@ _Context *__am_irq_handle(_Context *c)
     }
   }
 
-  printf("%x ", next);
+  printf("%x %x", next, next->as);
 
   __am_switch(next);
   return next;
