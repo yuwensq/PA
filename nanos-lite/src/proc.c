@@ -54,7 +54,7 @@ _Context *schedule(_Context *prev)
   current->cp = prev;
   // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   current = front_p;
-  if (pcb1_times == 1)
+  if (pcb1_times == 2)
   {
     current = &pcb[3];
     pcb1_times = 0;
