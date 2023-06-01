@@ -56,7 +56,7 @@ _Context *schedule(_Context *prev)
   current = front_p;
   if (pcb1_times == 50)
   {
-    current = &pcb[1];
+    current = &pcb[0];
     pcb1_times = 0;
   }
   pcb1_times++;
