@@ -72,7 +72,7 @@ int _cte_init(_Context *(*handler)(_Event, _Context *))
   return 0;
 }
 
-_Context *_kcontext(_Area stack, void (*entry)(void *), void *arg)
+_Context *_kcontext(_AddressSpace* as, _Area stack, void (*entry)(void *), void *arg)
 {
   void **arg_stack = stack.end - sizeof(void *);
   *arg_stack = arg;
@@ -80,6 +80,7 @@ _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg)
   new_context->eip = (uintptr_t)entry;
   new_context->cs = 8;
   new_context->eflags = 0x202;
+  new_context->as = as;
   return new_context;
 }
 
