@@ -79,6 +79,7 @@ _Context *_kcontext(_AddressSpace*as, _Area stack, void (*entry)(void *), void *
   _Context *new_context = stack.end - sizeof(_Context) - sizeof(void *) * 2;
   new_context->eip = (uintptr_t)entry;
   new_context->cs = 8;
+  new_context->as = as;
   new_context->eflags = 0x202;
   return new_context;
 }
