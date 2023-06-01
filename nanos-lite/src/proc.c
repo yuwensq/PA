@@ -51,16 +51,16 @@ void init_proc()
 
 _Context *schedule(_Context *prev)
 {
-  static int pcb1_times = 0;
+  // static int pcb1_times = 0;
   current->cp = prev;
-  // current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-  current = front_p;
-  if (pcb1_times == 50)
-  {
-    current = &pcb[0];
-    pcb1_times = 0;
-  }
-  pcb1_times++;
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  // current = front_p;
+  // if (pcb1_times == 50)
+  // {
+  //   current = &pcb[0];
+  //   pcb1_times = 0;
+  // }
+  // pcb1_times++;
   // current = &pcb[0];
   // Log("%x %x", pcb[0].cp, pcb[0].cp->as);
   return current->cp;
