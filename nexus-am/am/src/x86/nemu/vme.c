@@ -111,9 +111,6 @@ int _map(_AddressSpace *as, void *va, void *pa, int prot)
 _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, int argc, char *const argv[], char *const envp[])
 {
   extern void memcpy(void *, const void *, int);
-  // 上下文在用户栈创建？
-  // _putc(argc);
-  // _putc(10);
   memcpy(ustack.end - 12, (void *)(&argc), 4);
   memcpy(ustack.end - 8, (void *)(&argv), 4);
   memcpy(ustack.end - 4, (void *)(&envp), 4);
