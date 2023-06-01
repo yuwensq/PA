@@ -20,7 +20,7 @@ void hello_fun(void *arg)
     // Log("Hello World from Nanos-lite for the %dth time! from: %s", j, (char *)arg);
     Log("Hello World from Nanos-lite for the %dth time!");
     j++;
-    _yield();
+    // _yield();
   }
 }
 
@@ -45,6 +45,7 @@ void init_proc()
 
   Log("Initializing processes...");
 
+hello_fun((void*)(0));
   // load program here
   // naive_uload(NULL, "/bin/pal");
 }
