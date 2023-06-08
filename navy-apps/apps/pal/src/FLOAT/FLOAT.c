@@ -41,7 +41,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b)
   FLOAT y = Fabs(b);
   FLOAT res = x / y;
   int rem = x % y;
-  // rem <<= 16;
+  rem <<= 16;
   rem /= y;
   res <<= 16;
   res |= rem;
