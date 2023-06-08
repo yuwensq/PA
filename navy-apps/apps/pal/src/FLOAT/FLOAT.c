@@ -28,6 +28,7 @@ FLOAT f2F(float a)
    * performing arithmetic operations on it directly?
    */
   // assert(0);
+  return 0;
   const int e_min = 126; // e_min是负的
   const int e_max = 127;
   unsigned int bits = *(unsigned int *)(void *)(&a);
