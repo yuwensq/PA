@@ -58,3 +58,4 @@ make_EHelper(mov_cr2r);
 make_EHelper(mov_r2cr);
 make_EHelper(shrd);
 make_EHelper(shld);
+make_EHelper(imul3);
