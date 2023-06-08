@@ -80,6 +80,21 @@ make_EHelper(shl)
   print_asm_template2(shl);
 }
 
+make_EHelper(shld)
+{
+  rtl_shl(&s0, &id_dest->val, &id_src->val);
+  rtl_li(&s1, id_src2->width);
+  rtl_shli(&s1, &s1, 3);
+  rtl_sub(&s1, &s1, &id_src->val);
+  rtl_shr(&s1, &id_src2->val, &s1);
+  rtl_or(&s0, &s0, &s1);
+  operand_write(id_dest, &s0);
+
+  rtl_update_ZFSF(&s0, id_dest->width);
+
+  print_asm_template3(shrd);
+}
+
 make_EHelper(shr)
 {
   // TODO();
@@ -101,7 +116,9 @@ make_EHelper(shrd)
   rtl_shl(&s1, &id_src2->val, &s1);
   rtl_or(&s0, &s0, &s1);
   operand_write(id_dest, &s0);
+
   rtl_update_ZFSF(&s0, id_dest->width);
+
   print_asm_template3(shrd);
 }
 
