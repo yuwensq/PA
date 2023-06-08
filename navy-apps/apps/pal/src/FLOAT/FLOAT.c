@@ -27,7 +27,7 @@ FLOAT f2F(float a)
    * stack. How do you retrieve it to another variable without
    * performing arithmetic operations on it directly?
    */
-  assert(0);
+  // assert(0);
   const int e_min = 126; // e_min是负的
   const int e_max = 127;
   unsigned int bits = *(unsigned int *)(void *)(&a);
