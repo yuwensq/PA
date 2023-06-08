@@ -9,44 +9,43 @@ FLOAT F_mul_F(FLOAT a, FLOAT b)
   return res;
 }
 
-FLOAT F_div_F(FLOAT a, FLOAT b) {
-  //assert(0);
-  //return 0;
-  assert(b != 0);
-  FLOAT x = Fabs(a);
-  FLOAT y = Fabs(b);
-  FLOAT ret = x / y;
-  x = x % y;
+// FLOAT F_div_F(FLOAT a, FLOAT b) {
+//   //assert(0);
+//   //return 0;
+//   assert(b != 0);
+//   FLOAT x = Fabs(a);
+//   FLOAT y = Fabs(b);
+//   FLOAT ret = x / y;
+//   x = x % y;
 
-  for (int i = 0; i < 16; i++) {
-    x <<= 1;
-    ret <<= 1;
-    if (x >= y) {
-      x -= y;
-      ret++;
-    }
-  }
-  if (((a ^ b) & 0x80000000) == 0x80000000) {
-    ret = -ret;
-  }
-  return ret;
-}
-
-// FLOAT F_div_F(FLOAT a, FLOAT b)
-// {
-//   // assert(0);
-//   int is_neg = ((a < 0) != (b < 0));
-//   // 这里如果简单的让res = ((a / b) << 16)，会丢失小数部分
-//   FLOAT res = Fabs(a) / Fabs(b);
-//   int rem = Fabs(a) % Fabs(b);
-//   rem <<= 16;
-//   rem /= b;
-//   res <<= 16;
-//   res |= rem;
-//   if (is_neg)
-//     res = -res;
-//   return res;
+//   for (int i = 0; i < 16; i++) {
+//     x <<= 1;
+//     ret <<= 1;
+//     if (x >= y) {
+//       x -= y;
+//       ret++;
+//     }
+//   }
+//   if (((a ^ b) & 0x80000000) == 0x80000000) {
+//     ret = -ret;
+//   }
+//   return ret;
 // }
+
+FLOAT F_div_F(FLOAT a, FLOAT b)
+{
+  // assert(0);
+  int is_neg = ((a < 0) != (b < 0));
+  // 这里如果简单的让res = ((a / b) << 16)，会丢失小数部分
+  FLOAT res = Fabs(a) / Fabs(b);
+  int rem = Fabs(a) % Fabs(b);
+  rem /= b;
+  res <<= 16;
+  res |= rem;
+  if (is_neg)
+    res = -res;
+  return res;
+}
 
 FLOAT f2F(float a)
 {
