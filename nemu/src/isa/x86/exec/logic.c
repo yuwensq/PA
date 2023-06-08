@@ -97,7 +97,7 @@ make_EHelper(shrd)
   rtl_shr(&s0, &id_dest->val, &id_src->val);
   rtl_li(&s1, id_src2->width);
   rtl_shli(&s1, &s1, 3);
-  rtl_subi(&s1, &s1, id_src->val);
+  rtl_sub(&s1, &s1, &id_src->val);
   rtl_shl(&s1, &id_src2->val, &s1);
   rtl_or(&s0, &s0, &s1);
   operand_write(id_dest, &s0);
