@@ -27,7 +27,6 @@ FLOAT f2F(float a)
    * stack. How do you retrieve it to another variable without
    * performing arithmetic operations on it directly?
    */
-  // 这里要不先不考虑无穷和NAN？
   assert(0);
   const int e_min = 126; // e_min是负的
   const int e_max = 127;
@@ -38,19 +37,32 @@ FLOAT f2F(float a)
   FLOAT res = 0;
   if (e == 0)
   {
-    if (m == 0)
-      res = 0;
-    else {
-      res = (m >> e_min)
-    }
+    // 这里，只要e==0，就算m不等于零，用FLOAT也表示不了那么小的数，直接给零吧
+    // if (m == 0)
+    //   res = 0;
+    // else {
+    //   res = 0;
+    // }
+    res = 0;
   }
-  else if (e == 128) {
+  else if (e == 128)
+  { // 要不是无穷，要不是nan，先不处理吧
     assert(0);
   }
-  else {
-
+  else
+  {
+    m = (0x00800000 | m);
+    m >>= 7;
+    if (e >= 127)
+      m <<= (e - 127);
+    else
+      m >>= (127 - e);
+    if (s == 1)
+      res = -((int)m);
+    else
+      res = m;
   }
-  return 0;
+  return res;
 }
 
 FLOAT Fabs(FLOAT a)
