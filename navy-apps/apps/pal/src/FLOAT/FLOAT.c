@@ -15,7 +15,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b)
   int is_neg = ((a < 0) != (b < 0));
   // 这里如果简单的让res = ((a / b) << 16)，会丢失小数部分
   FLOAT res = Fabs(a) / Fabs(b);
-  int rem = a % b;
+  int rem = Fabs(a) % Fabs(b);
   rem <<= 16;
   rem /= b;
   res <<= 16;
